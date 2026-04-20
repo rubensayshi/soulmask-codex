@@ -1,11 +1,14 @@
 # SoulmaskDB
 
-Extracts item drop tables from the Soulmask game using the UE4 developer modkit,
+Extracts item drop tables and crafting recipes from the Soulmask game using the UE4 developer modkit,
 producing a structured JSON database with English item names.
 
 ## Output
 
-`Game/Parsed/drops.json` — 1292 drop entries, 1250 unique items with English names.
+- `Game/Parsed/drops.json` — 1292 drop entries, 1250 unique items
+- `Game/Parsed/recipes.json` — 1103 crafting recipes with inputs, outputs, stations
+
+### Drops
 
 Each entry covers one drop source (NPC tier, creature, plant, tribe, ruins, DLC dungeon, etc.)
 and lists the items it can drop with quantities, weights, and quality levels.
@@ -28,6 +31,31 @@ and lists the items it can drop with quantities, weights, and quality levels.
 }
 ```
 
+### Recipes
+
+Each recipe specifies the output item, required inputs, crafting station, and skill type.
+
+```json
+{
+  "id": "BP_PeiFang_Bark",
+  "output": {
+    "item_id": "Daoju_Item_Bark",
+    "item_path": "/Game/Blueprints/DaoJu/DaojuCaiLiao/ZhiWu/Daoju_Item_Bark",
+    "type": "material"
+  },
+  "inputs": [
+    { "item_id": "Daoju_Item_HardWood", "item_path": "/Game/..." },
+    { "item_id": "Daoju_Item_Wood", "item_path": "/Game/..." }
+  ],
+  "station_id": "BP_GongZuoTai_MuJiangXi",
+  "station_name": "Carpentry Workbench",
+  "proficiency": "Carpentry",
+  "quality_levels": null
+}
+```
+
+**Note:** Input quantities are not extractable without full UE4 property parsing.
+
 ## Drop sources
 
 | source_type          | Table                       | Entries |
@@ -44,6 +72,26 @@ and lists the items it can drop with quantities, weights, and quality levels.
 | `dungeon_dlc`        | DT_Dungeon                  | 14      |
 | `underground_city`   | DT_DiXiaCheng               | 19      |
 
+## Crafting stations (top 15)
+
+| Station               | Recipes |
+|-----------------------|---------|
+| Construction Workshop | 208     |
+| Armor Workbench       | 127     |
+| Forging Station       | 98      |
+| Hand/None             | 89      |
+| Smithing Station      | 86      |
+| Craftsman Table       | 85      |
+| High-Tech Workbench   | 48      |
+| Butcher Table         | 46      |
+| Bath/Trough           | 31      |
+| Alchemy Table         | 27      |
+| Dyeing Vat            | 25      |
+| Grinding Machine      | 21      |
+| Cooking Table         | 14      |
+| Carpentry Workbench   | 13      |
+| Water Mill            | 12      |
+
 ## Requirements
 
 - Soulmask modkit installed at `C:\Program Files\Epic Games\SoulMaskModkit`
@@ -55,17 +103,21 @@ and lists the items it can drop with quantities, weights, and quality levels.
 ```
 [Modkit .uasset files]
         │
-        ▼
-export_tables.py        (runs inside UE4Editor-Cmd via -ExecutePythonScript)
-  • reads column names from .uasset binary FName table
-  • calls DataTableFunctionLibrary.get_data_table_column_as_string() per column
-  • writes Game/Exports/<TableName>.json
+        ├─────────────────────────────────────┐
+        ▼                                     ▼
+export_tables.py                    parse_recipes.py
+  (runs in UE4Editor-Cmd)            (runs with Python 3.x)
+  • reads DataTable .uasset           • pattern-matches BP_PeiFang .uasset
+  • exports to JSON                   • extracts asset paths & property names
+        │                                     │
+        ▼                                     ▼
+parse_exports.py                    Game/Parsed/recipes.json
+  (runs with Python 3.x)
+  • parses DaoJuBaoContent
+  • resolves item names
         │
         ▼
-parse_exports.py        (runs with any Python 3.x)
-  • parses UE4 export-text format in DaoJuBaoContent column
-  • resolves item Blueprint paths → English names via parse_localization.py
-  • writes Game/Parsed/drops.json
+Game/Parsed/drops.json
 ```
 
 ### Running the export

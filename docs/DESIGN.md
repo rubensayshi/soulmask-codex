@@ -185,39 +185,40 @@ Sub-nodes reference BP_PeiFang recipes they unlock.
 
 ---
 
-## 5. Missing Data - Export Requirements
+## 5. Data Extraction Status
 
-### Priority 1: Recipes (BP_PeiFang)
+### ✅ Recipes (BP_PeiFang) - COMPLETED
 
-**Challenge**: ~970 individual Blueprint files, not a DataTable.
+**Source**: 1,279 .uasset files in `Game/Blueprints/PeiFang/`
 
-**Options**:
-1. **UE4 Python script** - Iterate PeiFang folder, read properties via reflection
-2. **FModel extraction** - Export .uasset → JSON, parse offline
-3. **Scrape soulmaskdatabase.com** - HTML parsing (no API)
+**Method**: Direct binary pattern matching on .uasset files
+- Extract `/Game/` asset paths via regex
+- Categorize by folder structure (DaoJu, GongZuoTai, etc.)
+- Parse proficiency enums (EProficiency::*)
+- Parse quality levels (EDaoJuPinZhi::EDJPZ_Level*)
 
-**Fields needed**:
-- Output item reference
-- Output quantity
-- Input items (with quantities)
-- Alternative input groups
-- Optional/enhancement inputs
-- Craft time
-- Proficiency type/XP
-- Associated station
+**Results**: 1,103 recipes parsed (176 skipped as special/empty)
 
-### Priority 2: Item Metadata (BP_DaoJu)
+**Fields extracted**:
+- ✅ Output item reference + type
+- ✅ Input items (list)
+- ✅ Crafting station
+- ✅ Proficiency type
+- ✅ Quality levels
+- ❌ Quantities (requires full UE4 property parsing)
+- ❌ Craft time
+- ❌ Alternative input groups
+
+### Priority 2: Item Metadata (BP_DaoJu) - TODO
 
 **Challenge**: ~1,500 item Blueprints with varying properties.
 
 **Fields needed**:
-- Weight
-- Max stack size
-- Durability (if applicable)
+- Weight, Max stack size, Durability
 - Base stats (damage, armor, etc.)
 - Category/subcategory
 
-### Priority 3: Tech Tree (BP_KJS)
+### Priority 3: Tech Tree (BP_KJS) - TODO
 
 **Challenge**: Hierarchical structure across multiple assets.
 
@@ -228,34 +229,44 @@ Sub-nodes reference BP_PeiFang recipes they unlock.
 
 ---
 
-## 6. Extraction Strategy
+## 6. UE4 .uasset Format Notes
 
-### Recommended: FModel + Custom Parser
+### Binary Structure
 
-1. **FModel** extracts .uasset → JSON for all:
-   - `Blueprints/PeiFang/**/*.uasset`
-   - `Blueprints/DaoJu/**/*.uasset`
-   - `Blueprints/KeJiShu/**/*.uasset`
-
-2. **Python parser** processes FModel JSON output:
-   - Handles UE4 property serialization
-   - Resolves asset references
-   - Applies localization names
-   - Outputs structured JSON/SQLite
-
-### Alternative: UE4 Python Script
-
-Extend `export_tables.py` to iterate Blueprint folders:
-
-```python
-# Pseudocode
-for bp_path in unreal.EditorAssetLibrary.list_assets('/Game/Blueprints/PeiFang', recursive=True):
-    bp = unreal.load_asset(bp_path)
-    cdo = unreal.get_default_object(bp)
-    # Extract properties via reflection...
+```
+[Header]              Magic 0x9E2A83C1, versions, table offsets
+[Name Table]          All unique strings (FName entries)
+[Import Table]        References to external packages
+[Export Table]        Objects defined in this package
+[Serialized Data]     Property values (FName indices + typed data)
 ```
 
-**Limitation**: UE4.27 Python API doesn't expose all Blueprint properties cleanly.
+### Key Findings
+
+1. **Name Table**: Contains all strings used in the asset - property names, class names, asset paths. Each entry is length-prefixed with a 4-byte hash suffix.
+
+2. **Asset Paths**: Stored as plain `/Game/...` strings, easily extractable via regex.
+
+3. **Property Names**: Recipe-relevant properties found:
+   - `DemandDaoJu`, `DemandCount` - Input items
+   - `ProduceDaoJu` - Output item
+   - `GongZuoTaiName`, `MustMatchGongZuoTaiList` - Crafting station
+   - `PeiFangMakeTime` - Craft time
+   - `MakeAddProficiencyExp` - XP awarded
+
+4. **Enums**: Stored as `EnumType::Value` strings in name table:
+   - `EProficiency::PaoMu` (Carpentry)
+   - `EDaoJuPinZhi::EDJPZ_Level1` through `Level6`
+
+### Parsing Approach
+
+Full UE4 property parsing requires understanding:
+- FName indices (8 bytes: index + instance number)
+- Tagged property format (name + type + size + value)
+- Array serialization (count + elements)
+- Struct serialization (nested properties)
+
+For this project, **pattern matching** on asset paths proved sufficient for extracting recipe relationships without full property parsing.
 
 ---
 
@@ -321,14 +332,15 @@ for bp_path in unreal.EditorAssetLibrary.list_assets('/Game/Blueprints/PeiFang',
 
 ## 9. Next Steps
 
-1. [ ] Export BP_PeiFang assets via FModel or UE4 script
-2. [ ] Analyze recipe Blueprint structure
-3. [ ] Write recipe parser
-4. [ ] Export item metadata (BP_DaoJu)
-5. [ ] Export tech tree (BP_KJS)
-6. [ ] Build SQLite database
-7. [ ] Design API layer
-8. [ ] Build UI
+1. [x] Export BP_PeiFang assets from modkit
+2. [x] Analyze recipe Blueprint structure
+3. [x] Write recipe parser (parse_recipes.py)
+4. [ ] Extract item metadata (BP_DaoJu) - weight, stack size, stats
+5. [ ] Extract tech tree (BP_KJS) - node hierarchy, unlock requirements
+6. [ ] Build SQLite database from JSON exports
+7. [ ] Add quantity extraction (requires deeper UE4 parsing)
+8. [ ] Design API layer
+9. [ ] Build UI
 
 ---
 
