@@ -5,6 +5,7 @@ import { primaryRecipeFor } from '../lib/graph'
 import ItemHeader from '../components/ItemHeader'
 import QtyControl from '../components/QtyControl'
 import TreeView from '../components/TreeView'
+import FlowView from '../components/FlowView'
 import RawMatsCollapsible from '../components/RawMats'
 
 export default function Item() {
@@ -37,7 +38,7 @@ export default function Item() {
           <SectionHeader label="Ingredients" color="gold" />
           {view === 'tree'
             ? <TreeView graph={graph} rootId={item.id} />
-            : <div className="text-text-dim text-xs mb-4">Flow view arrives in Phase 6.</div>}
+            : <FlowView graph={graph} rootId={item.id} />}
           <RawMatsCollapsible graph={graph} rootId={item.id} />
         </>
       )}
