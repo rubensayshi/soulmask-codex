@@ -1,0 +1,71 @@
+package main
+
+import (
+	"context"
+	"flag"
+	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
+
+	"github.com/go-chi/chi/v5"
+	"github.com/rs/zerolog"
+
+	"github.com/rubendevries/souldb/backend/internal/api"
+	sdb "github.com/rubendevries/souldb/backend/internal/db"
+	"github.com/rubendevries/souldb/backend/internal/spa"
+)
+
+func main() {
+	addr := flag.String("addr", ":8080", "listen address")
+	dbPath := flag.String("db", "../data/app.db", "path to app.db")
+	dev := flag.Bool("dev", false, "reverse-proxy non-api to Vite on :5173")
+	flag.Parse()
+
+	log := zerolog.New(zerolog.ConsoleWriter{Out: os.Stdout, TimeFormat: time.RFC3339}).
+		With().Timestamp().Logger()
+
+	db, err := sdb.Open(*dbPath)
+	if err != nil {
+		log.Fatal().Err(err).Str("path", *dbPath).Msg("open db")
+	}
+	defer db.Close()
+	log.Info().Str("db", *dbPath).Msg("db opened")
+
+	apiServer := api.NewServer(db, *dbPath, log)
+
+	var spaHandler http.Handler
+	if *dev {
+		spaHandler, err = spa.DevHandler("http://localhost:5173")
+	} else {
+		spaHandler, err = spa.ProdHandler()
+	}
+	if err != nil {
+		log.Fatal().Err(err).Msg("spa handler")
+	}
+
+	root := chi.NewRouter()
+	root.Mount("/api", apiServer.Router())
+	root.Handle("/*", spaHandler)
+
+	srv := &http.Server{
+		Addr:              *addr,
+		Handler:           root,
+		ReadHeaderTimeout: 10 * time.Second,
+	}
+	go func() {
+		log.Info().Str("addr", *addr).Bool("dev", *dev).Msg("listening")
+		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+			log.Fatal().Err(err).Msg("serve")
+		}
+	}()
+
+	stop := make(chan os.Signal, 1)
+	signal.Notify(stop, os.Interrupt, syscall.SIGTERM)
+	<-stop
+	log.Info().Msg("shutting down")
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+	_ = srv.Shutdown(ctx)
+}
