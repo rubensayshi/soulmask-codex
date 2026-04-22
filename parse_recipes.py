@@ -1,29 +1,20 @@
 """
-Parse BP_PeiFang uasset files to extract recipe data.
+Parse BP_PeiFang recipe data from UAssetGUI JSON exports.
 
-Input:  Game/Blueprints/PeiFang/*.uasset
+Input:  uasset_export/Blueprints/PeiFang/**/*.json.gz  (UAssetAPI JSON format)
 Output: Game/Parsed/recipes.json
 
-The parser extracts:
-- Output item (what the recipe produces)
-- Input items (materials required)
-- Crafting station
-- Proficiency type (skill)
-- Quality levels (if applicable)
-
-Note: Quantities are not reliably extractable without full UE4 property parsing.
-This parser uses pattern matching on asset references.
+Extracts full property data: inputs with quantities, output, station, craft time,
+proficiency + XP, recipe level, quality levels.
 """
 
-import re
+import gzip
 import json
-import os
 from pathlib import Path
 
-PEIFANG_DIR = Path(__file__).parent / "Game" / "Blueprints" / "PeiFang"
+PEIFANG_DIR = Path(__file__).parent / "uasset_export" / "Blueprints" / "PeiFang"
 OUTPUT_DIR = Path(__file__).parent / "Game" / "Parsed"
 
-# Proficiency type translations (Chinese pinyin -> English)
 PROFICIENCY_MAP = {
     "PaoMu": "Carpentry",
     "WuQi": "Weapon Smithing",
@@ -42,12 +33,10 @@ PROFICIENCY_MAP = {
     "RongLian": "Metal Smelting",
     "FangZhi": "Weaving",
     "ZhiTao": "Pottery",
-    "Max": "None",  # Special recipes (teleports, etc.)
+    "Max": "None",
 }
 
-# Station name translations (Chinese pinyin -> English)
 STATION_MAP = {
-    # Main crafting stations
     "BP_GongZuoTai_MuJiangXi": "Carpentry Workbench",
     "BP_GongZuoTai_ZhuZaoTai": "Smithing Station",
     "BP_GongZuoTai_ZhiYaoTai": "Alchemy Table",
@@ -87,128 +76,167 @@ STATION_MAP = {
 }
 
 
-def parse_recipe(filepath):
-    """Parse a single BP_PeiFang uasset file."""
-    with open(filepath, "rb") as f:
-        data = f.read()
+def resolve_import_path(imports, ref):
+    """Resolve an ObjectProperty ref (negative int) to its /Game/... asset path.
 
-    filename = Path(filepath).stem
+    Class imports (DaoJu_Item_Bone_C) have OuterIndex pointing to their Package
+    import, which holds the full path.
+    """
+    if ref is None or ref >= 0:
+        return None
+    idx = -ref - 1
+    if idx >= len(imports):
+        return None
+    imp = imports[idx]
+    outer = imp.get("OuterIndex", 0)
+    if outer == 0:
+        return imp.get("ObjectName")
+    pkg_idx = -outer - 1
+    if pkg_idx < 0 or pkg_idx >= len(imports):
+        return None
+    return imports[pkg_idx].get("ObjectName")
 
-    # Extract all /Game/ paths
-    paths = []
-    for m in re.finditer(rb'/Game/([A-Za-z0-9_/]+)', data):
-        path = m.group(0).decode('ascii')
-        paths.append({"path": path, "pos": m.start()})
 
-    # Categorize paths
-    items = []
+def find_props(exports):
+    for exp in exports or []:
+        if not isinstance(exp, dict):
+            continue
+        for prop in exp.get("Data") or []:
+            if isinstance(prop, dict):
+                yield prop.get("Name"), prop
+
+
+def get_prop(exports, name):
+    for n, p in find_props(exports):
+        if n == name:
+            return p
+    return None
+
+
+def extract_inputs(demand_array, imports):
+    """DemandDaoJu = array of ZhiZuoDemandDaoJu structs, each with inner
+    DemandDaoJu (object array) + DemandCount (int)."""
+    result = []
+    for struct in demand_array.get("Value") or []:
+        item_path = None
+        quantity = None
+        for sub in struct.get("Value") or []:
+            if not isinstance(sub, dict):
+                continue
+            if sub.get("Name") == "DemandDaoJu":
+                objs = sub.get("Value") or []
+                if objs:
+                    item_path = resolve_import_path(imports, objs[0].get("Value"))
+            elif sub.get("Name") == "DemandCount":
+                quantity = sub.get("Value")
+        if item_path:
+            result.append({
+                "item_id": item_path.split("/")[-1],
+                "item_path": item_path,
+                "quantity": quantity if quantity is not None else 1,
+            })
+    return result
+
+
+def extract_stations(match_data, imports):
+    """MatchGongZuoTaiData → [{MustMatchGongZuoTaiList, NeedGongZuoTaiLevel, ...}]"""
     stations = []
+    required_level = 0
+    for struct in match_data.get("Value") or []:
+        for sub in struct.get("Value") or []:
+            if not isinstance(sub, dict):
+                continue
+            if sub.get("Name") == "MustMatchGongZuoTaiList":
+                for obj in sub.get("Value") or []:
+                    path = resolve_import_path(imports, obj.get("Value"))
+                    if path:
+                        stations.append(path)
+            elif sub.get("Name") == "NeedGongZuoTaiLevel":
+                required_level = max(required_level, sub.get("Value") or 0)
+    return stations, required_level
 
-    for p in paths:
-        path = p["path"]
-        name = path.split('/')[-1]
 
-        # Skip recipe self-references and scripts
-        if "/PeiFang/" in path or "/Script/" in path:
-            continue
+def extract_quality_levels(rand_data):
+    levels = set()
+    if not rand_data:
+        return []
+    stack = [rand_data]
+    while stack:
+        node = stack.pop()
+        if isinstance(node, dict):
+            v = node.get("EnumValue")
+            if isinstance(v, str) and v.startswith("EDaoJuPinZhi::EDJPZ_Level"):
+                try:
+                    levels.add(int(v.rsplit("Level", 1)[1]))
+                except ValueError:
+                    pass
+            if "Value" in node:
+                stack.append(node["Value"])
+        elif isinstance(node, list):
+            stack.extend(node)
+    return sorted(levels)
 
-        # Crafting stations
-        if "/GongZuoTai/" in path:
-            if name not in stations:
-                stations.append(name)
-            continue
 
-        # Skip UI/icons
-        if "/Icon/" in path or "/UI/" in path:
-            continue
+def parse_recipe(filepath):
+    with gzip.open(filepath, "rt", encoding="utf-8") as f:
+        data = json.load(f)
 
-        # Items (DaoJu folder structure)
-        if "/DaoJu/" in path or "/Blueprints/DaoJu" in path:
-            item_type = "material"
-            if "/DaoJuWuQi/" in path or "/WuQi/" in path:
-                item_type = "weapon"
-            elif "/DaoJuFangJu/" in path or "/FangJu/" in path:
-                item_type = "armor"
-            elif "/DaoJuGongJu/" in path or "/GongJu/" in path:
-                item_type = "tool"
-            elif "/DaoJuShiWu/" in path or "/ShiWu/" in path:
-                item_type = "food"
-            elif "/DaoJuJianZhu/" in path or "/JianZhu/" in path:
-                item_type = "building"
-            elif "/DaojuCaiLiao/" in path or "/CaiLiao/" in path:
-                item_type = "material"
+    imports = data.get("Imports") or []
+    exports = data.get("Exports") or []
 
-            if not any(i['name'] == name for i in items):
-                items.append({"name": name, "type": item_type, "path": path})
+    filename = Path(filepath).name.replace(".json.gz", "")
 
-    # Also check for weapon/tool/armor references outside DaoJu folder
-    for p in paths:
-        path = p["path"]
-        name = path.split('/')[-1]
+    unique_id = (get_prop(exports, "PeiFangUniqueID") or {}).get("Value")
+    brief = (get_prop(exports, "PeiFangBrief") or {}).get("Value")
+    recipe_level = (get_prop(exports, "PeiFangDengJi") or {}).get("Value")
+    make_time = (get_prop(exports, "PeiFangMakeTime") or {}).get("Value")
+    xp = (get_prop(exports, "MakeAddProficiencyExp") or {}).get("Value")
+    by_hand = (get_prop(exports, "ExtraSupportMakeByHand") or {}).get("Value")
 
-        if any(i['name'] == name for i in items):
-            continue
+    prof_prop = get_prop(exports, "MakeProficiencyType")
+    prof_raw = None
+    if prof_prop:
+        ev = prof_prop.get("EnumValue")
+        if ev and "::" in ev:
+            prof_raw = ev.split("::", 1)[1]
+    proficiency = PROFICIENCY_MAP.get(prof_raw, prof_raw)
 
-        # Direct weapon/armor/tool blueprints (BP_WuQi_, BP_FangJu_, etc.)
-        if name.startswith("BP_WuQi_"):
-            items.append({"name": name, "type": "weapon", "path": path})
-        elif name.startswith("BP_FangJu_"):
-            items.append({"name": name, "type": "armor", "path": path})
-        elif name.startswith("BP_GongJu_") or name.startswith("BP_GZ_"):
-            items.append({"name": name, "type": "tool", "path": path})
-
-    # Determine output vs inputs
+    produce_prop = get_prop(exports, "ProduceDaoJu")
+    output_path = resolve_import_path(imports, produce_prop.get("Value")) if produce_prop else None
     output = None
-    inputs = []
+    if output_path:
+        output = {
+            "item_id": output_path.split("/")[-1],
+            "item_path": output_path,
+        }
 
-    recipe_suffix = filename.replace("BP_PeiFang_", "").lower()
+    demand_prop = get_prop(exports, "DemandDaoJu")
+    inputs = extract_inputs(demand_prop, imports) if demand_prop else []
 
-    for item in items:
-        name_lower = item['name'].lower()
+    match_prop = get_prop(exports, "MatchGongZuoTaiData")
+    station_paths, station_level = extract_stations(match_prop, imports) if match_prop else ([], 0)
+    primary_station = station_paths[0] if station_paths else None
+    station_id = primary_station.split("/")[-1] if primary_station else None
+    station_name = STATION_MAP.get(station_id, station_id)
 
-        # Output heuristics
-        is_output = (
-            item['type'] in ('weapon', 'armor', 'tool') or
-            recipe_suffix.split('_')[-1] in name_lower or
-            item['type'] == 'building'
-        )
-
-        if is_output and not output:
-            output = item
-        else:
-            inputs.append(item)
-
-    # Fallback: first item is output
-    if not output and items:
-        output = items[0]
-        inputs = items[1:]
-
-    # Extract proficiency
-    prof_match = re.search(rb'EProficiency::(\w+)', data)
-    proficiency_raw = prof_match.group(1).decode('ascii') if prof_match else None
-    proficiency = PROFICIENCY_MAP.get(proficiency_raw, proficiency_raw)
-
-    # Extract quality levels
-    qualities = sorted(set(int(q) for q in re.findall(rb'EDJPZ_Level(\d+)', data)))
-
-    # Get station name
-    station_raw = stations[0] if stations else None
-    station = STATION_MAP.get(station_raw, station_raw)
+    rand_prop = get_prop(exports, "MakeRandPinZhiData")
+    qualities = extract_quality_levels(rand_prop)
 
     return {
         "id": filename,
-        "output": {
-            "item_id": output['name'] if output else None,
-            "item_path": output['path'] if output else None,
-            "type": output['type'] if output else None,
-        } if output else None,
-        "inputs": [
-            {"item_id": i['name'], "item_path": i['path']}
-            for i in inputs
-        ],
-        "station_id": station_raw,
-        "station_name": station,
+        "unique_id": unique_id,
+        "brief_zh": brief,
+        "recipe_level": recipe_level,
+        "output": output,
+        "inputs": inputs,
+        "station_id": station_id,
+        "station_name": station_name,
+        "station_paths": station_paths if len(station_paths) > 1 else None,
+        "station_required_level": station_level or None,
+        "can_make_by_hand": by_hand,
+        "craft_time_seconds": make_time,
         "proficiency": proficiency,
+        "proficiency_xp": xp,
         "quality_levels": qualities if qualities else None,
     }
 
@@ -216,76 +244,67 @@ def parse_recipe(filepath):
 def main():
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
-    # Find all uasset files
-    uasset_files = list(PEIFANG_DIR.glob("*.uasset"))
-    print(f"Found {len(uasset_files)} recipe files")
+    files = sorted(PEIFANG_DIR.rglob("BP_PeiFang_*.json.gz"))
+    print(f"Found {len(files)} recipe files")
 
     recipes = []
     errors = []
-    empty_count = 0
+    empty = 0
 
-    for filepath in uasset_files:
+    for fp in files:
         try:
-            recipe = parse_recipe(filepath)
-
-            # Skip empty/special recipes (teleports, reading, etc.)
-            if not recipe['output'] and not recipe['inputs']:
-                empty_count += 1
+            r = parse_recipe(fp)
+            if not r["output"] and not r["inputs"]:
+                empty += 1
                 continue
-
-            recipes.append(recipe)
+            recipes.append(r)
         except Exception as e:
-            errors.append({"file": str(filepath), "error": str(e)})
+            errors.append({"file": str(fp), "error": str(e)})
 
-    # Sort by recipe ID
-    recipes.sort(key=lambda r: r['id'])
+    recipes.sort(key=lambda r: r["id"])
 
-    # Write output
-    output_path = OUTPUT_DIR / "recipes.json"
-    with open(output_path, "w", encoding="utf-8") as f:
+    out_path = OUTPUT_DIR / "recipes.json"
+    with open(out_path, "w", encoding="utf-8") as f:
         json.dump(recipes, f, ensure_ascii=False, indent=2)
 
-    # Statistics
+    with_qty = sum(1 for r in recipes if r["inputs"] and all(i["quantity"] is not None for i in r["inputs"]))
     print(f"\nResults:")
-    print(f"  Parsed: {len(recipes)} recipes")
-    print(f"  Skipped (empty/special): {empty_count}")
+    print(f"  Parsed: {len(recipes)}")
+    print(f"  Skipped (empty): {empty}")
     print(f"  Errors: {len(errors)}")
+    print(f"  With full quantities: {with_qty} ({100*with_qty/max(1,len(recipes)):.1f}%)")
 
-    # Count by station
     stations = {}
     for r in recipes:
-        s = r['station_name'] or 'Hand/None'
+        s = r["station_name"] or "Hand/None"
         stations[s] = stations.get(s, 0) + 1
-
     print(f"\nBy station:")
-    for s, count in sorted(stations.items(), key=lambda x: -x[1]):
-        print(f"  {s}: {count}")
+    for s, c in sorted(stations.items(), key=lambda x: -x[1])[:15]:
+        print(f"  {s}: {c}")
 
-    # Count by proficiency
     profs = {}
     for r in recipes:
-        p = r['proficiency'] or 'Unknown'
+        p = r["proficiency"] or "Unknown"
         profs[p] = profs.get(p, 0) + 1
-
     print(f"\nBy proficiency:")
-    for p, count in sorted(profs.items(), key=lambda x: -x[1]):
-        print(f"  {p}: {count}")
+    for p, c in sorted(profs.items(), key=lambda x: -x[1]):
+        print(f"  {p}: {c}")
 
-    # Sample output
     print(f"\nSample recipes:")
-    for r in recipes[:5]:
-        print(f"  {r['id']}")
+    for r in recipes[:3]:
+        print(f"  {r['id']} (lvl {r['recipe_level']}, {r['craft_time_seconds']}s)")
         print(f"    Output: {r['output']['item_id'] if r['output'] else 'None'}")
-        print(f"    Inputs: {[i['item_id'] for i in r['inputs']]}")
-        print(f"    Station: {r['station_name']}")
+        for i in r["inputs"]:
+            print(f"    Input: {i['quantity']}x {i['item_id']}")
+        print(f"    Station: {r['station_name']}  hand={r['can_make_by_hand']}")
 
-    print(f"\nOutput: {output_path}")
+    print(f"\nOutput: {out_path}")
 
     if errors:
-        error_path = OUTPUT_DIR / "recipe_errors.json"
-        with open(error_path, "w") as f:
+        err_path = OUTPUT_DIR / "recipe_errors.json"
+        with open(err_path, "w") as f:
             json.dump(errors, f, indent=2)
-        print(f"Errors: {error_path}")
+        print(f"Errors: {err_path}")
 
 
 if __name__ == "__main__":

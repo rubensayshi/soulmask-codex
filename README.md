@@ -6,7 +6,7 @@ producing a structured JSON database with English item names.
 ## Output
 
 - `Game/Parsed/drops.json` — 1292 drop entries, 1250 unique items
-- `Game/Parsed/recipes.json` — 1103 crafting recipes with inputs, outputs, stations
+- `Game/Parsed/recipes.json` — 1109 crafting recipes with full metadata (inputs + quantities, output, station, craft time, proficiency, XP)
 
 ### Drops
 
@@ -33,28 +33,33 @@ and lists the items it can drop with quantities, weights, and quality levels.
 
 ### Recipes
 
-Each recipe specifies the output item, required inputs, crafting station, and skill type.
+Each recipe specifies the output item, required inputs with quantities, crafting
+station, craft time, skill (proficiency) type, XP awarded, and quality levels.
 
 ```json
 {
-  "id": "BP_PeiFang_Bark",
+  "id": "BP_PeiFang_WQ_ChangGong_1",
+  "unique_id": "WuQI_ChangGong_1",
+  "recipe_level": 1,
   "output": {
-    "item_id": "Daoju_Item_Bark",
-    "item_path": "/Game/Blueprints/DaoJu/DaojuCaiLiao/ZhiWu/Daoju_Item_Bark",
-    "type": "material"
+    "item_id": "BP_WuQi_ChangGong_1",
+    "item_path": "/Game/Blueprints/DaoJu/DaoJuWuQi/Gong/BP_WuQi_ChangGong_1"
   },
   "inputs": [
-    { "item_id": "Daoju_Item_HardWood", "item_path": "/Game/..." },
-    { "item_id": "Daoju_Item_Wood", "item_path": "/Game/..." }
+    { "item_id": "Daoju_Item_Bone",   "item_path": "/Game/...", "quantity": 4 },
+    { "item_id": "DaoJu_Item_Sheng",  "item_path": "/Game/...", "quantity": 3 },
+    { "item_id": "Daoju_Item_Branch", "item_path": "/Game/...", "quantity": 5 }
   ],
-  "station_id": "BP_GongZuoTai_MuJiangXi",
-  "station_name": "Carpentry Workbench",
-  "proficiency": "Carpentry",
+  "station_id": "BP_GongZuoTai_ZhuZaoTai",
+  "station_name": "Smithing Station",
+  "station_required_level": null,
+  "can_make_by_hand": true,
+  "craft_time_seconds": 60.0,
+  "proficiency": "Weapon Smithing",
+  "proficiency_xp": 90.0,
   "quality_levels": null
 }
 ```
-
-**Note:** Input quantities are not extractable without full UE4 property parsing.
 
 ## Drop sources
 
@@ -103,21 +108,22 @@ Each recipe specifies the output item, required inputs, crafting station, and sk
 ```
 [Modkit .uasset files]
         │
-        ├─────────────────────────────────────┐
-        ▼                                     ▼
-export_tables.py                    parse_recipes.py
-  (runs in UE4Editor-Cmd)            (runs with Python 3.x)
-  • reads DataTable .uasset           • pattern-matches BP_PeiFang .uasset
-  • exports to JSON                   • extracts asset paths & property names
-        │                                     │
-        ▼                                     ▼
-parse_exports.py                    Game/Parsed/recipes.json
-  (runs with Python 3.x)
-  • parses DaoJuBaoContent
-  • resolves item names
-        │
-        ▼
-Game/Parsed/drops.json
+        ├─────────────────────────────────────────────────┐
+        ▼                                                 ▼
+export_tables.py                              [UAssetGUI on Windows]
+  (runs in UE4Editor-Cmd)                      • opens BP_PeiFang .uasset
+  • reads DataTable .uasset                    • File → Save As → .json
+  • exports to JSON                            • gzipped into uasset_export/
+        │                                                 │
+        ▼                                                 ▼
+parse_exports.py                              parse_recipes.py
+  (runs with Python 3.x)                       (runs with Python 3.x)
+  • parses DaoJuBaoContent                     • walks UAssetAPI JSON exports
+  • resolves item names                        • resolves Import table refs
+        │                                      • extracts full recipe metadata
+        ▼                                                 │
+Game/Parsed/drops.json                                    ▼
+                                              Game/Parsed/recipes.json
 ```
 
 ### Running the export

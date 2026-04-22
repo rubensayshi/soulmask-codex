@@ -189,25 +189,28 @@ Sub-nodes reference BP_PeiFang recipes they unlock.
 
 ### ✅ Recipes (BP_PeiFang) - COMPLETED
 
-**Source**: 1,279 .uasset files in `Game/Blueprints/PeiFang/`
+**Source**: UAssetGUI JSON exports of 1,279 .uasset files from `Game/Blueprints/PeiFang/`.
+Exported on Windows to `uasset_export/Blueprints/PeiFang/**/*.json.gz` (gitignored, ~800MB).
 
-**Method**: Direct binary pattern matching on .uasset files
-- Extract `/Game/` asset paths via regex
-- Categorize by folder structure (DaoJu, GongZuoTai, etc.)
-- Parse proficiency enums (EProficiency::*)
-- Parse quality levels (EDaoJuPinZhi::EDJPZ_Level*)
+**Method**: Parse UAssetAPI JSON (full tagged-property tree)
+- Resolve ObjectProperty refs via Import table (class import → Package import → asset path)
+- Walk `DemandDaoJu` array for inputs + `DemandCount` quantities
+- Resolve `ProduceDaoJu` to output item path
+- Parse `MatchGongZuoTaiData` for station refs + required station level
+- Parse enum byte properties (proficiency, quality)
 
-**Results**: 1,103 recipes parsed (176 skipped as special/empty)
+**Results**: 1,109 recipes parsed (170 skipped as empty)
 
 **Fields extracted**:
-- ✅ Output item reference + type
-- ✅ Input items (list)
-- ✅ Crafting station
-- ✅ Proficiency type
-- ✅ Quality levels
-- ❌ Quantities (requires full UE4 property parsing)
-- ❌ Craft time
-- ❌ Alternative input groups
+- ✅ Output item (full asset path)
+- ✅ Input items with exact quantities (99.5% — remaining 6 have no inputs)
+- ✅ Crafting station + required station level
+- ✅ Proficiency type + XP awarded
+- ✅ Craft time (seconds)
+- ✅ Recipe level (`PeiFangDengJi`)
+- ✅ Can make by hand flag
+- ✅ Quality levels (when applicable)
+- ❌ Alternative input groups (no recipes seem to use this structure)
 
 ### Priority 2: Item Metadata (BP_DaoJu) - TODO
 
