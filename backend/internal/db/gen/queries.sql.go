@@ -323,15 +323,9 @@ func (q *Queries) ListStationsForGraph(ctx context.Context) ([]ListStationsForGr
 const searchItems = `-- name: SearchItems :many
 SELECT id, name_en, name_zh, category
 FROM items
-WHERE name_en LIKE '%' || ?1 || '%' COLLATE NOCASE
-   OR name_zh LIKE '%' || ?1 || '%'
-ORDER BY
-  CASE
-    WHEN name_en LIKE @q || '%' COLLATE NOCASE THEN 0
-    WHEN name_zh LIKE @q || '%' THEN 1
-    ELSE 2
-  END,
-  name_en
+WHERE name_en LIKE ?1 COLLATE NOCASE
+   OR name_zh LIKE ?1
+ORDER BY name_en
 LIMIT ?2
 `
 
@@ -347,6 +341,8 @@ type SearchItemsRow struct {
 	Category sql.NullString
 }
 
+// Substring match over name_en + name_zh. Prefix ordering is done client-side
+// in the handler (sqlc's @named-arg reuse is buggy with ORDER BY CASE in sqlite).
 func (q *Queries) SearchItems(ctx context.Context, arg SearchItemsParams) ([]SearchItemsRow, error) {
 	rows, err := q.db.QueryContext(ctx, searchItems, arg.Q, arg.Lim)
 	if err != nil {

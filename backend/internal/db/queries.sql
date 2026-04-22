@@ -20,17 +20,13 @@ ORDER BY rig.recipe_id, rig.group_index;
 SELECT id, name_en, name_zh FROM stations;
 
 -- name: SearchItems :many
+-- Substring match over name_en + name_zh. Prefix ordering is done client-side
+-- in the handler (sqlc's @named-arg reuse is buggy with ORDER BY CASE in sqlite).
 SELECT id, name_en, name_zh, category
 FROM items
-WHERE name_en LIKE '%' || @q || '%' COLLATE NOCASE
-   OR name_zh LIKE '%' || @q || '%'
-ORDER BY
-  CASE
-    WHEN name_en LIKE @q || '%' COLLATE NOCASE THEN 0
-    WHEN name_zh LIKE @q || '%' THEN 1
-    ELSE 2
-  END,
-  name_en
+WHERE name_en LIKE @q COLLATE NOCASE
+   OR name_zh LIKE @q
+ORDER BY name_en
 LIMIT @lim;
 
 -- name: GetRecipesForOutput :many
