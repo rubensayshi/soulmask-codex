@@ -23,8 +23,9 @@ import re
 from pathlib import Path
 from parse_localization import load_names, normalize_path
 
-EXPORTS_DIR = Path(__file__).parent / "Game" / "Exports"
-OUTPUT_DIR  = Path(__file__).parent / "Game" / "Parsed"
+REPO_ROOT = Path(__file__).resolve().parent.parent
+EXPORTS_DIR = REPO_ROOT / "Game" / "Exports"
+OUTPUT_DIR  = REPO_ROOT / "Game" / "Parsed"
 
 
 # ---------------------------------------------------------------------------

@@ -103,47 +103,50 @@ station, craft time, skill (proficiency) type, XP awarded, and quality levels.
 
 - Soulmask modkit installed at `C:\Program Files\Epic Games\SoulMaskModkit`
   (UE4.27.2, includes Python 3.7 and all DataTable assets)
-- Python 3.x for running `parse_exports.py` and `parse_localization.py`
+- Python 3.x for running `pipeline/parse_*.py`
 
 ## Pipeline
+
+All extraction and parsing code lives in `pipeline/`.
 
 ```
 [Modkit .uasset files]
         │
-        ├─────────────────────────────────────────────────┐
-        ▼                                                 ▼
-export_tables.py                              [UAssetGUI on Windows]
-  (runs in UE4Editor-Cmd)                      • opens BP_PeiFang .uasset
-  • reads DataTable .uasset                    • File → Save As → .json
-  • exports to JSON                            • gzipped into uasset_export/
-        │                                                 │
-        ▼                                                 ▼
-parse_exports.py                              parse_recipes.py
-  (runs with Python 3.x)                       (runs with Python 3.x)
-  • parses DaoJuBaoContent                     • walks UAssetAPI JSON exports
-  • resolves item names                        • resolves Import table refs
-        │                                      • extracts full recipe metadata
-        ▼                                                 │
-Game/Parsed/drops.json                                    ▼
-                                              Game/Parsed/recipes.json
+        ├───────────────────────────────────────────────────────┐
+        ▼                                                       ▼
+pipeline/export_tables.py                         [UAssetGUI on Windows]
+  (runs in UE4Editor-Cmd)                          • opens BP_* .uasset
+  • reads DataTable .uasset                        • File → Save As → .json
+  • writes Game/Exports/*.json                     • gzipped into uasset_export/
+        │                                                       │
+        ▼                                                       ▼
+pipeline/parse_exports.py                         pipeline/parse_{recipes,items,tech_tree}.py
+  • parses DaoJuBaoContent                          • walk UAssetAPI JSON exports
+  • resolves item names via parse_localization      • resolve Import table refs
+        │                                           • extract full property trees
+        ▼                                                       │
+Game/Parsed/drops.json                                          ▼
+                                                  Game/Parsed/{recipes,items,tech_tree}.json
 ```
 
 ### Running the export
 
 ```bash
-# Step 1: export DataTables (takes ~5 min, shaders already cached)
-"C:\Program Files\Epic Games\SoulMaskModkit\Engine\Binaries\Win64\UE4Editor-Cmd.exe" \
-  "C:\Program Files\Epic Games\SoulMaskModkit\Projects\WS\WS.uproject" \
-  -ExecutePythonScript="<path>\export_tables.py" \
-  -stdout -FullStdOutLogOutput -unattended -nopause
+# Step 1 (on Windows): export DataTables (takes ~5 min, shaders already cached)
+pipeline\run_export.bat
 
-# Step 2: parse exports
-python parse_exports.py
+# Step 2 (on Windows): export blueprints via UAssetGUI → uasset_export/
+
+# Step 3 (any platform): parse everything
+python3 pipeline/parse_exports.py
+python3 pipeline/parse_recipes.py
+python3 pipeline/parse_items.py
+python3 pipeline/parse_tech_tree.py
 ```
 
 ### Localization
 
-`parse_localization.py` reads `Content/Localization/Game/en/Game.po` from the modkit
+`pipeline/parse_localization.py` reads `Content/Localization/Game/en/Game.po` from the modkit
 and builds a `{normalized_asset_path → English_name}` dictionary (5203 entries).
 The `.po` file uses GNU gettext format with `#. SourceLocation` comments pointing to
 the Blueprint asset that owns each string.

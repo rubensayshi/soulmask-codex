@@ -12,8 +12,9 @@ import gzip
 import json
 from pathlib import Path
 
-ITEMS_DIR = Path(__file__).parent / "uasset_export" / "Blueprints" / "DaoJu"
-OUTPUT_DIR = Path(__file__).parent / "Game" / "Parsed"
+REPO_ROOT = Path(__file__).resolve().parent.parent
+ITEMS_DIR = REPO_ROOT / "uasset_export" / "Blueprints" / "DaoJu"
+OUTPUT_DIR = REPO_ROOT / "Game" / "Parsed"
 
 # Top-level DaoJu subfolder -> category label
 CATEGORY_MAP = {

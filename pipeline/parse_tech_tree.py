@@ -13,8 +13,9 @@ import json
 import re
 from pathlib import Path
 
-KEJISHU_DIR = Path(__file__).parent / "uasset_export" / "Blueprints" / "KeJiShu"
-OUTPUT_DIR = Path(__file__).parent / "Game" / "Parsed"
+REPO_ROOT = Path(__file__).resolve().parent.parent
+KEJISHU_DIR = REPO_ROOT / "uasset_export" / "Blueprints" / "KeJiShu"
+OUTPUT_DIR = REPO_ROOT / "Game" / "Parsed"
 
 # Folder → node category
 FOLDER_CATEGORY = {

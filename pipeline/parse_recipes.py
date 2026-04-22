@@ -12,8 +12,9 @@ import gzip
 import json
 from pathlib import Path
 
-PEIFANG_DIR = Path(__file__).parent / "uasset_export" / "Blueprints" / "PeiFang"
-OUTPUT_DIR = Path(__file__).parent / "Game" / "Parsed"
+REPO_ROOT = Path(__file__).resolve().parent.parent
+PEIFANG_DIR = REPO_ROOT / "uasset_export" / "Blueprints" / "PeiFang"
+OUTPUT_DIR = REPO_ROOT / "Game" / "Parsed"
 
 PROFICIENCY_MAP = {
     "PaoMu": "Carpentry",
