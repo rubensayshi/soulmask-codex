@@ -1,0 +1,26 @@
+@tailwind components;
+
+@layer components {
+  /* Diamond shape: wrapper rotates 45deg, child counter-rotates. */
+  .diamond {
+    @apply flex items-center justify-center overflow-hidden;
+    transform: rotate(45deg);
+  }
+  .diamond-inner {
+    @apply flex items-center justify-center overflow-hidden;
+    transform: rotate(-45deg);
+  }
+  /* L-shaped connector used in FlowView branches */
+  .flow-branch::before {
+    content: '';
+    @apply absolute left-0 w-px bg-gold-dim;
+    top: 30px;
+    bottom: 30px;
+  }
+  .flow-branch-item::before {
+    content: '';
+    @apply absolute left-0 top-1/2 w-[14px] h-px bg-gold-dim;
+  }
+  .flow-branch.jade::before { @apply bg-jade-border; }
+  .flow-branch-item.jade::before { @apply bg-jade-border; }
+}
