@@ -269,18 +269,36 @@ def main():
     def resolve_source_name(bag_name, source_type):
         """Derive a human-readable source name from bag_name."""
         stem = re.sub(r'^DL_', '', bag_name)
+        # Detect variant suffixes before stripping them
+        is_elite = bool(re.search(r'Elite|_JY', stem))
+        is_hunt = 'Hunt_' in stem
+        is_extra = '_Extra' in stem
+        # Strip suffixes to get base creature
         clean = re.sub(r'(_Extra|Elite_Extra)$', '', stem)
         clean = re.sub(r'Elite$', '', clean)
         clean = re.sub(r'_JY$', '', clean)
         hunt_match = re.match(r'Hunt_(?:Egypt_)?(.+?)_?$', clean)
         if hunt_match:
             clean = hunt_match.group(1)
+        base_name = None
         if clean in creature_names:
-            return creature_names[clean]
-        clean2 = clean.rstrip('_')
-        if clean2 in creature_names:
-            return creature_names[clean2]
-        return prettify_bp_id(bag_name)
+            base_name = creature_names[clean]
+        else:
+            clean2 = clean.rstrip('_')
+            if clean2 in creature_names:
+                base_name = creature_names[clean2]
+        if base_name is None:
+            return prettify_bp_id(bag_name)
+        # Add variant qualifier
+        if is_extra:
+            return f"{base_name} (Bonus)"
+        if is_hunt and is_elite:
+            return f"{base_name} (Hunt Elite)"
+        if is_hunt:
+            return f"{base_name} (Hunt)"
+        if is_elite:
+            return f"{base_name} (Elite)"
+        return base_name
 
     def extract_item_id_from_ref(ref):
         m = re.search(r'/([^/]+)\.[^/\"]+_C', ref)
