@@ -24,7 +24,11 @@ function Stat({ label, value, accent }: { label: string; value: string; accent?:
 
 export default function ItemHeader({ item, recipe, station }: Props) {
   const title = item.n ?? item.nz ?? item.id
-  const classification = item.raw ? 'Raw Material' : (item.cat ?? 'Crafted')
+  const classification =
+    item.role === 'raw' ? 'Raw Material'
+    : item.role === 'standalone' ? (item.cat ?? 'Drop')
+    : (item.cat ?? 'Crafted')
+  const showsCraftMeta = item.role === 'final' || item.role === 'intermediate'
 
   return (
     <div
@@ -49,14 +53,14 @@ export default function ItemHeader({ item, recipe, station }: Props) {
         </div>
 
         <div className="flex flex-wrap gap-[18px] mt-[14px]">
-          {item.raw ? (
-            <Stat label="Source" value="Gathered" accent="rust" />
-          ) : (
+          {showsCraftMeta ? (
             <>
               {station?.n && <Stat label="Station" value={station.n} accent="green" />}
               {recipe?.t != null && <Stat label="Craft Time" value={`${recipe.t}s`} />}
               {recipe?.prof && <Stat label="Skill" value={recipe.prof} accent="gold" />}
             </>
+          ) : (
+            <Stat label="Source" value={item.role === 'raw' ? 'Gathered' : 'Dropped'} accent="rust" />
           )}
         </div>
       </div>

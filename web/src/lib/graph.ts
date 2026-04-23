@@ -4,6 +4,12 @@ export function indexItems(g: Graph): Map<string, Item> {
   return new Map(g.items.map(i => [i.id, i]))
 }
 
+/** True for items with no recipe to expand into — raw materials and standalone
+ *  drops/cosmetics. Use this for traversal terminators and "no children" UI. */
+export function noRecipe(item: Item): boolean {
+  return item.role === 'raw' || item.role === 'standalone'
+}
+
 /** Primary recipe that produces this item.
  *  Real data has `_Split` variants (e.g. BP_PeiFang_PiGe_2_Split) that decompose
  *  higher-tier items back into lower-tier ones — those break chains, so we skip them. */
@@ -54,7 +60,7 @@ export function computeRawMats(
   function walk(id: string, n: number) {
     const item = byId.get(id)
     if (!item) return
-    if (item.raw) {
+    if (noRecipe(item)) {
       out[id] = (out[id] || 0) + n
       return
     }

@@ -4,6 +4,7 @@ import { useStore } from '../store'
 import Icon from './Icon'
 import { search as searchApi, type SearchHit } from '../lib/api'
 import type { Item } from '../lib/types'
+import { noRecipe } from '../lib/graph'
 
 export default function Sidebar() {
   const { id: currentId } = useParams<{ id: string }>()
@@ -30,10 +31,10 @@ export default function Sidebar() {
         const it = byId.get(hit.id)
         return {
           id: hit.id,
-          item: it ?? { id: hit.id, n: hit.name_en, nz: hit.name_zh, cat: hit.category, raw: false },
+          item: it ?? { id: hit.id, n: hit.name_en, nz: hit.name_zh, cat: hit.category, role: 'final' },
           name: hit.name_en ?? hit.name_zh ?? hit.id,
           sub: hit.category ?? null,
-          raw: it?.raw ?? false,
+          raw: it ? noRecipe(it) : false,
         }
       })
     : visits.map(id => {
@@ -43,7 +44,7 @@ export default function Sidebar() {
           item: it,
           name: it?.n ?? it?.nz ?? id,
           sub: it?.cat ?? null,
-          raw: it?.raw ?? false,
+          raw: it ? noRecipe(it) : false,
         }
       })
 

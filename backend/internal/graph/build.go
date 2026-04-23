@@ -22,7 +22,7 @@ type Item struct {
 	N        *string `json:"n"`  // name_en
 	NZ       *string `json:"nz"` // name_zh
 	Cat      *string `json:"cat"`
-	Raw      bool    `json:"raw"`
+	Role     string  `json:"role"` // 'final' | 'intermediate' | 'raw' | 'standalone'
 	IconPath *string `json:"ic,omitempty"`
 }
 
@@ -67,7 +67,7 @@ func Build(ctx context.Context, sqlDB *sql.DB) (*Graph, error) {
 			N:        nullable(r.NameEn),
 			NZ:       nullable(r.NameZh),
 			Cat:      nullable(r.Category),
-			Raw:      r.IsRaw != 0,
+			Role:     r.Role,
 			IconPath: nullable(r.IconPath),
 		})
 	}

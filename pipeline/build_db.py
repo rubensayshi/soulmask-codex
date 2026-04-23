@@ -43,21 +43,25 @@ def main():
     recipes = load_json(PARSED / "recipes.json")
     tech_nodes = load_json(PARSED / "tech_tree.json")
 
-    # Items produced by any recipe → not raw.
-    produced_ids = {r["output"]["item_id"] for r in recipes if r.get("output")}
-
-    # items
+    # items — `role` is set by classify_items.py. Reject if missing so
+    # we never silently fall back to a meaningless default.
     for it in items:
+        role = it.get("role")
+        if role is None:
+            raise SystemExit(
+                f"item {it['id']} has no role — run pipeline/classify_items.py "
+                "after parse_items.py + parse_recipes.py"
+            )
         db.execute(
             "INSERT INTO items (id, category, subcategory, name_zh, name_en, "
-            "description_zh, weight, max_stack, durability, icon_path, is_raw, stats_json) "
+            "description_zh, weight, max_stack, durability, icon_path, role, stats_json) "
             "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
             (
                 it["id"], it.get("category"), it.get("subcategory"),
                 it.get("name_zh"), None,
                 it.get("description_zh"), it.get("weight"), it.get("max_stack"),
                 it.get("durability"), it.get("icon_path"),
-                0 if it["id"] in produced_ids else 1,
+                role,
                 json.dumps(it.get("stats")) if it.get("stats") else None,
             ),
         )
@@ -92,9 +96,9 @@ def main():
     for mid in sorted(missing):
         db.execute(
             "INSERT INTO items (id, category, subcategory, name_zh, name_en, "
-            "description_zh, weight, max_stack, durability, icon_path, is_raw, stats_json) "
+            "description_zh, weight, max_stack, durability, icon_path, role, stats_json) "
             "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
-            (mid, "unknown", None, None, None, None, None, None, None, None, 1, None),
+            (mid, "unknown", None, None, None, None, None, None, None, None, "raw", None),
         )
         item_ids.add(mid)
     if missing:

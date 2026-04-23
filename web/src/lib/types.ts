@@ -4,12 +4,14 @@ export interface Graph {
   stations: Station[]
 }
 
+export type ItemRole = 'final' | 'intermediate' | 'raw' | 'standalone'
+
 export interface Item {
   id: string
   n: string | null           // name_en
   nz: string | null          // name_zh
   cat: string | null
-  raw: boolean
+  role: ItemRole
   ic?: string | null
 }
 

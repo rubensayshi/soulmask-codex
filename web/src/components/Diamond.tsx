@@ -1,5 +1,6 @@
 import type { Item } from '../lib/types'
 import { useState } from 'react'
+import { noRecipe } from '../lib/graph'
 
 const CDN = 'https://www.soulmaskdatabase.com/images/'
 
@@ -23,7 +24,8 @@ export default function Diamond({ item, size = 42, variant = 'default', onClick,
   const label = item.n ?? item.nz ?? item.id
   const hasImg = item.ic && !err
 
-  const effVariant: Variant = variant === 'default' && item.raw ? 'raw' : variant
+  const terminal = noRecipe(item)
+  const effVariant: Variant = variant === 'default' && terminal ? 'raw' : variant
   const modifier = {
     default:    '',
     root:       'lit',
@@ -33,8 +35,8 @@ export default function Diamond({ item, size = 42, variant = 'default', onClick,
     lit:        'lit',
   }[effVariant]
 
-  const hover = onClick && !item.raw ? 'hover:border-green hover:-translate-y-px transition-all' : 'transition-colors'
-  const cursor = onClick && !item.raw ? 'cursor-pointer' : ''
+  const hover = onClick && !terminal ? 'hover:border-green hover:-translate-y-px transition-all' : 'transition-colors'
+  const cursor = onClick && !terminal ? 'cursor-pointer' : ''
 
   return (
     <div

@@ -2,7 +2,7 @@
 SELECT * FROM items WHERE id = ?;
 
 -- name: ListItemsForGraph :many
-SELECT id, name_en, name_zh, category, is_raw, icon_path FROM items;
+SELECT id, name_en, name_zh, category, role, icon_path FROM items;
 
 -- name: ListRecipesForGraph :many
 SELECT id, output_item_id, output_qty, station_id, craft_time_seconds,

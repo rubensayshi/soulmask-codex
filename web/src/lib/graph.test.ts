@@ -5,10 +5,10 @@ import type { Graph } from './types'
 function makeGraph(): Graph {
   return {
     items: [
-      { id: 'ore',     n: 'Ore',     nz: null, cat: 'raw',  raw: true  },
-      { id: 'wood',    n: 'Wood',    nz: null, cat: 'raw',  raw: true  },
-      { id: 'ingot',   n: 'Ingot',   nz: null, cat: null,   raw: false },
-      { id: 'pickaxe', n: 'Pickaxe', nz: null, cat: null,   raw: false },
+      { id: 'ore',     n: 'Ore',     nz: null, cat: 'raw',  role: 'raw' },
+      { id: 'wood',    n: 'Wood',    nz: null, cat: 'raw',  role: 'raw' },
+      { id: 'ingot',   n: 'Ingot',   nz: null, cat: null,   role: 'final' },
+      { id: 'pickaxe', n: 'Pickaxe', nz: null, cat: null,   role: 'final' },
     ],
     recipes: [
       { id: 'r_ingot', out: 'ingot', outQ: 1, groups: [

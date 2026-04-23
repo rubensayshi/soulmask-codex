@@ -32,9 +32,9 @@ func setupServer(t *testing.T) (*Server, func()) {
 		t.Fatal(err)
 	}
 	seed := `
-INSERT INTO items (id, category, name_zh, name_en, is_raw) VALUES
-  ('iron_ore','material','铁矿石','Iron Ore',1),
-  ('iron_ingot','processed','铁锭','Iron Ingot',0);
+INSERT INTO items (id, category, name_zh, name_en, role) VALUES
+  ('iron_ore','material','铁矿石','Iron Ore','raw'),
+  ('iron_ingot','processed','铁锭','Iron Ingot','intermediate');
 INSERT INTO stations (id, name_en) VALUES ('bf','Blast Furnace');
 INSERT INTO recipes (id, output_item_id, output_qty, station_id) VALUES
   ('rec_ingot','iron_ingot',1,'bf');

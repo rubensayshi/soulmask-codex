@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import type { Graph, Item } from '../lib/types'
-import { primaryRecipeFor, indexItems } from '../lib/graph'
+import { primaryRecipeFor, indexItems, noRecipe } from '../lib/graph'
 import Icon from './Icon'
 import { useStore } from '../store'
 
@@ -18,7 +18,7 @@ export default function TreeView({ graph, rootId }: Props) {
 
   const recipe = primaryRecipeFor(graph, rootId)
   if (!recipe) {
-    return <div className="p-8 text-center text-[12px] text-text-dim italic border border-dashed border-hair bg-panel">Raw material — gathered, not crafted</div>
+    return <div className="p-8 text-center text-[12px] text-text-dim italic border border-dashed border-hair bg-panel">No recipe — gathered, dropped, or scavenged</div>
   }
 
   return (
@@ -59,7 +59,7 @@ function OrGroup({
 }) {
   const picked = items[chosen] ?? items[0]
   const subItem = byId.get(picked.id)
-  const subHasRecipe = subItem && !subItem.raw && !!primaryRecipeFor(graph, picked.id)
+  const subHasRecipe = subItem && !noRecipe(subItem) && !!primaryRecipeFor(graph, picked.id)
   const [showSub, setShowSub] = useState(false)
 
   return (
@@ -119,7 +119,8 @@ interface NodeProps {
 
 function TreeNode({ graph, id, qty, byId }: NodeProps) {
   const item = byId.get(id)
-  const recipe = item && !item.raw ? primaryRecipeFor(graph, id) : undefined
+  const terminal = item ? noRecipe(item) : true
+  const recipe = item && !terminal ? primaryRecipeFor(graph, id) : undefined
   const hasKids = !!recipe && recipe.groups.some(g => g.items.length > 0)
   const [expanded, setExpanded] = useState(hasKids)
   const stationName = useMemo(() => {
@@ -133,7 +134,7 @@ function TreeNode({ graph, id, qty, byId }: NodeProps) {
     <div className="tree-wrap">
       <div
         className={`group relative flex items-center gap-[11px] px-3 py-2 mb-0.5 border transition-colors ${
-          item.raw
+          terminal
             ? 'bg-transparent border-line-soft hover:bg-[rgba(166,122,82,.03)]'
             : 'bg-panel border-hair hover:bg-panel-2 hover:border-hair-strong'
         } ${hasKids ? 'cursor-pointer' : 'cursor-default'}`}
@@ -143,7 +144,7 @@ function TreeNode({ graph, id, qty, byId }: NodeProps) {
           {hasKids ? (expanded ? '▾' : '▸') : ''}
         </span>
         <Icon item={item} size={30} />
-        <span className={`flex-1 text-[13px] truncate ${item.raw ? 'text-text-mute' : 'text-text'}`}>
+        <span className={`flex-1 text-[13px] truncate ${terminal ? 'text-text-mute' : 'text-text'}`}>
           {item.n ?? item.nz ?? item.id}
         </span>
         {stationName && (
@@ -151,10 +152,10 @@ function TreeNode({ graph, id, qty, byId }: NodeProps) {
             {stationName}
           </span>
         )}
-        <span className={`text-[13px] font-semibold tabular-nums min-w-[32px] text-right flex-shrink-0 ${item.raw ? 'text-rust' : 'text-green-hi'}`}>
+        <span className={`text-[13px] font-semibold tabular-nums min-w-[32px] text-right flex-shrink-0 ${terminal ? 'text-rust' : 'text-green-hi'}`}>
           ×{qty}
         </span>
-        {!item.raw && (
+        {!terminal && (
           <Link
             to={`/item/${item.id}`}
             onClick={e => e.stopPropagation()}

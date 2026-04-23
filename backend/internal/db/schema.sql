@@ -9,7 +9,7 @@ CREATE TABLE items (
   max_stack       INTEGER,
   durability      INTEGER,
   icon_path       TEXT,
-  is_raw          INTEGER NOT NULL,
+  role            TEXT NOT NULL CHECK (role IN ('final','intermediate','raw','standalone')),
   stats_json      TEXT
 );
 

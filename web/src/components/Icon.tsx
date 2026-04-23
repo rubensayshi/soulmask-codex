@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { Item } from '../lib/types'
+import { noRecipe } from '../lib/graph'
 
 const CDN = 'https://www.soulmaskdatabase.com/images/'
 
@@ -20,7 +21,7 @@ export default function Icon({ item, size = 28, className = '' }: Props) {
 
   const classes = [
     'tile',
-    item.raw ? 'raw' : '',
+    noRecipe(item) ? 'raw' : '',
     className,
   ].filter(Boolean).join(' ')
 

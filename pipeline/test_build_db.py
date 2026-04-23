@@ -20,19 +20,19 @@ def write_json(path: Path, data):
 
 def make_fixture(tmp: Path):
     """Build a minimal Game/Parsed/ + data/translations/ under tmp."""
-    def item(i, cat="material", nz="?"):
+    def item(i, cat="material", nz="?", role="raw"):
         return {"id": i, "category": cat, "subcategory": None, "name_zh": nz,
                 "description_zh": None, "weight": None, "max_stack": None,
                 "durability": None, "icon_path": None, "material_type": None,
                 "storage_level": None, "spoil_time_seconds": None, "stats": None,
-                "durability_decay": None}
+                "durability_decay": None, "role": role}
 
     write_json(tmp / "Game" / "Parsed" / "items.json", [
-        item("Daoju_Iron_Ore",   "material",  "铁矿石"),
-        item("Daoju_Iron_Ingot", "processed", "铁锭"),
-        item("Daoju_Hide_A",     "material",  "皮A"),
-        item("Daoju_Hide_B",     "material",  "皮B"),
-        item("Daoju_Leather",    "processed", "皮革"),
+        item("Daoju_Iron_Ore",   "material",  "铁矿石", "raw"),
+        item("Daoju_Iron_Ingot", "processed", "铁锭",   "final"),
+        item("Daoju_Hide_A",     "material",  "皮A",    "raw"),
+        item("Daoju_Hide_B",     "material",  "皮B",    "raw"),
+        item("Daoju_Leather",    "processed", "皮革",   "final"),
     ])
     write_json(tmp / "Game" / "Parsed" / "recipes.json", [
         {"id": "BP_PeiFang_Iron_Ingot", "unique_id": "II_1", "brief_zh": "炼铁",
@@ -94,9 +94,9 @@ def test_build_db_produces_expected_rows():
         assert db.execute("SELECT COUNT(*) FROM recipes").fetchone()[0] == 2
         assert db.execute("SELECT COUNT(*) FROM stations").fetchone()[0] == 1
 
-        # Iron Ore is raw (nothing outputs it); Iron Ingot is not
-        assert db.execute("SELECT is_raw FROM items WHERE id='Daoju_Iron_Ore'").fetchone()[0] == 1
-        assert db.execute("SELECT is_raw FROM items WHERE id='Daoju_Iron_Ingot'").fetchone()[0] == 0
+        # role passes through from items.json
+        assert db.execute("SELECT role FROM items WHERE id='Daoju_Iron_Ore'").fetchone()[0] == "raw"
+        assert db.execute("SELECT role FROM items WHERE id='Daoju_Iron_Ingot'").fetchone()[0] == "final"
 
         # English names applied
         assert db.execute("SELECT name_en FROM items WHERE id='Daoju_Iron_Ore'").fetchone()[0] == "Iron Ore"

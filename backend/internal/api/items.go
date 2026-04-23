@@ -19,7 +19,7 @@ type ItemDetail struct {
 	Weight         *float64    `json:"weight"`
 	MaxStack       *int64      `json:"max_stack"`
 	Durability     *int64      `json:"durability"`
-	IsRaw          bool        `json:"is_raw"`
+	Role           string      `json:"role"`
 	IconPath       *string     `json:"icon_path"`
 	Stats          interface{} `json:"stats"`
 	TechUnlockedBy []string    `json:"tech_unlocked_by"`
@@ -73,7 +73,7 @@ func (s *Server) handleItem(w http.ResponseWriter, r *http.Request) {
 		Weight:         nullFloat(item.Weight),
 		MaxStack:       nullInt(item.MaxStack),
 		Durability:     nullInt(item.Durability),
-		IsRaw:          item.IsRaw != 0,
+		Role:           item.Role,
 		IconPath:       nullStr(item.IconPath),
 		Stats:          stats,
 		TechUnlockedBy: tech,

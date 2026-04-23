@@ -19,7 +19,7 @@ type Item struct {
 	MaxStack      sql.NullInt64
 	Durability    sql.NullInt64
 	IconPath      sql.NullString
-	IsRaw         int64
+	Role          string
 	StatsJson     sql.NullString
 }
 
