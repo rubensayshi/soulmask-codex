@@ -21,6 +21,7 @@ type Item struct {
 	IconPath      sql.NullString
 	Role          string
 	StatsJson     sql.NullString
+	Slug          sql.NullString
 }
 
 type Recipe struct {

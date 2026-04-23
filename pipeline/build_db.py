@@ -31,6 +31,12 @@ def prettify_bp_id(raw: str) -> str:
     return " ".join(w.capitalize() for w in s.split())
 
 
+def slugify(name: str) -> str:
+    s = name.lower().strip()
+    s = re.sub(r"[^a-z0-9]+", "-", s)
+    return s.strip("-")
+
+
 def main():
     if DB_PATH.exists():
         DB_PATH.unlink()
@@ -238,6 +244,22 @@ def main():
           SELECT en FROM translations WHERE key = 'tech_node:' || tech_nodes.id
         )
     """)
+
+    # Compute unique slugs from name_en (already populated via translations).
+    rows = db.execute("SELECT id, name_en FROM items").fetchall()
+    slug_counts: dict[str, int] = {}
+    for item_id, name_en in rows:
+        base = slugify(name_en) if name_en else slugify(prettify_bp_id(item_id))
+        slug_counts[base] = slug_counts.get(base, 0) + 1
+    seen: dict[str, int] = {}
+    for item_id, name_en in rows:
+        base = slugify(name_en) if name_en else slugify(prettify_bp_id(item_id))
+        if slug_counts[base] > 1:
+            seen[base] = seen.get(base, 0) + 1
+            slug = f"{base}-{seen[base]}" if seen[base] > 1 else base
+        else:
+            slug = base
+        db.execute("UPDATE items SET slug=? WHERE id=?", (slug, item_id))
 
     db.commit()
     db.execute("VACUUM")

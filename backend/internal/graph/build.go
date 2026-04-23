@@ -19,8 +19,9 @@ type Graph struct {
 
 type Item struct {
 	ID       string  `json:"id"`
-	N        *string `json:"n"`  // name_en
-	NZ       *string `json:"nz"` // name_zh
+	S        *string `json:"s,omitempty"` // slug
+	N        *string `json:"n"`           // name_en
+	NZ       *string `json:"nz"`          // name_zh
 	Cat      *string `json:"cat"`
 	Role     string  `json:"role"` // 'final' | 'intermediate' | 'raw' | 'standalone'
 	IconPath *string `json:"ic,omitempty"`
@@ -67,6 +68,7 @@ func Build(ctx context.Context, sqlDB *sql.DB) (*Graph, error) {
 	for _, r := range itemRows {
 		items = append(items, Item{
 			ID:       r.ID,
+			S:        nullable(r.Slug),
 			N:        nullable(r.NameEn),
 			NZ:       nullable(r.NameZh),
 			Cat:      nullable(r.Category),

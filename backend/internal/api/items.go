@@ -1,6 +1,7 @@
 package api
 
 import (
+	"database/sql"
 	"encoding/json"
 	"net/http"
 
@@ -33,6 +34,9 @@ func (s *Server) handleItem(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	item, err := q.GetItem(ctx, id)
+	if err != nil {
+		item, err = q.GetItemBySlug(ctx, sql.NullString{String: id, Valid: true})
+	}
 	if err != nil {
 		http.Error(w, "item not found", 404)
 		return

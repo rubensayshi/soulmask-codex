@@ -1,7 +1,7 @@
 import { useMemo, useRef, useEffect, useState, useCallback, type ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom'
 import type { Graph, Item } from '../lib/types'
-import { primaryRecipeFor, indexItems, noRecipe } from '../lib/graph'
+import { primaryRecipeFor, indexItems, noRecipe, itemPath } from '../lib/graph'
 import Diamond from './Diamond'
 import Icon from './Icon'
 import { useStore } from '../store'
@@ -48,7 +48,7 @@ export default function FlowView({ graph, rootId }: Props) {
     >
       <div className="flex flex-col items-center" style={{ minWidth: 'fit-content' }}>
         <FlowNode graph={graph} byId={byId} id={rootId} qty={1} multiplier={quantity}
-                  isRoot orSel={orSel} setOrSel={setOrSel} onNavigate={id => navigate(`/item/${id}`)}
+                  isRoot orSel={orSel} setOrSel={setOrSel} onNavigate={item => navigate(itemPath(item))}
                   expandedOr={expandedOr} toggleOr={toggleOr} />
       </div>
     </div>
@@ -65,7 +65,7 @@ interface NodeProps {
   depth?: number
   orSel: Record<string, number>
   setOrSel: (k: string, i: number) => void
-  onNavigate: (id: string) => void
+  onNavigate: (item: Item) => void
   expandedOr: Set<string>
   toggleOr: (k: string) => void
   badge?: ReactNode
@@ -91,7 +91,7 @@ function FlowNode({ graph, byId, id, qty, multiplier, isRoot = false, depth = 0,
           item={item}
           size={size}
           variant={isRoot ? 'root' : terminal ? 'raw' : 'default'}
-          onClick={() => !terminal && onNavigate(item.id)}
+          onClick={() => !terminal && onNavigate(item)}
         />
         {badge}
       </div>

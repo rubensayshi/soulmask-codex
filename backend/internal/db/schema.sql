@@ -10,7 +10,8 @@ CREATE TABLE items (
   durability      INTEGER,
   icon_path       TEXT,
   role            TEXT NOT NULL CHECK (role IN ('final','intermediate','raw','standalone')),
-  stats_json      TEXT
+  stats_json      TEXT,
+  slug            TEXT UNIQUE
 );
 
 CREATE TABLE stations (

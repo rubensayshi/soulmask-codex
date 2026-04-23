@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useStore } from '../store'
 import type { Recipe, Item } from '../lib/types'
+import { itemPath } from '../lib/graph'
 
 const TIERS = [
   { key: 'stone',  label: 'Stone',  min: 1,  max: 9 },
@@ -130,7 +131,7 @@ export default function AwarenessXp() {
         {filtered.map((r, i) => (
           <Link
             key={r.recipe.id}
-            to={`/item/${r.item.id}`}
+            to={itemPath(r.item)}
             className={`grid grid-cols-[1fr_80px_70px_70px_80px_80px] gap-x-3 px-3 py-[7px] items-center border-b border-hair hover:bg-green-bg transition-colors ${i % 2 === 0 ? 'bg-panel' : ''}`}
           >
             <span className="text-text truncate">{r.item.n ?? r.item.nz ?? r.item.id}</span>

@@ -7,7 +7,7 @@ import type { Item } from '../lib/types'
 import { noRecipe } from '../lib/graph'
 
 export default function Sidebar() {
-  const { id: currentId } = useParams<{ id: string }>()
+  const { id: currentSlugOrId } = useParams<{ id: string }>()
   const visits = useStore(s => s.recentVisits)
   const graph  = useStore(s => s.graph)
 
@@ -26,11 +26,12 @@ export default function Sidebar() {
   const byId = new Map(graph.items.map(i => [i.id, i]))
   const showingSearch = query.trim().length > 0
 
-  const rows: Array<{ id: string; item: Item | undefined; name: string; sub: string | null; raw: boolean }> = showingSearch
+  const rows: Array<{ id: string; path: string; item: Item | undefined; name: string; sub: string | null; raw: boolean }> = showingSearch
     ? hits.map(hit => {
         const it = byId.get(hit.id)
         return {
           id: hit.id,
+          path: `/item/${it?.s ?? hit.id}`,
           item: it ?? { id: hit.id, n: hit.name_en, nz: hit.name_zh, cat: hit.category, role: 'final' },
           name: hit.name_en ?? hit.name_zh ?? hit.id,
           sub: hit.category ?? null,
@@ -41,6 +42,7 @@ export default function Sidebar() {
         const it = byId.get(id)
         return {
           id,
+          path: `/item/${it?.s ?? id}`,
           item: it,
           name: it?.n ?? it?.nz ?? id,
           sub: it?.cat ?? null,
@@ -81,11 +83,11 @@ export default function Sidebar() {
           </div>
         ) : (
           rows.map(row => {
-            const active = row.id === currentId
+            const active = row.id === currentSlugOrId || (row.item?.s ?? '') === currentSlugOrId
             return (
               <Link
                 key={row.id}
-                to={`/item/${row.id}`}
+                to={row.path}
                 onClick={() => showingSearch && setQuery('')}
                 className={`group flex items-center gap-2.5 px-4 py-1.5 cursor-pointer border-l-2 transition-colors ${
                   active

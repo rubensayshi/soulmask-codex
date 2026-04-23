@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import type { Graph } from '../lib/types'
-import { computeRawMats } from '../lib/graph'
+import { computeRawMats, itemPath } from '../lib/graph'
 import { useStore } from '../store'
 import { Link } from 'react-router-dom'
 import Icon from './Icon'
@@ -65,7 +65,7 @@ export default function RawMatsCollapsible({ graph, rootId }: Props) {
           return (
             <Link
               key={id}
-              to={`/item/${id}`}
+              to={it ? itemPath(it) : `/item/${id}`}
               className="flex items-center gap-3 px-2.5 py-[7px] hover:bg-[rgba(166,122,82,.04)] transition-colors"
             >
               <Icon item={it} size={26} />

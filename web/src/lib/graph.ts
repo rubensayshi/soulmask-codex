@@ -4,6 +4,22 @@ export function indexItems(g: Graph): Map<string, Item> {
   return new Map(g.items.map(i => [i.id, i]))
 }
 
+export function indexItemsBySlug(g: Graph): Map<string, Item> {
+  const m = new Map<string, Item>()
+  for (const i of g.items) {
+    if (i.s) m.set(i.s, i)
+  }
+  return m
+}
+
+export function resolveItem(g: Graph, slugOrId: string): Item | undefined {
+  return g.items.find(i => i.s === slugOrId) ?? g.items.find(i => i.id === slugOrId)
+}
+
+export function itemPath(item: Item): string {
+  return `/item/${item.s ?? item.id}`
+}
+
 /** True for items with no recipe to expand into — raw materials and standalone
  *  drops/cosmetics. Use this for traversal terminators and "no children" UI. */
 export function noRecipe(item: Item): boolean {

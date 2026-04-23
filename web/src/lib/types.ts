@@ -8,6 +8,7 @@ export type ItemRole = 'final' | 'intermediate' | 'raw' | 'standalone'
 
 export interface Item {
   id: string
+  s?: string | null          // slug
   n: string | null           // name_en
   nz: string | null          // name_zh
   cat: string | null

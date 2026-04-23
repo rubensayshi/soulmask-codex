@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { useStore } from '../store'
+import { itemPath } from '../lib/graph'
 
 const FEATURED: { id: string; label: string; blurb: string }[] = [
   { id: 'Daoju_Item_TieDing',  label: 'Iron Ingot',      blurb: 'Smelted from iron ore and carbon powder in the Blast Furnace.' },
@@ -13,8 +14,8 @@ export default function Home() {
   const status = useStore(s => s.graphStatus)
   if (status === 'loading' || !graph) return <div className="p-8 text-text-dim">Loading…</div>
 
-  const have = new Set(graph.items.map(i => i.id))
-  const available = FEATURED.filter(f => have.has(f.id))
+  const byId = new Map(graph.items.map(i => [i.id, i]))
+  const available = FEATURED.filter(f => byId.has(f.id))
 
   return (
     <div className="p-10 max-w-2xl">
@@ -34,10 +35,12 @@ export default function Home() {
       </div>
 
       <div className="grid gap-2">
-        {available.map(f => (
+        {available.map(f => {
+          const item = byId.get(f.id)!
+          return (
           <Link
             key={f.id}
-            to={`/item/${f.id}`}
+            to={itemPath(item)}
             className="relative block p-4 bg-panel border border-hair-strong hover:border-green-dim transition-colors"
           >
             {/* green hairline top accent */}
@@ -46,7 +49,7 @@ export default function Home() {
             <div className="font-display text-[18px] text-text mb-1 tracking-[.02em] font-semibold">{f.label}</div>
             <div className="text-[12px] text-text-mute">{f.blurb}</div>
           </Link>
-        ))}
+        )})}
         {available.length === 0 && (
           <p className="text-text-dim text-xs italic">
             Featured items aren't in the database yet — use the sidebar search to find something.

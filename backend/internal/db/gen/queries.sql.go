@@ -11,7 +11,7 @@ import (
 )
 
 const getItem = `-- name: GetItem :one
-SELECT id, category, subcategory, name_zh, name_en, description_zh, weight, max_stack, durability, icon_path, role, stats_json FROM items WHERE id = ?
+SELECT id, category, subcategory, name_zh, name_en, description_zh, weight, max_stack, durability, icon_path, role, stats_json, slug FROM items WHERE id = ?
 `
 
 func (q *Queries) GetItem(ctx context.Context, id string) (Item, error) {
@@ -30,6 +30,32 @@ func (q *Queries) GetItem(ctx context.Context, id string) (Item, error) {
 		&i.IconPath,
 		&i.Role,
 		&i.StatsJson,
+		&i.Slug,
+	)
+	return i, err
+}
+
+const getItemBySlug = `-- name: GetItemBySlug :one
+SELECT id, category, subcategory, name_zh, name_en, description_zh, weight, max_stack, durability, icon_path, role, stats_json, slug FROM items WHERE slug = ?
+`
+
+func (q *Queries) GetItemBySlug(ctx context.Context, slug sql.NullString) (Item, error) {
+	row := q.db.QueryRowContext(ctx, getItemBySlug, slug)
+	var i Item
+	err := row.Scan(
+		&i.ID,
+		&i.Category,
+		&i.Subcategory,
+		&i.NameZh,
+		&i.NameEn,
+		&i.DescriptionZh,
+		&i.Weight,
+		&i.MaxStack,
+		&i.Durability,
+		&i.IconPath,
+		&i.Role,
+		&i.StatsJson,
+		&i.Slug,
 	)
 	return i, err
 }
@@ -153,7 +179,7 @@ func (q *Queries) GetTechUnlocksForRecipe(ctx context.Context, recipeID string) 
 }
 
 const listItemsForGraph = `-- name: ListItemsForGraph :many
-SELECT id, name_en, name_zh, category, role, icon_path FROM items
+SELECT id, name_en, name_zh, category, role, icon_path, slug FROM items
 `
 
 type ListItemsForGraphRow struct {
@@ -163,6 +189,7 @@ type ListItemsForGraphRow struct {
 	Category sql.NullString
 	Role     string
 	IconPath sql.NullString
+	Slug     sql.NullString
 }
 
 func (q *Queries) ListItemsForGraph(ctx context.Context) ([]ListItemsForGraphRow, error) {
@@ -181,6 +208,7 @@ func (q *Queries) ListItemsForGraph(ctx context.Context) ([]ListItemsForGraphRow
 			&i.Category,
 			&i.Role,
 			&i.IconPath,
+			&i.Slug,
 		); err != nil {
 			return nil, err
 		}
