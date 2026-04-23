@@ -2,7 +2,8 @@ import { Link, useLocation } from 'react-router-dom'
 import markSvg from '../assets/mark.svg'
 
 const TABS = [
-  { to: '/', label: 'Recipes', match: (p: string) => p === '/' || p.startsWith('/item/') },
+  { to: '/', label: 'Codex', match: (p: string) => p === '/' },
+  { to: '/item/Daoju_Item_TieDing', label: 'Recipes', match: (p: string) => p.startsWith('/item/') },
   { to: '/awareness-xp', label: 'Awareness XP', match: (p: string) => p === '/awareness-xp' },
 ]
 
@@ -10,20 +11,22 @@ export default function TopNav() {
   const { pathname } = useLocation()
 
   return (
-    <div className="relative flex items-center h-14 px-6 flex-shrink-0 border-b border-hair"
-         style={{ background: 'linear-gradient(180deg, #0f0d0a 0%, #14110d 100%)' }}>
+    <div className="relative flex items-center h-[72px] px-8 flex-shrink-0 border-b border-hair"
+         style={{ background: 'linear-gradient(180deg, #242822 0%, #1c1f1b 100%)' }}>
       <div className="pointer-events-none absolute left-0 right-0 -bottom-px h-px opacity-50"
            style={{ background: 'linear-gradient(90deg, transparent 0%, #5a6e48 20%, #5a6e48 80%, transparent 100%)' }} />
 
-      <Link to="/" className="flex items-center gap-3 pr-6">
-        <img src={markSvg} alt="Soulmask Codex" className="w-[34px] h-[34px]" />
-        <div className="flex flex-col leading-none">
-          <span className="font-display text-[17px] font-semibold text-text tracking-[.08em]">Soulmask</span>
-          <span className="text-[9px] text-text-dim tracking-widest2 uppercase mt-[3px]">Codex</span>
+      <Link to="/" className="flex items-center gap-3 pr-7 mr-3 h-full border-r border-hair">
+        <img src={markSvg} alt="Soulmask Codex" className="w-[36px] h-[36px]" />
+        <div className="flex flex-col gap-1">
+          <div className="font-heading text-[14px] font-bold text-text tracking-[.2em]">
+            SOULMASK <span className="text-green" style={{ fontWeight: 800 }}>CODEX</span>
+          </div>
+          <div className="font-display italic text-[12px] font-medium text-gold tracking-[.14em]">
+            Atlas of the Crafted World
+          </div>
         </div>
       </Link>
-
-      <div className="w-px h-8 bg-hair mx-1" />
 
       <div className="flex items-stretch h-full ml-4">
         {TABS.map(tab => {
@@ -32,7 +35,7 @@ export default function TopNav() {
             <Link
               key={tab.to}
               to={tab.to}
-              className={`relative px-[22px] flex items-center gap-1.5 text-[12px] font-medium uppercase tracking-[.15em] bg-transparent transition-colors ${active ? 'text-text' : 'text-text-mute hover:text-text'}`}
+              className={`relative px-[22px] flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-widest2 bg-transparent transition-colors ${active ? 'text-green' : 'text-text-mute hover:text-text'}`}
             >
               {tab.label}
               {active && (

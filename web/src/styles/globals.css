@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -35,4 +35,8 @@ body > * { position: relative; z-index: 1; }
 .main-pane {
   container-type: inline-size;
   container-name: main;
+  background-image:
+    linear-gradient(rgba(138,160,116,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(138,160,116,.025) 1px, transparent 1px);
+  background-size: 80px 80px;
 }

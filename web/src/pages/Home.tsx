@@ -9,6 +9,41 @@ const FEATURED: { id: string; label: string; blurb: string }[] = [
   { id: 'Daoju_Item_GangDing', label: 'Steel Ingot',     blurb: 'Iron ingots refined with coal — prerequisite for steel weapons and armor.' },
 ]
 
+function MaskSvg({ className }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 200 200" className={className}>
+      <g stroke="#8aa074" strokeWidth=".6" opacity=".5">
+        <line x1="100" y1="8" x2="100" y2="192" />
+        <line x1="8" y1="100" x2="192" y2="100" />
+      </g>
+      <g stroke="#8aa074" strokeWidth=".4" opacity=".2">
+        <line x1="28" y1="28" x2="172" y2="172" />
+        <line x1="172" y1="28" x2="28" y2="172" />
+      </g>
+      <g fill="#8aa074">
+        <path d="M100 8 L104 20 L100 26 L96 20 Z" />
+        <path d="M100 192 L104 180 L100 174 L96 180 Z" />
+        <circle cx="8" cy="100" r="2.5" />
+        <circle cx="192" cy="100" r="2.5" />
+      </g>
+      <circle cx="100" cy="100" r="74" fill="none" stroke="#8aa074" strokeWidth=".5" opacity=".35" />
+      <circle cx="100" cy="100" r="58" fill="none" stroke="#8aa074" strokeWidth=".5" opacity=".35" />
+      <g transform="translate(150 50)">
+        <circle r="8" fill="#b8a060" opacity=".7" />
+        <circle cx="3" r="8" fill="#161815" />
+      </g>
+      <path d="M100 44 L138 100 L100 156 L62 100 Z" fill="#1c1f1b" stroke="#8aa074" strokeWidth="2" />
+      <circle cx="86" cy="92" r="4.5" fill="#b8a060" />
+      <circle cx="114" cy="92" r="4.5" fill="#b8a060" />
+      <circle cx="86" cy="92" r="1.5" fill="#d8dcc8" />
+      <circle cx="114" cy="92" r="1.5" fill="#d8dcc8" />
+      <path d="M100 96 L100 124" stroke="#8aa074" strokeWidth="1.2" fill="none" />
+      <path d="M95 134 L105 134 L100 142 Z" fill="#8aa074" />
+      <path d="M100 56 L106 64 L100 72 L94 64 Z" fill="#8aa074" opacity=".8" />
+    </svg>
+  )
+}
+
 export default function Home() {
   const graph = useStore(s => s.graph)
   const status = useStore(s => s.graphStatus)
@@ -17,44 +52,109 @@ export default function Home() {
   const byId = new Map(graph.items.map(i => [i.id, i]))
   const available = FEATURED.filter(f => byId.has(f.id))
 
-  return (
-    <div className="p-10 max-w-2xl">
-      <h1 className="font-display text-[32px] text-text mb-2 tracking-[.04em] font-semibold">Soulmask · Recipe Codex</h1>
-      <p className="text-text-mute mb-8 text-[13px]">
-        Browse {graph.items.length.toLocaleString()} items and {graph.recipes.length.toLocaleString()} crafting recipes.
-        Click any ingredient to trace its chain.
-      </p>
+  const stationCount = new Set(graph.recipes.map(r => r.st).filter(Boolean)).size
+  const categoryCount = new Set(graph.items.map(i => i.cat).filter(Boolean)).size
 
-      <div className="flex items-center gap-3.5 mb-4">
-        <svg viewBox="0 0 14 14" className="w-[14px] h-[14px]" fill="none" stroke="#8aa074" strokeWidth="1" strokeLinecap="square">
-          <path d="M7 1 L13 7 L7 13 L1 7 Z" />
-          <path d="M7 4 L10 7 L7 10 L4 7 Z" fill="#8aa074" stroke="none" opacity=".6" />
-        </svg>
-        <span className="font-display text-[16px] font-semibold text-text tracking-[.04em]">Featured Chains</span>
-        <div className="flex-1 h-px" style={{ background: 'linear-gradient(90deg, #5a6e48 0%, transparent 100%)' }} />
+  return (
+    <div className="-mx-9 -mt-7">
+      {/* Hero */}
+      <div className="m-6 border border-hair relative overflow-hidden"
+           style={{
+             background: 'radial-gradient(ellipse 900px 500px at 50% 30%, rgba(138,160,116,.08), transparent 60%), radial-gradient(ellipse 700px 400px at 80% 90%, rgba(184,160,96,.05), transparent 60%), linear-gradient(180deg, #1c1f1b 0%, #161815 100%)',
+           }}>
+        {/* Sparkles */}
+        {[
+          { top: '12%', left: '8%' },  { top: '18%', left: '88%' },
+          { top: '68%', left: '5%' },  { top: '75%', left: '92%' },
+          { top: '40%', left: '3%' },  { top: '55%', left: '96%' },
+        ].map((s, i) => (
+          <div key={i} className="absolute w-[2px] h-[2px] bg-green rounded-full opacity-60" style={s} />
+        ))}
+
+        {/* Two-column body */}
+        <div className="grid grid-cols-[auto_1fr] items-center gap-14 px-12 py-14 relative z-10">
+          {/* Left: mark with orbit rings */}
+          <div className="relative w-[200px] h-[200px]">
+            <div className="absolute -inset-5 rounded-full border border-hair opacity-50" />
+            <div className="absolute -inset-11 rounded-full border border-hair opacity-25" />
+            <MaskSvg className="w-full h-full" />
+          </div>
+
+          {/* Right: copy */}
+          <div>
+            <div className="flex items-center gap-3.5 mb-5 text-[11px] tracking-[.4em] uppercase text-gold">
+              <span className="w-10 h-px bg-gold opacity-50" />
+              V1.0 · The Crafted World
+            </div>
+
+            <h1 className="font-heading font-bold tracking-[.1em] text-text leading-none mb-1"
+                style={{ fontSize: 48, textShadow: '0 4px 24px rgba(138,160,116,.15)' }}>
+              SOULMASK
+            </h1>
+            <h2 className="font-heading font-black tracking-[.1em] text-green leading-none mb-3"
+                style={{ fontSize: 48 }}>
+              CODEX
+            </h2>
+            <p className="font-display italic text-[20px] font-medium text-green opacity-85 tracking-wider2 mb-5">
+              Atlas of the Crafted World
+            </p>
+            <p className="text-[14px] text-text-mute max-w-md leading-relaxed">
+              Every weapon, tool, ritual mask and trade — traced from raw material to final form.
+              One compass for the crafted world.
+            </p>
+          </div>
+        </div>
+
+        {/* Stats strip */}
+        <div className="flex border-t border-hair">
+          {[
+            { num: graph.recipes.length.toLocaleString(), label: 'Recipes Traced' },
+            { num: graph.items.length.toLocaleString(), label: 'Items Indexed' },
+            { num: String(stationCount), label: 'Stations' },
+            { num: String(categoryCount), label: 'Categories' },
+          ].map((s, i) => (
+            <div key={i} className="flex-1 flex flex-col px-6 py-5 border-r border-hair last:border-r-0">
+              <span className="font-heading text-[22px] font-bold text-green tracking-[.04em] mb-1">
+                {s.num}
+              </span>
+              <span className="text-[10px] tracking-[.3em] uppercase text-text-dim">
+                ◆ {s.label}
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
 
-      <div className="grid gap-2">
-        {available.map(f => {
-          const item = byId.get(f.id)!
-          return (
-          <Link
-            key={f.id}
-            to={itemPath(item)}
-            className="relative block p-4 bg-panel border border-hair-strong hover:border-green-dim transition-colors"
-          >
-            {/* green hairline top accent */}
-            <div className="pointer-events-none absolute -top-px -left-px -right-px h-px opacity-60"
-                 style={{ background: 'linear-gradient(90deg, transparent, #5a6e48 30%, #5a6e48 70%, transparent)' }} />
-            <div className="font-display text-[18px] text-text mb-1 tracking-[.02em] font-semibold">{f.label}</div>
-            <div className="text-[12px] text-text-mute">{f.blurb}</div>
-          </Link>
-        )})}
-        {available.length === 0 && (
-          <p className="text-text-dim text-xs italic">
-            Featured items aren't in the database yet — use the sidebar search to find something.
-          </p>
-        )}
+      {/* Featured chains */}
+      <div className="px-9 pt-10 pb-12 max-w-[1100px] mx-auto">
+        <div className="flex items-center gap-3.5 mb-5">
+          <span className="text-[12px] text-green">◆</span>
+          <span className="font-heading text-[11px] tracking-[.32em] uppercase text-text-dim">Featured Chains</span>
+          <div className="flex-1 h-px" style={{ background: 'rgba(138,160,116,.14)' }} />
+        </div>
+
+        <div className="grid gap-2">
+          {available.map(f => {
+            const item = byId.get(f.id)!
+            return (
+              <Link
+                key={f.id}
+                to={itemPath(item)}
+                className="relative block p-4 bg-panel border border-hair-strong hover:border-green-dim transition-colors"
+              >
+                <div className="pointer-events-none absolute -top-px -left-px -right-px h-px opacity-60"
+                     style={{ background: 'linear-gradient(90deg, transparent, #5a6e48 30%, #5a6e48 70%, transparent)' }} />
+                <div className="font-display text-[18px] text-text mb-1 tracking-[.02em] font-semibold">{f.label}</div>
+                <div className="text-[12px] text-text-mute">{f.blurb}</div>
+              </Link>
+            )
+          })}
+          {available.length === 0 && (
+            <p className="text-text-dim text-xs italic">
+              Featured items aren't in the database yet — use the sidebar search to find something.
+            </p>
+          )}
+        </div>
       </div>
     </div>
   )

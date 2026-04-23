@@ -53,6 +53,7 @@ const config: Config = {
         'teal-bg':       'rgba(110,160,154,.08)',
       },
       fontFamily: {
+        heading: ['Cinzel', 'serif'],
         display: ['"Cormorant Garamond"', 'serif'],
         sans:    ['Inter', 'sans-serif'],
       },
