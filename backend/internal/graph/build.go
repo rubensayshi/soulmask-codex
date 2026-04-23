@@ -35,6 +35,7 @@ type Recipe struct {
 	Prof    *string  `json:"prof,omitempty"`
 	ProfXP  *float64 `json:"profXp,omitempty"`
 	AwXP    *int64   `json:"awXp,omitempty"`
+	Lvl     *int64   `json:"lvl,omitempty"`
 	Groups  []Group  `json:"groups"`
 }
 
@@ -90,6 +91,7 @@ func Build(ctx context.Context, sqlDB *sql.DB) (*Graph, error) {
 			Prof:    nullable(r.Proficiency),
 			ProfXP:  nullablef(r.ProficiencyXp),
 			AwXP:    nullablei(r.AwarenessXp),
+			Lvl:     nullablei(r.RecipeLevel),
 			Groups:  []Group{},
 		}
 		recipes = append(recipes, rec)

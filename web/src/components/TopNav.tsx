@@ -28,6 +28,9 @@ export default function TopNav() {
           <span className="absolute left-[18%] right-[18%] bottom-0 h-[2px] bg-green"
                 style={{ boxShadow: '0 0 8px rgba(138,160,116,.4)' }} />
         </button>
+        <Link to="/awareness-xp" className="relative px-[22px] flex items-center gap-1.5 text-[12px] font-medium uppercase tracking-[.15em] text-text-mute hover:text-text bg-transparent transition-colors">
+          Awareness XP
+        </Link>
       </div>
     </div>
   )

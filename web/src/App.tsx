@@ -4,6 +4,7 @@ import { useStore } from './store'
 import Layout from './components/Layout'
 import Home from './pages/Home'
 import Item from './pages/Item'
+import AwarenessXp from './pages/AwarenessXp'
 
 export default function App() {
   const loadGraph = useStore(s => s.loadGraph)
@@ -13,6 +14,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/item/:id" element={<Item />} />
+        <Route path="/awareness-xp" element={<AwarenessXp />} />
       </Routes>
     </Layout>
   )
