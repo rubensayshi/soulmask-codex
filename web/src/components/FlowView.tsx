@@ -6,9 +6,9 @@ import Diamond from './Diamond'
 import Icon from './Icon'
 import { useStore } from '../store'
 
-interface Props { graph: Graph; rootId: string; orient?: 'horiz' | 'vert' }
+interface Props { graph: Graph; rootId: string }
 
-export default function FlowView({ graph, rootId, orient = 'horiz' }: Props) {
+export default function FlowView({ graph, rootId }: Props) {
   const byId = useMemo(() => indexItems(graph), [graph])
   const quantity = useStore(s => s.quantity)
   const orSel    = useStore(s => s.orSel)
@@ -17,32 +17,29 @@ export default function FlowView({ graph, rootId, orient = 'horiz' }: Props) {
   const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    if (orient !== 'vert' || !ref.current) return
+    if (!ref.current) return
     const el = ref.current
     requestAnimationFrame(() => {
       el.scrollLeft = Math.max(0, (el.scrollWidth - el.clientWidth) / 2)
     })
-  }, [orient, rootId, quantity])
+  }, [rootId, quantity])
 
   const root = byId.get(rootId)
   if (!root || noRecipe(root)) {
     return <div className="p-8 text-center text-[12px] text-text-dim italic border border-dashed border-hair bg-panel">No recipe — gathered, dropped, or scavenged</div>
   }
 
-  const isVert = orient === 'vert'
-
   return (
     <div
       ref={ref}
-      className={`flow-container overflow-auto mb-[22px] p-[20px_8px_24px] border border-hair${isVert ? ' flow-vert' : ''}`}
+      className="flow-container flow-vert overflow-auto mb-[22px] p-[20px_8px_24px] border border-hair"
       style={{
         background: 'radial-gradient(ellipse at 20% 40%, rgba(138,160,116,.05) 0%, transparent 45%), linear-gradient(180deg, #181a16 0%, #161815 100%)',
       }}
     >
-      <div className={`flex ${isVert ? 'flex-col items-center' : 'items-center'}`} style={{ minWidth: 'fit-content' }}>
+      <div className="flex flex-col items-center" style={{ minWidth: 'fit-content' }}>
         <FlowNode graph={graph} byId={byId} id={rootId} qty={1} multiplier={quantity}
-                  isRoot orSel={orSel} setOrSel={setOrSel} onNavigate={id => navigate(`/item/${id}`)}
-                  orient={orient} />
+                  isRoot orSel={orSel} setOrSel={setOrSel} onNavigate={id => navigate(`/item/${id}`)} />
       </div>
     </div>
   )
@@ -59,10 +56,9 @@ interface NodeProps {
   orSel: Record<string, number>
   setOrSel: (k: string, i: number) => void
   onNavigate: (id: string) => void
-  orient: 'horiz' | 'vert'
 }
 
-function FlowNode({ graph, byId, id, qty, multiplier, isRoot = false, depth = 0, orSel, setOrSel, onNavigate, orient }: NodeProps) {
+function FlowNode({ graph, byId, id, qty, multiplier, isRoot = false, depth = 0, orSel, setOrSel, onNavigate }: NodeProps) {
   const item = byId.get(id)
   const total = qty * multiplier
   const terminal = item ? noRecipe(item) : true
@@ -74,7 +70,6 @@ function FlowNode({ graph, byId, id, qty, multiplier, isRoot = false, depth = 0,
   if (!item || depth > 6) return null
   const hasKids = !!recipe && recipe.groups.length > 0
   const size = isRoot ? 64 : 48
-  const isVert = orient === 'vert'
 
   const tile = (
     <div className="flex flex-col items-center gap-[7px] flex-shrink-0">
@@ -99,23 +94,23 @@ function FlowNode({ graph, byId, id, qty, multiplier, isRoot = false, depth = 0,
   if (!hasKids || !recipe) return tile
 
   return (
-    <div className={`flex ${isVert ? 'flex-col items-center' : 'items-center'}`} style={{ minWidth: 'fit-content' }}>
+    <div className="flex flex-col items-center" style={{ minWidth: 'fit-content' }}>
       {tile}
-      <div className={`${isVert ? 'w-px h-6' : 'w-6 h-px'} bg-green-dim flex-shrink-0 self-center`} />
-      <div className={`flex ${isVert ? 'flex-row' : 'flex-col'} relative self-stretch justify-center`}>
+      <div className="w-px h-6 bg-green-dim flex-shrink-0 self-center" />
+      <div className="flex flex-row relative self-stretch justify-center">
         {recipe.groups.map((grp, gi) =>
           grp.kind === 'all'
             ? grp.items.map(ing => (
-              <div key={`${gi}-${ing.id}`} className={`flow-branch-item${isVert ? ' vert' : ''} flex ${isVert ? 'flex-col' : ''} items-center`}>
-                <div className={isVert ? 'mt-[14px]' : 'ml-[14px]'}>
+              <div key={`${gi}-${ing.id}`} className="flow-branch-item vert flex flex-col items-center">
+                <div className="mt-[14px]">
                   <FlowNode graph={graph} byId={byId} id={ing.id} qty={ing.q * qty} multiplier={multiplier}
-                            depth={depth + 1} orSel={orSel} setOrSel={setOrSel} onNavigate={onNavigate} orient={orient} />
+                            depth={depth + 1} orSel={orSel} setOrSel={setOrSel} onNavigate={onNavigate} />
                 </div>
               </div>
             ))
             : (
-              <div key={gi} className={`flow-branch-item${isVert ? ' vert' : ''} flex ${isVert ? 'flex-col' : ''} items-center`}>
-                <div className={`${isVert ? 'mt-[14px]' : 'ml-[14px]'} p-2.5 bg-teal-bg border border-teal-dim min-w-[170px]`}
+              <div key={gi} className="flow-branch-item vert flex flex-col items-center">
+                <div className="mt-[14px] p-2.5 bg-teal-bg border border-teal-dim min-w-[170px]"
                      style={{ borderLeftWidth: 2, borderLeftColor: '#6ea09a' }}>
                   <div className="text-[9px] tracking-[.18em] uppercase text-teal font-semibold mb-1.5">◈ Choose one</div>
                   {grp.items.map((alt, ai) => {

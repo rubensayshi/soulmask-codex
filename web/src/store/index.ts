@@ -6,24 +6,27 @@ const GRAPH_CACHE_KEY = 'soulmask:graph'
 const ETAG_CACHE_KEY  = 'soulmask:etag'
 const VISITS_KEY      = 'soulmask:visits'
 
-type ViewMode = 'tree' | 'flow'
-type FlowOrient = 'horiz' | 'vert'
-
 interface Tweaks {
-  viewMode: ViewMode
-  flowOrient: FlowOrient
   quantity: number
   showRaw: boolean
 }
 
-const TWEAK_DEFAULTS: Tweaks = { viewMode: 'flow', flowOrient: 'horiz', quantity: 1, showRaw: true }
+const TWEAK_DEFAULTS: Tweaks = { quantity: 1, showRaw: true }
 const TWEAKS_KEY = 'soulmask:tweaks'
+const TWEAKS_OPEN_KEY = 'soulmask:tweaksOpen'
 
 function loadTweaks(): Tweaks {
   try {
     const raw = localStorage.getItem(TWEAKS_KEY)
     return raw ? { ...TWEAK_DEFAULTS, ...JSON.parse(raw) } : TWEAK_DEFAULTS
   } catch { return TWEAK_DEFAULTS }
+}
+
+function loadTweaksOpen(): boolean {
+  try {
+    const v = localStorage.getItem(TWEAKS_OPEN_KEY)
+    return v === null ? true : v === 'true'
+  } catch { return true }
 }
 
 interface Store {
@@ -111,8 +114,11 @@ export const useStore = create<Store>((set, get) => {
       set({ tweaks: next, quantity: next.quantity })
     },
 
-    tweaksOpen: false,
-    setTweaksOpen(v) { set({ tweaksOpen: v }) },
+    tweaksOpen: loadTweaksOpen(),
+    setTweaksOpen(v) {
+      localStorage.setItem(TWEAKS_OPEN_KEY, String(v))
+      set({ tweaksOpen: v })
+    },
 
     quantity: tweaks.quantity,
     setQuantity(n) { get().setTweaks({ quantity: Math.max(1, Math.min(99, n)) }) },

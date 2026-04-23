@@ -40,74 +40,6 @@
     font-weight: 600;
   }
 
-  /* ─── Flow tree connectors ──────────────────────────────── */
-  .flow-branch-item {
-    position: relative;
-    padding: 6px 0;
-  }
-  /* horizontal stub from spine to child */
-  .flow-branch-item::before {
-    content: '';
-    position: absolute;
-    left: 0; top: 50%;
-    width: 14px; height: 1px;
-    background: #5a6e48;
-  }
-  .flow-branch-item.rust::before { background: #6e4d2e; }
-  /* vertical spine segment */
-  .flow-branch-item::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    width: 1px;
-    background: #5a6e48;
-    top: 0; bottom: 0;
-  }
-  .flow-branch-item.rust::after { background: #6e4d2e; }
-  .flow-branch-item:first-child::after { top: 50%; }
-  .flow-branch-item:last-child::after { bottom: 50%; }
-  .flow-branch-item:only-child::after { display: none; }
-
-  /* ─── Tree kids L-connectors (dotted hairlines) ─────────── */
-  .tree-kids {
-    position: relative;
-    margin-left: 18px;
-    padding-left: 16px;
-    margin-top: 2px;
-    margin-bottom: 2px;
-  }
-  .tree-kids::before {
-    content: '';
-    position: absolute;
-    left: 0; top: -2px; bottom: 20px;
-    width: 1px;
-    background-image: linear-gradient(180deg, #4a5040 50%, transparent 50%);
-    background-size: 1px 4px;
-  }
-  .tree-kids.rust::before {
-    background-image: linear-gradient(180deg, #6e4d2e 50%, transparent 50%);
-  }
-  .tree-kids > .tree-wrap::before {
-    content: '';
-    position: absolute;
-    left: -16px; top: 22px;
-    width: 14px; height: 1px;
-    background-image: linear-gradient(90deg, #4a5040 50%, transparent 50%);
-    background-size: 4px 1px;
-  }
-  .tree-kids.rust > .tree-wrap::before {
-    background-image: linear-gradient(90deg, #6e4d2e 50%, transparent 50%);
-  }
-  .tree-kids > .or-box::before {
-    content: '';
-    position: absolute;
-    left: -16px; top: 22px;
-    width: 14px; height: 1px;
-    background-image: linear-gradient(90deg, #3f5b58 50%, transparent 50%);
-    background-size: 4px 1px;
-  }
-  .tree-wrap { position: relative; }
-
   /* ─── Full-bleed vertical flow ─────────────────────────────── */
   .flow-vert {
     width: 100cqw;
@@ -116,21 +48,31 @@
     left: calc((100% + 72px - 100cqw) / 2);
   }
 
-  /* ─── Vertical flow connectors ─────────────────────────────── */
-  .flow-branch-item.vert {
+  /* ─── Flow tree connectors (vertical orientation) ──────────── */
+  .flow-branch-item {
+    position: relative;
     padding: 0 10px;
   }
-  .flow-branch-item.vert::before {
+  /* vertical stub from spine down to child */
+  .flow-branch-item::before {
+    content: '';
+    position: absolute;
     left: 50%; top: 0;
     width: 1px; height: 14px;
     transform: translateX(-0.5px);
+    background: #5a6e48;
   }
-  .flow-branch-item.vert::after {
+  .flow-branch-item.rust::before { background: #6e4d2e; }
+  /* horizontal spine segment */
+  .flow-branch-item::after {
+    content: '';
+    position: absolute;
     left: 0; right: 0; top: 0;
     width: auto; height: 1px;
-    bottom: auto;
+    background: #5a6e48;
   }
-  .flow-branch-item.vert:first-child::after { left: 50%; right: 0; top: 0; }
-  .flow-branch-item.vert:last-child::after  { left: 0; right: 50%; top: 0; bottom: auto; }
-  .flow-branch-item.vert:only-child::after  { display: none; }
+  .flow-branch-item.rust::after { background: #6e4d2e; }
+  .flow-branch-item:first-child::after { left: 50%; right: 0; }
+  .flow-branch-item:last-child::after  { left: 0; right: 50%; }
+  .flow-branch-item:only-child::after  { display: none; }
 }

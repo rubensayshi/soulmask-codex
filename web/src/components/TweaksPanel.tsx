@@ -35,7 +35,6 @@ export default function TweaksPanel() {
 
   return (
     <>
-      {/* Toggle button */}
       <button
         onClick={() => setOpen(!open)}
         className="fixed right-4 bottom-4 z-[101] w-9 h-9 flex items-center justify-center border border-hair-strong bg-panel text-green hover:text-green-hi hover:border-green-dim transition-colors"
@@ -48,7 +47,6 @@ export default function TweaksPanel() {
         </svg>
       </button>
 
-      {/* Panel */}
       {open && (
         <div
           className="fixed right-4 bottom-16 z-[100] w-[280px] border border-hair-strong bg-panel"
@@ -91,34 +89,6 @@ export default function TweaksPanel() {
                 ))}
               </div>
             </div>
-
-            {/* View Mode */}
-            <div>
-              <div className="flex justify-between items-baseline mb-2">
-                <span className="text-[10px] text-text-mute tracking-[.14em] uppercase">View Mode</span>
-                <span className="text-[11px] text-text font-medium">{tweaks.viewMode}</span>
-              </div>
-              <Seg
-                options={[{ value: 'tree', label: 'Tree' }, { value: 'flow', label: 'Flow' }]}
-                value={tweaks.viewMode}
-                onChange={v => setTweaks({ viewMode: v as 'tree' | 'flow' })}
-              />
-            </div>
-
-            {/* Flow Orientation */}
-            {tweaks.viewMode === 'flow' && (
-              <div>
-                <div className="flex justify-between items-baseline mb-2">
-                  <span className="text-[10px] text-text-mute tracking-[.14em] uppercase">Flow Orientation</span>
-                  <span className="text-[11px] text-text font-medium">{tweaks.flowOrient === 'vert' ? 'top → down' : 'left → right'}</span>
-                </div>
-                <Seg
-                  options={[{ value: 'horiz', label: 'Horizontal' }, { value: 'vert', label: 'Vertical' }]}
-                  value={tweaks.flowOrient}
-                  onChange={v => setTweaks({ flowOrient: v as 'horiz' | 'vert' })}
-                />
-              </div>
-            )}
 
             {/* Show Raw Materials */}
             <div>
