@@ -18,13 +18,17 @@ type Graph struct {
 }
 
 type Item struct {
-	ID       string  `json:"id"`
-	S        *string `json:"s,omitempty"` // slug
-	N        *string `json:"n"`           // name_en
-	NZ       *string `json:"nz"`          // name_zh
-	Cat      *string `json:"cat"`
-	Role     string  `json:"role"` // 'final' | 'intermediate' | 'raw' | 'standalone'
-	IconPath *string `json:"ic,omitempty"`
+	ID       string      `json:"id"`
+	S        *string     `json:"s,omitempty"` // slug
+	N        *string     `json:"n"`           // name_en
+	NZ       *string     `json:"nz"`          // name_zh
+	Cat      *string     `json:"cat"`
+	Role     string      `json:"role"` // 'final' | 'intermediate' | 'raw' | 'standalone'
+	IconPath *string     `json:"ic,omitempty"`
+	DescZh   *string     `json:"dz,omitempty"`
+	Weight   *float64    `json:"w,omitempty"`
+	Dur      *int64      `json:"dur,omitempty"`
+	Stats    interface{} `json:"stats,omitempty"`
 }
 
 type Recipe struct {
@@ -66,6 +70,10 @@ func Build(ctx context.Context, sqlDB *sql.DB) (*Graph, error) {
 	}
 	items := make([]Item, 0, len(itemRows))
 	for _, r := range itemRows {
+		var stats interface{}
+		if r.StatsJson.Valid {
+			_ = json.Unmarshal([]byte(r.StatsJson.String), &stats)
+		}
 		items = append(items, Item{
 			ID:       r.ID,
 			S:        nullable(r.Slug),
@@ -74,6 +82,10 @@ func Build(ctx context.Context, sqlDB *sql.DB) (*Graph, error) {
 			Cat:      nullable(r.Category),
 			Role:     r.Role,
 			IconPath: nullable(r.IconPath),
+			DescZh:   nullable(r.DescriptionZh),
+			Weight:   nullablef(r.Weight),
+			Dur:      nullablei(r.Durability),
+			Stats:    stats,
 		})
 	}
 
