@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	dbgen "github.com/rubendevries/souldb/backend/internal/db/gen"
+	dbgen "github.com/rubensayshi/soulmask-codex/backend/internal/db/gen"
 )
 
 type SearchHit struct {

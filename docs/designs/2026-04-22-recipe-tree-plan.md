@@ -26,7 +26,7 @@ Before the tasks, here's every file this plan creates and its responsibility. Lo
 ### `/backend/`
 | File | Responsibility |
 |---|---|
-| `go.mod`, `go.sum` | Module at `github.com/rubendevries/souldb/backend`. |
+| `go.mod`, `go.sum` | Module at `github.com/rubensayshi/soulmask-codex/backend`. |
 | `sqlc.yaml` | sqlc config pointing at `internal/db/queries.sql` + `schema.sql`. |
 | `cmd/server/main.go` | Wire everything: open DB, start server, handle `-dev` flag. |
 | `internal/db/schema.sql` | Single source of truth for SQLite schema. |
@@ -792,7 +792,7 @@ Goal: `go run ./cmd/server` serves the three API endpoints against real data.
 
 ```bash
 cd backend
-go mod init github.com/rubendevries/souldb/backend
+go mod init github.com/rubensayshi/soulmask-codex/backend
 go get github.com/go-chi/chi/v5
 go get modernc.org/sqlite
 go get github.com/rs/zerolog
@@ -965,7 +965,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	dbgen "github.com/rubendevries/souldb/backend/internal/db/gen"
+	dbgen "github.com/rubensayshi/soulmask-codex/backend/internal/db/gen"
 )
 
 // Graph is the shape shipped to the client on page load.
@@ -1297,8 +1297,8 @@ import (
 	"sync"
 	"time"
 
-	sdb "github.com/rubendevries/souldb/backend/internal/db"
-	"github.com/rubendevries/souldb/backend/internal/graph"
+	sdb "github.com/rubensayshi/soulmask-codex/backend/internal/db"
+	"github.com/rubensayshi/soulmask-codex/backend/internal/graph"
 )
 
 type graphCache struct {
@@ -1374,7 +1374,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 
-	dbgen "github.com/rubendevries/souldb/backend/internal/db/gen"
+	dbgen "github.com/rubensayshi/soulmask-codex/backend/internal/db/gen"
 )
 
 type ItemDetail struct {
@@ -1460,7 +1460,7 @@ import (
 	"strconv"
 	"strings"
 
-	dbgen "github.com/rubendevries/souldb/backend/internal/db/gen"
+	dbgen "github.com/rubensayshi/soulmask-codex/backend/internal/db/gen"
 )
 
 type SearchHit struct {
@@ -1717,9 +1717,9 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/rs/zerolog"
 
-	"github.com/rubendevries/souldb/backend/internal/api"
-	sdb "github.com/rubendevries/souldb/backend/internal/db"
-	"github.com/rubendevries/souldb/backend/internal/spa"
+	"github.com/rubensayshi/soulmask-codex/backend/internal/api"
+	sdb "github.com/rubensayshi/soulmask-codex/backend/internal/db"
+	"github.com/rubensayshi/soulmask-codex/backend/internal/spa"
 )
 
 func main() {

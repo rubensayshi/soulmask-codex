@@ -12,9 +12,9 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/rs/zerolog"
 
-	"github.com/rubendevries/souldb/backend/internal/api"
-	sdb "github.com/rubendevries/souldb/backend/internal/db"
-	"github.com/rubendevries/souldb/backend/internal/spa"
+	"github.com/rubensayshi/soulmask-codex/backend/internal/api"
+	sdb "github.com/rubensayshi/soulmask-codex/backend/internal/db"
+	"github.com/rubensayshi/soulmask-codex/backend/internal/spa"
 )
 
 func main() {

@@ -7,7 +7,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 
-	dbgen "github.com/rubendevries/souldb/backend/internal/db/gen"
+	dbgen "github.com/rubensayshi/soulmask-codex/backend/internal/db/gen"
 )
 
 type ItemDetail struct {

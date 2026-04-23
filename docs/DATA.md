@@ -1,4 +1,4 @@
-# SoulmaskDB Parsed Data Reference
+# Soulmask Codex Parsed Data Reference
 
 Overview of the four JSON outputs in `Game/Parsed/`, what fields they carry, and how they cross-reference.
 

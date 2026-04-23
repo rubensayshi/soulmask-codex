@@ -1,4 +1,4 @@
-# SoulmaskDB
+# Soulmask Codex
 
 Extracts item drop tables and crafting recipes from the Soulmask game using the UE4 developer modkit,
 producing a structured JSON database with English item names.

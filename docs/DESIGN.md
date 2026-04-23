@@ -1,4 +1,4 @@
-# SoulmaskDB Design Document
+# Soulmask Codex Design Document
 
 ## 1. Current State
 

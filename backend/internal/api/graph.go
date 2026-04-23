@@ -8,8 +8,8 @@ import (
 	"sync"
 	"time"
 
-	sdb "github.com/rubendevries/souldb/backend/internal/db"
-	"github.com/rubendevries/souldb/backend/internal/graph"
+	sdb "github.com/rubensayshi/soulmask-codex/backend/internal/db"
+	"github.com/rubensayshi/soulmask-codex/backend/internal/graph"
 )
 
 type graphCache struct {

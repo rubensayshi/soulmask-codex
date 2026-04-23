@@ -1,4 +1,4 @@
-module github.com/rubendevries/souldb/backend
+module github.com/rubensayshi/soulmask-codex/backend
 
 go 1.25.8
 

@@ -7,7 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 
-	dbgen "github.com/rubendevries/souldb/backend/internal/db/gen"
+	dbgen "github.com/rubensayshi/soulmask-codex/backend/internal/db/gen"
 )
 
 // Graph is the shape shipped to the client on page load.
