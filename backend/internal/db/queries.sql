@@ -46,6 +46,11 @@ SELECT tn.* FROM tech_nodes tn
 JOIN tech_node_unlocks_recipe u ON u.tech_node_id = tn.id
 WHERE u.recipe_id = ?;
 
+-- name: ListBuffedItems :many
+SELECT id, name_en, name_zh, category, icon_path, slug, buffs_json
+FROM items
+WHERE buffs_json IS NOT NULL;
+
 -- name: ListRecipeMaskLevels :many
 SELECT u.recipe_id, MIN(tn.required_mask_level) AS mask_level
 FROM tech_node_unlocks_recipe u

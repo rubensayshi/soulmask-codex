@@ -87,10 +87,10 @@ export default function AwarenessXp() {
 
   return (
     <div className="p-6 max-w-4xl">
-      <h1 className="font-display text-[24px] font-semibold text-text tracking-[.03em] mb-1">
-        Top Awareness XP
+      <h1 className="font-heading text-[28px] font-bold text-text tracking-[.03em] mb-1">
+        Awareness <span className="font-display italic text-green font-semibold">XP</span>
       </h1>
-      <p className="text-[12px] text-text-mute mb-5">
+      <p className="text-[12px] text-text-mute italic font-display mb-5">
         Recipes ranked by awareness XP per minute of craft time.
       </p>
 

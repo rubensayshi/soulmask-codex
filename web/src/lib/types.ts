@@ -38,3 +38,30 @@ export interface Station {
   id: string
   n: string | null
 }
+
+export interface BuffModifier {
+  attribute: string
+  value: number | null
+  op: 'add' | 'multiply' | 'divide' | 'override'
+  duration_seconds?: number
+  over_seconds?: number
+  computed?: boolean
+}
+
+export interface ItemBuffs {
+  modifiers: BuffModifier[]
+  buff_name_zh?: string
+  buff_desc_zh?: string
+  duration_seconds?: number
+  has_unextractable_effects?: boolean
+}
+
+export interface BuffedItem {
+  id: string
+  name_en: string | null
+  name_zh: string | null
+  category: string | null
+  icon_path: string | null
+  slug: string | null
+  buffs: ItemBuffs
+}

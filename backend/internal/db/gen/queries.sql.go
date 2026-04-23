@@ -11,7 +11,7 @@ import (
 )
 
 const getItem = `-- name: GetItem :one
-SELECT id, category, subcategory, name_zh, name_en, description_zh, weight, max_stack, durability, icon_path, role, stats_json, slug FROM items WHERE id = ?
+SELECT id, category, subcategory, name_zh, name_en, description_zh, weight, max_stack, durability, icon_path, role, stats_json, buffs_json, slug FROM items WHERE id = ?
 `
 
 func (q *Queries) GetItem(ctx context.Context, id string) (Item, error) {
@@ -30,13 +30,14 @@ func (q *Queries) GetItem(ctx context.Context, id string) (Item, error) {
 		&i.IconPath,
 		&i.Role,
 		&i.StatsJson,
+		&i.BuffsJson,
 		&i.Slug,
 	)
 	return i, err
 }
 
 const getItemBySlug = `-- name: GetItemBySlug :one
-SELECT id, category, subcategory, name_zh, name_en, description_zh, weight, max_stack, durability, icon_path, role, stats_json, slug FROM items WHERE slug = ?
+SELECT id, category, subcategory, name_zh, name_en, description_zh, weight, max_stack, durability, icon_path, role, stats_json, buffs_json, slug FROM items WHERE slug = ?
 `
 
 func (q *Queries) GetItemBySlug(ctx context.Context, slug sql.NullString) (Item, error) {
@@ -55,6 +56,7 @@ func (q *Queries) GetItemBySlug(ctx context.Context, slug sql.NullString) (Item,
 		&i.IconPath,
 		&i.Role,
 		&i.StatsJson,
+		&i.BuffsJson,
 		&i.Slug,
 	)
 	return i, err
@@ -164,6 +166,53 @@ func (q *Queries) GetTechUnlocksForRecipe(ctx context.Context, recipeID string) 
 			&i.ConsumePoints,
 			&i.ParentID,
 			&i.IconPath,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const listBuffedItems = `-- name: ListBuffedItems :many
+SELECT id, name_en, name_zh, category, icon_path, slug, buffs_json
+FROM items
+WHERE buffs_json IS NOT NULL
+`
+
+type ListBuffedItemsRow struct {
+	ID        string
+	NameEn    sql.NullString
+	NameZh    sql.NullString
+	Category  sql.NullString
+	IconPath  sql.NullString
+	Slug      sql.NullString
+	BuffsJson sql.NullString
+}
+
+func (q *Queries) ListBuffedItems(ctx context.Context) ([]ListBuffedItemsRow, error) {
+	rows, err := q.db.QueryContext(ctx, listBuffedItems)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []ListBuffedItemsRow{}
+	for rows.Next() {
+		var i ListBuffedItemsRow
+		if err := rows.Scan(
+			&i.ID,
+			&i.NameEn,
+			&i.NameZh,
+			&i.Category,
+			&i.IconPath,
+			&i.Slug,
+			&i.BuffsJson,
 		); err != nil {
 			return nil, err
 		}

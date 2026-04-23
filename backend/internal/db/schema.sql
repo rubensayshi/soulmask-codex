@@ -11,6 +11,7 @@ CREATE TABLE items (
   icon_path       TEXT,
   role            TEXT NOT NULL CHECK (role IN ('final','intermediate','raw','standalone')),
   stats_json      TEXT,
+  buffs_json      TEXT,
   slug            TEXT UNIQUE
 );
 

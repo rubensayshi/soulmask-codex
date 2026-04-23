@@ -60,8 +60,8 @@ def main():
             )
         db.execute(
             "INSERT INTO items (id, category, subcategory, name_zh, name_en, "
-            "description_zh, weight, max_stack, durability, icon_path, role, stats_json) "
-            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+            "description_zh, weight, max_stack, durability, icon_path, role, stats_json, buffs_json) "
+            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
             (
                 it["id"], it.get("category"), it.get("subcategory"),
                 it.get("name_zh"), None,
@@ -69,6 +69,7 @@ def main():
                 it.get("durability"), it.get("icon_path"),
                 role,
                 json.dumps(it.get("stats")) if it.get("stats") else None,
+                json.dumps(it.get("buffs")) if it.get("buffs") else None,
             ),
         )
 
@@ -102,9 +103,9 @@ def main():
     for mid in sorted(missing):
         db.execute(
             "INSERT INTO items (id, category, subcategory, name_zh, name_en, "
-            "description_zh, weight, max_stack, durability, icon_path, role, stats_json) "
-            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
-            (mid, "unknown", None, None, None, None, None, None, None, None, "raw", None),
+            "description_zh, weight, max_stack, durability, icon_path, role, stats_json, buffs_json) "
+            "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            (mid, "unknown", None, None, None, None, None, None, None, None, "raw", None, None),
         )
         item_ids.add(mid)
     if missing:
