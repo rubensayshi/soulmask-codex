@@ -1,23 +1,25 @@
 import { useParams } from 'react-router-dom'
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useStore } from '../store'
-import { primaryRecipeFor, buildUsedInIndex } from '../lib/graph'
+import { primaryRecipeFor, buildUsedInIndex, resolveItem } from '../lib/graph'
 import ItemHeader from '../components/ItemHeader'
 import FlowView from '../components/FlowView'
 import RawMatsCollapsible from '../components/RawMats'
 import UsedIn from '../components/UsedIn'
 
 export default function Item() {
-  const { id } = useParams<{ id: string }>()
+  const { id: slugOrId } = useParams<{ id: string }>()
 
   const pushVisit  = useStore(s => s.pushVisit)
   const graph      = useStore(s => s.graph)
   const tweaks     = useStore(s => s.tweaks)
   const setTweaks  = useStore(s => s.setTweaks)
 
+  const item = useMemo(() => graph && slugOrId ? resolveItem(graph, slugOrId) : undefined, [graph, slugOrId])
+  const id = item?.id
+
   useEffect(() => { if (id) pushVisit(id) }, [id, pushVisit])
 
-  const item = useMemo(() => graph?.items.find(i => i.id === id), [graph, id])
   const recipe = useMemo(() => graph && id ? primaryRecipeFor(graph, id) : undefined, [graph, id])
   const station = useMemo(
     () => recipe?.st ? graph?.stations.find(s => s.id === recipe.st) : undefined,
@@ -48,8 +50,25 @@ export default function Item() {
     return { finalIds: finals, intermediateIds: intermediates }
   }, [id, usedInIdx, graph, byId])
 
+  const [selectedCats, setSelectedCats] = useState<Set<string>>(new Set())
+  useEffect(() => { setSelectedCats(new Set()) }, [id])
+
+  const finalCats = useMemo(() => {
+    const counts = new Map<string, number>()
+    for (const fid of finalIds) {
+      const cat = byId.get(fid)?.cat ?? 'other'
+      counts.set(cat, (counts.get(cat) ?? 0) + 1)
+    }
+    return [...counts.entries()].sort((a, b) => b[1] - a[1])
+  }, [finalIds, byId])
+
+  const filteredFinalIds = useMemo(
+    () => selectedCats.size === 0 ? finalIds : finalIds.filter(fid => selectedCats.has(byId.get(fid)?.cat ?? 'other')),
+    [finalIds, selectedCats, byId]
+  )
+
   if (!graph) return <div className="p-8 text-text-dim">Loading…</div>
-  if (!item) return <div className="p-8 text-text-dim">Item not found: {id}</div>
+  if (!item) return <div className="p-8 text-text-dim">Item not found: {slugOrId}</div>
 
   return (
     <div>
@@ -76,14 +95,37 @@ export default function Item() {
         </>
       )}
 
-      <SectionHeader title="Used in Final Items" sub="Weapons · Tools · Structures" accent="final" count={finalIds.length} />
+      <SectionHeader title="Used in Final Items" sub="Weapons · Tools · Structures" accent="final" count={selectedCats.size > 0 ? filteredFinalIds.length : finalIds.length} />
+      {finalIds.length > 0 && finalCats.length > 1 && (
+        <div className="flex flex-wrap gap-1.5 mb-3">
+          {finalCats.map(([cat, count]) => {
+            const active = selectedCats.has(cat)
+            return (
+              <button key={cat}
+                onClick={() => setSelectedCats(prev => {
+                  const next = new Set(prev)
+                  if (next.has(cat)) next.delete(cat); else next.add(cat)
+                  return next
+                })}
+                className={`px-2.5 py-[3px] text-[10px] tracking-[.08em] uppercase font-medium border transition-colors ${
+                  active
+                    ? 'bg-green-dim/30 border-green-dim text-green-hi'
+                    : 'bg-panel border-hair text-text-dim hover:text-text hover:border-text-dim'
+                }`}
+              >
+                {cat} <span className="tabular-nums opacity-60">{count}</span>
+              </button>
+            )
+          })}
+        </div>
+      )}
       {finalIds.length > 0
-        ? <UsedIn graph={graph} rootId={item.id} filterIds={finalIds} />
+        ? <UsedIn graph={graph} rootId={item.id} filterIds={filteredFinalIds} />
         : <div className="p-8 text-center text-[12px] text-text-dim italic border border-dashed border-hair bg-panel">Not used in any final item</div>}
 
       <SectionHeader title="Used in Intermediate Components" sub="Ingredients feeding other recipes" accent="intermediate" count={intermediateIds.length} />
       {intermediateIds.length > 0
-        ? <UsedIn graph={graph} rootId={item.id} filterIds={intermediateIds} />
+        ? <UsedIn graph={graph} rootId={item.id} filterIds={intermediateIds} catFilter={selectedCats} />
         : <div className="p-8 text-center text-[12px] text-text-dim italic border border-dashed border-hair bg-panel">Not used in any intermediate component</div>}
     </div>
   )

@@ -10,6 +10,7 @@ export async function fetchGraph(etag: string | null): Promise<
   if (!res.ok) throw new Error(`graph: ${res.status}`)
   const newEtag = res.headers.get('ETag') || ''
   const graph = (await res.json()) as Graph
+  graph.items = graph.items.filter(i => i.cat !== 'tip')
   return { status: 'loaded', graph, etag: newEtag }
 }
 
@@ -23,5 +24,6 @@ export interface SearchHit {
 export async function search(q: string, limit = 50): Promise<SearchHit[]> {
   const res = await fetch(`/api/search?q=${encodeURIComponent(q)}&limit=${limit}`)
   if (!res.ok) throw new Error(`search: ${res.status}`)
-  return res.json()
+  const hits: SearchHit[] = await res.json()
+  return hits.filter(h => h.category !== 'tip')
 }

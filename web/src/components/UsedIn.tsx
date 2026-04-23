@@ -1,12 +1,12 @@
 import { useMemo, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import type { Graph, Item, Recipe } from '../lib/types'
-import { buildUsedInIndex, qtyNeeded, indexItems } from '../lib/graph'
+import { buildUsedInIndex, qtyNeeded, indexItems, itemPath } from '../lib/graph'
 import Diamond from './Diamond'
 
-interface Props { graph: Graph; rootId: string; filterIds: string[] }
+interface Props { graph: Graph; rootId: string; filterIds: string[]; catFilter?: Set<string> }
 
-export default function UsedIn({ graph, rootId, filterIds }: Props) {
+export default function UsedIn({ graph, rootId, filterIds, catFilter }: Props) {
   const usedInIdx = useMemo(() => buildUsedInIndex(graph), [graph])
   const byId = useMemo(() => indexItems(graph), [graph])
   const ref = useRef<HTMLDivElement>(null)
@@ -28,16 +28,16 @@ export default function UsedIn({ graph, rootId, filterIds }: Props) {
            style={{ minWidth: 'fit-content' }}>
         {filterIds.map(id => (
           <UsedInFlowNode key={id} graph={graph} byId={byId} usedInIdx={usedInIdx}
-                          id={id} sourceId={rootId} depth={0} />
+                          id={id} sourceId={rootId} depth={0} catFilter={catFilter} />
         ))}
       </div>
     </div>
   )
 }
 
-function UsedInFlowNode({ graph, byId, usedInIdx, id, sourceId, depth }: {
+function UsedInFlowNode({ graph, byId, usedInIdx, id, sourceId, depth, catFilter }: {
   graph: Graph; byId: Map<string, Item>; usedInIdx: Map<string, string[]>;
-  id: string; sourceId: string; depth: number
+  id: string; sourceId: string; depth: number; catFilter?: Set<string>
 }) {
   const item = byId.get(id)
   const nav = useNavigate()
@@ -49,10 +49,11 @@ function UsedInFlowNode({ graph, byId, usedInIdx, id, sourceId, depth }: {
   const station = recipe?.st ? graph.stations.find(s => s.id === recipe.st) : undefined
 
   if (!item || depth > 4) return null
+  if (catFilter && catFilter.size > 0 && item.role !== 'intermediate' && !catFilter.has(item.cat ?? 'other')) return null
 
   const tile = (
     <div className="flex flex-col items-center gap-[7px] flex-shrink-0">
-      <Diamond item={item} size={48} variant="rust" onClick={() => nav(`/item/${item.id}`)} />
+      <Diamond item={item} size={48} variant="rust" onClick={() => nav(itemPath(item))} />
       <div className="flex flex-col items-center gap-[2px] max-w-[110px] text-center">
         <span className="text-[11px] text-rust leading-[1.25] tracking-[.02em]">{item.n ?? item.nz ?? item.id}</span>
         {qty != null && <span className="text-[11px] font-bold text-rust tabular-nums">needs ×{qty}</span>}
@@ -78,7 +79,7 @@ function UsedInFlowNode({ graph, byId, usedInIdx, id, sourceId, depth }: {
           <div key={r.out} className="flow-branch-item rust vert flex flex-col items-center">
             <div className="mt-[14px]">
               <UsedInFlowNode graph={graph} byId={byId} usedInIdx={usedInIdx}
-                              id={r.out} sourceId={id} depth={depth + 1} />
+                              id={r.out} sourceId={id} depth={depth + 1} catFilter={catFilter} />
             </div>
           </div>
         ))}
