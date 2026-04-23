@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react'
 import TopNav from './TopNav'
 import Sidebar from './Sidebar'
-import TweaksPanel from './TweaksPanel'
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
@@ -15,7 +14,6 @@ export default function Layout({ children }: { children: ReactNode }) {
           </div>
         </main>
       </div>
-      <TweaksPanel />
     </div>
   )
 }

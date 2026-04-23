@@ -1,7 +1,5 @@
 import { useStore } from '../store'
 
-const PRESETS = [1, 5, 10, 25]
-
 function Seg({ options, value, onChange }: {
   options: { value: string; label: string }[]
   value: string
@@ -63,33 +61,6 @@ export default function TweaksPanel() {
           </div>
 
           <div className="px-[18px] py-3.5 space-y-3.5">
-            {/* Quantity */}
-            <div>
-              <div className="flex justify-between items-baseline mb-2">
-                <span className="text-[10px] text-text-mute tracking-[.14em] uppercase">Quantity</span>
-                <span className="text-[11px] text-text font-medium">×{tweaks.quantity}</span>
-              </div>
-              <input
-                type="range" min={1} max={20}
-                value={tweaks.quantity}
-                onChange={e => setTweaks({ quantity: Number(e.target.value) })}
-                className="w-full h-1 accent-green cursor-pointer"
-              />
-              <div className="flex gap-1 mt-2">
-                {PRESETS.map(p => (
-                  <button
-                    key={p}
-                    onClick={() => setTweaks({ quantity: p })}
-                    className={`flex-1 py-1 border text-[10px] font-semibold transition-colors ${
-                      tweaks.quantity === p
-                        ? 'border-green text-green-hi bg-green-bg'
-                        : 'border-hair bg-panel text-text-dim hover:border-green-dim hover:text-green-hi'
-                    }`}
-                  >×{p}</button>
-                ))}
-              </div>
-            </div>
-
             {/* Show Raw Materials */}
             <div>
               <div className="flex justify-between items-baseline mb-2">

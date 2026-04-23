@@ -14,6 +14,7 @@ export default function Item() {
   const resetOrSel = useStore(s => s.resetOrSel)
   const graph      = useStore(s => s.graph)
   const tweaks     = useStore(s => s.tweaks)
+  const setTweaks  = useStore(s => s.setTweaks)
 
   useEffect(() => { if (id) { pushVisit(id); resetOrSel() } }, [id, pushVisit, resetOrSel])
 
@@ -56,9 +57,23 @@ export default function Item() {
       <ItemHeader item={item} recipe={recipe} station={station} />
       {recipe && (
         <>
-          <SectionHeader title="Materials Required" sub="Direct Ingredients" accent="green" />
+          <SectionHeader title="Materials Required" sub="Direct Ingredients" accent="green"
+            trailing={!tweaks.showRaw ? (
+              <button
+                onClick={() => setTweaks({ showRaw: true })}
+                className="text-text-dim hover:text-rust transition-colors"
+                title="Show gathering checklist"
+              >
+                <svg viewBox="0 0 16 16" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinejoin="round">
+                  <path d="M1 1h2.5l1.2 2M4.7 3H14l-1.5 6H5.5L4.7 3Z" />
+                  <circle cx="6" cy="13" r="1.2" />
+                  <circle cx="11.5" cy="13" r="1.2" />
+                </svg>
+              </button>
+            ) : undefined}
+          />
           <FlowView graph={graph} rootId={item.id} />
-          {tweaks.showRaw && <RawMatsCollapsible graph={graph} rootId={item.id} />}
+          <RawMatsCollapsible graph={graph} rootId={item.id} />
         </>
       )}
 
@@ -89,7 +104,7 @@ function Ornament({ accent }: { accent: string }) {
   )
 }
 
-function SectionHeader({ title, sub, accent, count }: { title: string; sub: string; accent: string; count?: number }) {
+function SectionHeader({ title, sub, accent, count, trailing }: { title: string; sub: string; accent: string; count?: number; trailing?: React.ReactNode }) {
   const gradient =
     accent === 'green' ? 'linear-gradient(90deg, #5a6e48 0%, transparent 100%)' :
     accent === 'final' ? 'linear-gradient(90deg, #5a6e48 0%, transparent 100%)' :
@@ -115,6 +130,7 @@ function SectionHeader({ title, sub, accent, count }: { title: string; sub: stri
         </span>
       )}
       <div className="flex-1 h-px" style={{ background: gradient }} />
+      {trailing}
     </div>
   )
 }
