@@ -242,6 +242,42 @@ func (q *Queries) ListRecipeGroupsForGraph(ctx context.Context) ([]ListRecipeGro
 	return items, nil
 }
 
+const listRecipeMaskLevels = `-- name: ListRecipeMaskLevels :many
+SELECT u.recipe_id, MIN(tn.required_mask_level) AS mask_level
+FROM tech_node_unlocks_recipe u
+JOIN tech_nodes tn ON tn.id = u.tech_node_id
+WHERE tn.required_mask_level IS NOT NULL
+GROUP BY u.recipe_id
+`
+
+type ListRecipeMaskLevelsRow struct {
+	RecipeID  string
+	MaskLevel interface{}
+}
+
+func (q *Queries) ListRecipeMaskLevels(ctx context.Context) ([]ListRecipeMaskLevelsRow, error) {
+	rows, err := q.db.QueryContext(ctx, listRecipeMaskLevels)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []ListRecipeMaskLevelsRow{}
+	for rows.Next() {
+		var i ListRecipeMaskLevelsRow
+		if err := rows.Scan(&i.RecipeID, &i.MaskLevel); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const listRecipesForGraph = `-- name: ListRecipesForGraph :many
 SELECT id, output_item_id, output_qty, station_id, craft_time_seconds,
        proficiency, proficiency_xp, awareness_xp, recipe_level

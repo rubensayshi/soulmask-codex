@@ -35,7 +35,7 @@ type Recipe struct {
 	Prof    *string  `json:"prof,omitempty"`
 	ProfXP  *float64 `json:"profXp,omitempty"`
 	AwXP    *int64   `json:"awXp,omitempty"`
-	Lvl     *int64   `json:"lvl,omitempty"`
+	Mask    *int64   `json:"mask,omitempty"`
 	Groups  []Group  `json:"groups"`
 }
 
@@ -91,7 +91,6 @@ func Build(ctx context.Context, sqlDB *sql.DB) (*Graph, error) {
 			Prof:    nullable(r.Proficiency),
 			ProfXP:  nullablef(r.ProficiencyXp),
 			AwXP:    nullablei(r.AwarenessXp),
-			Lvl:     nullablei(r.RecipeLevel),
 			Groups:  []Group{},
 		}
 		recipes = append(recipes, rec)
@@ -99,6 +98,18 @@ func Build(ctx context.Context, sqlDB *sql.DB) (*Graph, error) {
 	// Build map AFTER the slice is settled, so pointers are stable.
 	for i := range recipes {
 		recipesByID[recipes[i].ID] = &recipes[i]
+	}
+
+	maskRows, err := q.ListRecipeMaskLevels(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("list mask levels: %w", err)
+	}
+	for _, m := range maskRows {
+		if rec, ok := recipesByID[m.RecipeID]; ok {
+			if v, ok := m.MaskLevel.(int64); ok {
+				rec.Mask = &v
+			}
+		}
 	}
 
 	groupRows, err := q.ListRecipeGroupsForGraph(ctx)

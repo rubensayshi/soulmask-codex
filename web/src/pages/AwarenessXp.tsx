@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom'
 import { useStore } from '../store'
 import type { Recipe, Item } from '../lib/types'
 
-const TIERS: { lvl: number | null; label: string }[] = [
-  { lvl: null, label: 'Stone' },
-  { lvl: 1, label: 'Bone' },
-  { lvl: 2, label: 'Bronze' },
-  { lvl: 3, label: 'Iron' },
-  { lvl: 4, label: 'Steel' },
+const TIERS = [
+  { key: 'stone',  label: 'Stone',  min: 1,  max: 9 },
+  { key: 'bone',   label: 'Bone',   min: 10, max: 19 },
+  { key: 'bronze', label: 'Bronze', min: 20, max: 29 },
+  { key: 'iron',   label: 'Iron',   min: 30, max: 44 },
+  { key: 'steel',  label: 'Steel',  min: 45, max: 99 },
 ]
 
 const SKILLS = [
@@ -24,11 +24,18 @@ const ROLES: { value: string; label: string }[] = [
 interface Row {
   recipe: Recipe
   item: Item
+  tier: string | null
   xpPerMin: number
 }
 
-function tierLabel(lvl: number | null | undefined): string {
-  return TIERS.find(t => t.lvl === (lvl ?? null))?.label ?? '?'
+function maskToTier(mask: number | null | undefined): string | null {
+  if (mask == null) return null
+  return TIERS.find(t => mask >= t.min && mask <= t.max)?.key ?? null
+}
+
+function tierLabel(key: string | null): string {
+  if (!key) return '—'
+  return TIERS.find(t => t.key === key)?.label ?? '?'
 }
 
 function toggleInSet<T>(prev: Set<T>, val: T): Set<T> {
@@ -41,7 +48,7 @@ export default function AwarenessXp() {
   const graph = useStore(s => s.graph)
   const status = useStore(s => s.graphStatus)
 
-  const [tierFilter, setTierFilter] = useState<Set<number | null>>(() => new Set())
+  const [tierFilter, setTierFilter] = useState<Set<string>>(() => new Set())
   const [skillFilter, setSkillFilter] = useState<Set<string>>(() => new Set())
   const [roleFilter, setRoleFilter] = useState<Set<string>>(() => new Set())
 
@@ -57,7 +64,7 @@ export default function AwarenessXp() {
       if (!r.awXp || !r.t || r.t <= 0) continue
       const item = itemById.get(r.out)
       if (!item) continue
-      result.push({ recipe: r, item, xpPerMin: (r.awXp / r.t) * 60 })
+      result.push({ recipe: r, item, tier: maskToTier(r.mask), xpPerMin: (r.awXp / r.t) * 60 })
     }
     result.sort((a, b) => b.xpPerMin - a.xpPerMin)
     return result
@@ -68,7 +75,7 @@ export default function AwarenessXp() {
     const hasSkill = skillFilter.size > 0
     const hasRole = roleFilter.size > 0
     return rows.filter(r => {
-      if (hasTier && !tierFilter.has(r.recipe.lvl ?? null)) return false
+      if (hasTier && (!r.tier || !tierFilter.has(r.tier))) return false
       if (hasSkill && r.recipe.prof && r.recipe.prof !== 'None' && !skillFilter.has(r.recipe.prof)) return false
       if (hasRole && !roleFilter.has(r.item.role)) return false
       return true
@@ -90,7 +97,7 @@ export default function AwarenessXp() {
       <div className="flex flex-col gap-3 mb-6 p-4 bg-panel border border-hair">
         <FilterRow label="Tier">
           {TIERS.map(t => (
-            <Toggle key={String(t.lvl)} label={t.label} active={tierFilter.has(t.lvl)} onClick={() => setTierFilter(prev => toggleInSet(prev, t.lvl))} />
+            <Toggle key={t.key} label={t.label} active={tierFilter.has(t.key)} onClick={() => setTierFilter(prev => toggleInSet(prev, t.key))} />
           ))}
         </FilterRow>
 
@@ -130,7 +137,7 @@ export default function AwarenessXp() {
             <span className="text-right text-green-hi font-medium tabular-nums">{r.xpPerMin.toFixed(1)}</span>
             <span className="text-right text-text-mute tabular-nums">{r.recipe.awXp}</span>
             <span className="text-right text-text-mute tabular-nums">{r.recipe.t}s</span>
-            <span className="text-right text-gold">{tierLabel(r.recipe.lvl)}</span>
+            <span className="text-right text-gold">{tierLabel(r.tier)}</span>
             <span className="text-right text-text-dim truncate">{r.recipe.prof ?? '—'}</span>
           </Link>
         ))}

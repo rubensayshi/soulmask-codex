@@ -42,3 +42,10 @@ WHERE rigi.item_id = ?;
 SELECT tn.* FROM tech_nodes tn
 JOIN tech_node_unlocks_recipe u ON u.tech_node_id = tn.id
 WHERE u.recipe_id = ?;
+
+-- name: ListRecipeMaskLevels :many
+SELECT u.recipe_id, MIN(tn.required_mask_level) AS mask_level
+FROM tech_node_unlocks_recipe u
+JOIN tech_nodes tn ON tn.id = u.tech_node_id
+WHERE tn.required_mask_level IS NOT NULL
+GROUP BY u.recipe_id;
