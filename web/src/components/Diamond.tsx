@@ -2,7 +2,10 @@ import type { Item } from '../lib/types'
 import { useState } from 'react'
 import { noRecipe } from '../lib/graph'
 
-const CDN = 'https://www.soulmaskdatabase.com/images/'
+function iconUrl(path: string): string {
+  const name = path.split('/').pop()
+  return `/icons/${name}.webp`
+}
 
 type Variant = 'default' | 'root' | 'raw' | 'rust' | 'green-lit' | 'lit'
 
@@ -46,7 +49,7 @@ export default function Diamond({ item, size = 42, variant = 'default', onClick,
     >
       {hasImg ? (
         <img
-          src={CDN + (item.ic as string)}
+          src={iconUrl(item.ic as string)}
           alt={label}
           style={{ width: '82%', height: '82%', filter: 'drop-shadow(0 1px 2px rgba(0,0,0,.6))' }}
           className="object-contain"

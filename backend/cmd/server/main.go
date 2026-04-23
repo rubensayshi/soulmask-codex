@@ -18,8 +18,9 @@ import (
 )
 
 func main() {
-	addr := flag.String("addr", ":8080", "listen address")
+	addr := flag.String("addr", ":9060", "listen address")
 	dbPath := flag.String("db", "../data/app.db", "path to app.db")
+	iconsDir := flag.String("icons", "../Game/Icons", "path to icons directory")
 	dev := flag.Bool("dev", false, "reverse-proxy non-api to Vite on :5173")
 	flag.Parse()
 
@@ -47,6 +48,7 @@ func main() {
 
 	root := chi.NewRouter()
 	root.Mount("/api", apiServer.Router())
+	root.Handle("/icons/*", http.StripPrefix("/icons/", http.FileServer(http.Dir(*iconsDir))))
 	root.Handle("/*", spaHandler)
 
 	srv := &http.Server{

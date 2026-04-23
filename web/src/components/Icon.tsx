@@ -2,7 +2,10 @@ import { useState } from 'react'
 import type { Item } from '../lib/types'
 import { noRecipe } from '../lib/graph'
 
-const CDN = 'https://www.soulmaskdatabase.com/images/'
+function iconUrl(path: string): string {
+  const name = path.split('/').pop()
+  return `/icons/${name}.webp`
+}
 
 function initials(name: string | null | undefined): string {
   if (!name) return '??'
@@ -33,7 +36,7 @@ export default function Icon({ item, size = 28, className = '' }: Props) {
     <div className={classes} style={style}>
       {hasImg ? (
         <img
-          src={CDN + (item.ic as string)}
+          src={iconUrl(item.ic as string)}
           alt={label}
           style={{ width: '82%', height: '82%', filter: 'drop-shadow(0 1px 2px rgba(0,0,0,.6))' }}
           className="object-contain"
