@@ -51,6 +51,9 @@ export default function ItemHeader({ item, recipe, station }: Props) {
         <div className="text-[11px] text-text-dim tracking-[.12em] uppercase mt-[3px] font-medium">
           Classification: {classification}
         </div>
+        {item.dz && (
+          <div className="text-[12px] text-text-mute mt-[6px] leading-[1.5] max-w-[600px]">{item.dz}</div>
+        )}
 
         <div className="flex flex-wrap gap-[18px] mt-[14px]">
           {showsCraftMeta ? (
@@ -64,6 +67,8 @@ export default function ItemHeader({ item, recipe, station }: Props) {
           ) : (
             <Stat label="Source" value={item.role === 'raw' ? 'Gathered' : 'Dropped'} accent="rust" />
           )}
+          {item.w != null && <Stat label="Weight" value={`${Math.round(item.w * 100) / 100}`} />}
+          {item.dur != null && <Stat label="Durability" value={`${item.dur}`} />}
         </div>
       </div>
     </div>
