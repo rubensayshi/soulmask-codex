@@ -17,23 +17,24 @@ PEIFANG_DIR = REPO_ROOT / "uasset_export" / "Blueprints" / "PeiFang"
 OUTPUT_DIR = REPO_ROOT / "Game" / "Parsed"
 
 PROFICIENCY_MAP = {
-    "PaoMu": "Carpentry",
-    "WuQi": "Weapon Smithing",
+    "PaoMu": "Wood & Stone",
+    "WuQi": "Weapon Crafting",
     "FangJu": "Armor Smithing",
     "LianJin": "Alchemy",
-    "QiJu": "Mount Equipment",
+    "QiJu": "Craftsman",
     "PengRen": "Cooking",
     "YeLian": "Smelting",
     "ZhiZao": "Crafting",
     "CaiKuang": "Mining",
     "FaMu": "Logging",
-    "ZhongZhi": "Farming",
+    "ZhongZhi": "Plant",
     "BuLie": "Hunting",
     "JiaZhou": "Armor Crafting",
     "RouPi": "Leatherworking",
-    "RongLian": "Metal Smelting",
+    "RongLian": "Kiln",
     "FangZhi": "Weaving",
-    "ZhiTao": "Pottery",
+    "ZhiTao": "Potting",
+    "CaiShou": "Harvest",
     "Max": "None",
 }
 
@@ -203,6 +204,7 @@ def parse_recipe(filepath):
     recipe_level = (get_prop(exports, "PeiFangDengJi") or {}).get("Value")
     make_time = (get_prop(exports, "PeiFangMakeTime") or {}).get("Value")
     xp = (get_prop(exports, "MakeAddProficiencyExp") or {}).get("Value")
+    awareness_xp = (get_prop(exports, "MakeCompleteAddExp") or {}).get("Value")
     by_hand = (get_prop(exports, "ExtraSupportMakeByHand") or {}).get("Value")
 
     prof_prop = get_prop(exports, "MakeProficiencyType")
@@ -249,6 +251,7 @@ def parse_recipe(filepath):
         "craft_time_seconds": make_time,
         "proficiency": proficiency,
         "proficiency_xp": xp,
+        "awareness_xp": awareness_xp,
         "quality_levels": qualities if qualities else None,
     }
 
