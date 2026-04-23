@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom'
 import { useEffect, useMemo, useState } from 'react'
 import { useStore } from '../store'
-import { primaryRecipeFor, buildUsedInIndex, resolveItem } from '../lib/graph'
+import { primaryRecipeFor, buildUsedInIndex, resolveItem, hasMatchingFinal, indexItems } from '../lib/graph'
 import ItemHeader from '../components/ItemHeader'
 import FlowView from '../components/FlowView'
 import RawMatsCollapsible from '../components/RawMats'
@@ -27,7 +27,7 @@ export default function Item() {
   )
 
   const usedInIdx = useMemo(() => graph ? buildUsedInIndex(graph) : new Map<string, string[]>(), [graph])
-  const byId = useMemo(() => graph ? new Map(graph.items.map(i => [i.id, i])) : new Map(), [graph])
+  const byId = useMemo(() => graph ? indexItems(graph) : new Map(), [graph])
 
   const { finalIds, intermediateIds } = useMemo(() => {
     if (!id) return { finalIds: [] as string[], intermediateIds: [] as string[] }
@@ -65,6 +65,13 @@ export default function Item() {
   const filteredFinalIds = useMemo(
     () => selectedCats.size === 0 ? finalIds : finalIds.filter(fid => selectedCats.has(byId.get(fid)?.cat ?? 'other')),
     [finalIds, selectedCats, byId]
+  )
+
+  const filteredIntermediateIds = useMemo(
+    () => selectedCats.size === 0 ? intermediateIds : intermediateIds.filter(iid =>
+      hasMatchingFinal(graph!, byId, usedInIdx, iid, selectedCats)
+    ),
+    [intermediateIds, selectedCats, graph, byId, usedInIdx]
   )
 
   if (!graph) return <div className="p-8 text-text-dim">Loading…</div>
@@ -123,9 +130,9 @@ export default function Item() {
         ? <UsedIn graph={graph} rootId={item.id} filterIds={filteredFinalIds} />
         : <div className="p-8 text-center text-[12px] text-text-dim italic border border-dashed border-hair bg-panel">Not used in any final item</div>}
 
-      <SectionHeader title="Used in Intermediate Components" sub="Ingredients feeding other recipes" accent="intermediate" count={intermediateIds.length} />
-      {intermediateIds.length > 0
-        ? <UsedIn graph={graph} rootId={item.id} filterIds={intermediateIds} catFilter={selectedCats} />
+      <SectionHeader title="Used in Intermediate Components" sub="Ingredients feeding other recipes" accent="intermediate" count={filteredIntermediateIds.length} />
+      {filteredIntermediateIds.length > 0
+        ? <UsedIn graph={graph} rootId={item.id} filterIds={filteredIntermediateIds} catFilter={selectedCats} />
         : <div className="p-8 text-center text-[12px] text-text-dim italic border border-dashed border-hair bg-panel">Not used in any intermediate component</div>}
     </div>
   )

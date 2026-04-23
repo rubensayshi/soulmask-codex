@@ -49,6 +49,24 @@ export function buildUsedInIndex(g: Graph): Map<string, string[]> {
   return idx
 }
 
+/** Does this item's "used-in" tree reach a non-intermediate item whose category is in `cats`? */
+export function hasMatchingFinal(
+  g: Graph, byId: Map<string, Item>, usedInIdx: Map<string, string[]>,
+  id: string, cats: Set<string>, depth = 0
+): boolean {
+  const item = byId.get(id)
+  if (!item || depth > 4) return false
+  if (item.role !== 'intermediate') return cats.has(item.cat ?? 'other')
+  const seen = new Set<string>()
+  for (const rid of usedInIdx.get(id) ?? []) {
+    const r = g.recipes.find(rr => rr.id === rid)
+    if (!r || seen.has(r.out)) continue
+    seen.add(r.out)
+    if (hasMatchingFinal(g, byId, usedInIdx, r.out, cats, depth + 1)) return true
+  }
+  return false
+}
+
 /** How much of `src` a given recipe needs. Returns null if not an input. */
 export function qtyNeeded(r: Recipe, src: string): number | null {
   for (const grp of r.groups) {

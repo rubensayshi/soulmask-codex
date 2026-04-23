@@ -1,7 +1,7 @@
 import { useMemo, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import type { Graph, Item, Recipe } from '../lib/types'
-import { buildUsedInIndex, qtyNeeded, indexItems, itemPath } from '../lib/graph'
+import { buildUsedInIndex, qtyNeeded, indexItems, itemPath, hasMatchingFinal } from '../lib/graph'
 import Diamond from './Diamond'
 
 interface Props { graph: Graph; rootId: string; filterIds: string[]; catFilter?: Set<string> }
@@ -62,20 +62,24 @@ function UsedInFlowNode({ graph, byId, usedInIdx, id, sourceId, depth, catFilter
     </div>
   )
 
-  if (!upstream.length) return tile
-
   const seen = new Set<string>()
   const children = upstream
     .map(rid => graph.recipes.find(rr => rr.id === rid))
     .filter((r): r is Recipe => !!r)
     .filter(r => seen.has(r.out) ? false : (seen.add(r.out), true))
 
+  const visible = catFilter && catFilter.size > 0
+    ? children.filter(r => hasMatchingFinal(graph, byId, usedInIdx, r.out, catFilter, depth + 1))
+    : children
+
+  if (!visible.length) return tile
+
   return (
     <div className="flex flex-col items-center" style={{ minWidth: 'fit-content' }}>
       {tile}
       <div className="w-px h-6 bg-rust-dim flex-shrink-0 self-center" />
       <div className="flex flex-row relative self-stretch justify-center">
-        {children.map(r => (
+        {visible.map(r => (
           <div key={r.out} className="flow-branch-item rust vert flex flex-col items-center">
             <div className="mt-[14px]">
               <UsedInFlowNode graph={graph} byId={byId} usedInIdx={usedInIdx}
