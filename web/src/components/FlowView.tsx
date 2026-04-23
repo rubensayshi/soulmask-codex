@@ -15,12 +15,20 @@ export default function FlowView({ graph, rootId }: Props) {
   const setOrSel = useStore(s => s.setOrSel)
   const navigate = useNavigate()
   const ref = useRef<HTMLDivElement>(null)
-  const [expandedOr, setExpandedOr] = useState<Set<string>>(new Set())
+  const [toggledOr, setToggledOr] = useState<Set<string>>(new Set())
   const toggleOr = useCallback((key: string) => {
-    setExpandedOr(prev => {
+    setToggledOr(prev => {
       const next = new Set(prev)
       if (next.has(key)) next.delete(key)
       else next.add(key)
+      return next
+    })
+  }, [])
+  const clearToggle = useCallback((key: string) => {
+    setToggledOr(prev => {
+      if (!prev.has(key)) return prev
+      const next = new Set(prev)
+      next.delete(key)
       return next
     })
   }, [])
@@ -49,7 +57,7 @@ export default function FlowView({ graph, rootId }: Props) {
       <div className="flex flex-col items-center" style={{ minWidth: 'fit-content' }}>
         <FlowNode graph={graph} byId={byId} id={rootId} qty={1} multiplier={quantity}
                   isRoot orSel={orSel} setOrSel={setOrSel} onNavigate={item => navigate(itemPath(item))}
-                  expandedOr={expandedOr} toggleOr={toggleOr} />
+                  toggledOr={toggledOr} toggleOr={toggleOr} clearToggle={clearToggle} />
       </div>
     </div>
   )
@@ -66,12 +74,13 @@ interface NodeProps {
   orSel: Record<string, number>
   setOrSel: (k: string, i: number) => void
   onNavigate: (item: Item) => void
-  expandedOr: Set<string>
+  toggledOr: Set<string>
   toggleOr: (k: string) => void
+  clearToggle: (k: string) => void
   badge?: ReactNode
 }
 
-function FlowNode({ graph, byId, id, qty, multiplier, isRoot = false, depth = 0, orSel, setOrSel, onNavigate, expandedOr, toggleOr, badge }: NodeProps) {
+function FlowNode({ graph, byId, id, qty, multiplier, isRoot = false, depth = 0, orSel, setOrSel, onNavigate, toggledOr, toggleOr, clearToggle, badge }: NodeProps) {
   const item = byId.get(id)
   const total = qty * multiplier
   const terminal = item ? noRecipe(item) : true
@@ -121,7 +130,7 @@ function FlowNode({ graph, byId, id, qty, multiplier, isRoot = false, depth = 0,
                 <div className="mt-[14px]">
                   <FlowNode graph={graph} byId={byId} id={ing.id} qty={ing.q * qty} multiplier={multiplier}
                             depth={depth + 1} orSel={orSel} setOrSel={setOrSel} onNavigate={onNavigate}
-                            expandedOr={expandedOr} toggleOr={toggleOr} />
+                            toggledOr={toggledOr} toggleOr={toggleOr} clearToggle={clearToggle} />
                 </div>
               </div>
             ))
@@ -130,13 +139,20 @@ function FlowNode({ graph, byId, id, qty, multiplier, isRoot = false, depth = 0,
           const orKey = `${recipe.id}:${gi}`
           const chosenIdx = orSel[orKey] ?? 0
           const chosenAlt = grp.items[chosenIdx] ?? grp.items[0]
+          const hasChoice = orSel[orKey] !== undefined
+          const isExpanded = hasChoice ? toggledOr.has(orKey) : !toggledOr.has(orKey)
 
-          if (expandedOr.has(orKey)) {
+          if (isExpanded) {
             return (
               <div key={gi} className="flow-branch-item vert flex flex-col items-center">
-                <div className="mt-[14px] p-2.5 bg-teal-bg border border-teal-dim min-w-[170px]"
+                <div className="mt-[14px] p-2.5 bg-teal-bg border border-teal-dim min-w-[170px] relative"
                      style={{ borderLeftWidth: 2, borderLeftColor: '#6ea09a' }}>
                   <div className="text-[9px] tracking-[.18em] uppercase text-teal font-semibold mb-1.5">◈ Choose one</div>
+                  <button
+                    className="absolute top-1.5 right-1.5 flex items-center justify-center w-5 h-5 text-teal-dim hover:text-teal cursor-pointer transition-colors"
+                    onClick={() => toggleOr(orKey)}
+                    title="Collapse"
+                  >▴</button>
                   {grp.items.map((alt, ai) => {
                     const altItem = byId.get(alt.id)
                     const active = chosenIdx === ai
@@ -146,7 +162,7 @@ function FlowNode({ graph, byId, id, qty, multiplier, isRoot = false, depth = 0,
                         className={`flex items-center gap-2 px-1.5 py-1.5 mt-px cursor-pointer border transition-colors ${
                           active ? 'bg-[rgba(109,158,148,.1)] border-teal-dim' : 'border-transparent hover:bg-[rgba(109,158,148,.06)]'
                         }`}
-                        onClick={() => { setOrSel(orKey, ai); toggleOr(orKey) }}
+                        onClick={() => { setOrSel(orKey, ai); clearToggle(orKey) }}
                       >
                         <Icon item={altItem} size={20} />
                         <span className="flex-1 text-[11px] text-text truncate">{altItem?.n ?? altItem?.nz ?? alt.id}</span>
@@ -164,7 +180,7 @@ function FlowNode({ graph, byId, id, qty, multiplier, isRoot = false, depth = 0,
               <div className="mt-[14px]">
                 <FlowNode graph={graph} byId={byId} id={chosenAlt.id} qty={chosenAlt.q * qty} multiplier={multiplier}
                           depth={depth + 1} orSel={orSel} setOrSel={setOrSel} onNavigate={onNavigate}
-                          expandedOr={expandedOr} toggleOr={toggleOr}
+                          toggledOr={toggledOr} toggleOr={toggleOr} clearToggle={clearToggle}
                           badge={
                             <button
                               className="absolute z-10 -top-1.5 -right-2.5 flex items-center gap-0.5 px-1 py-0.5 bg-[rgba(109,158,148,.4)] border border-teal-dim text-teal text-[9px] font-semibold cursor-pointer hover:bg-[rgba(109,158,148,.6)] transition-colors"
