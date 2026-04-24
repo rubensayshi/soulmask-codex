@@ -1,0 +1,3322 @@
+{
+  "1001": [
+    {
+      "attr": "WuQiDamage",
+      "value": 30.0,
+      "op": "Additive"
+    }
+  ],
+  "1002": [
+    {
+      "attr": "WuQiDamage",
+      "value": 40.0,
+      "op": "Additive"
+    }
+  ],
+  "1003": [
+    {
+      "attr": "WuQiDamage",
+      "value": 60.0,
+      "op": "Additive"
+    }
+  ],
+  "1004": [
+    {
+      "attr": "WuQiDamage",
+      "value": 80.0,
+      "op": "Additive"
+    }
+  ],
+  "1005": [
+    {
+      "attr": "WuQiDamage",
+      "value": 106.0,
+      "op": "Additive"
+    }
+  ],
+  "2001": [
+    {
+      "attr": "WuQiDamage",
+      "value": 20.0,
+      "op": "Additive"
+    }
+  ],
+  "2002": [
+    {
+      "attr": "WuQiDamage",
+      "value": 30.0,
+      "op": "Additive"
+    }
+  ],
+  "2003": [
+    {
+      "attr": "WuQiDamage",
+      "value": 40.0,
+      "op": "Additive"
+    }
+  ],
+  "2004": [
+    {
+      "attr": "WuQiDamage",
+      "value": 60.0,
+      "op": "Additive"
+    }
+  ],
+  "2005": [
+    {
+      "attr": "WuQiDamage",
+      "value": 80.0,
+      "op": "Additive"
+    }
+  ],
+  "2006": [
+    {
+      "attr": "WuQiDamage",
+      "value": 106.0,
+      "op": "Additive"
+    }
+  ],
+  "3001": [
+    {
+      "attr": "WuQiDamage",
+      "value": 30.0,
+      "op": "Additive"
+    }
+  ],
+  "3002": [
+    {
+      "attr": "WuQiDamage",
+      "value": 45.0,
+      "op": "Additive"
+    }
+  ],
+  "3003": [
+    {
+      "attr": "WuQiDamage",
+      "value": 60.0,
+      "op": "Additive"
+    }
+  ],
+  "3004": [
+    {
+      "attr": "WuQiDamage",
+      "value": 90.0,
+      "op": "Additive"
+    }
+  ],
+  "3005": [
+    {
+      "attr": "WuQiDamage",
+      "value": 120.0,
+      "op": "Additive"
+    }
+  ],
+  "3006": [
+    {
+      "attr": "WuQiDamage",
+      "value": 160.0,
+      "op": "Additive"
+    }
+  ],
+  "4001": [
+    {
+      "attr": "WuQiDamage",
+      "value": 10.0,
+      "op": "Additive"
+    }
+  ],
+  "4002": [
+    {
+      "attr": "WuQiDamage",
+      "value": 20.0,
+      "op": "Additive"
+    }
+  ],
+  "4003": [
+    {
+      "attr": "WuQiDamage",
+      "value": 30.0,
+      "op": "Additive"
+    }
+  ],
+  "4004": [
+    {
+      "attr": "WuQiDamage",
+      "value": 40.0,
+      "op": "Additive"
+    }
+  ],
+  "4005": [
+    {
+      "attr": "WuQiDamage",
+      "value": 53.0,
+      "op": "Additive"
+    }
+  ],
+  "4011": [
+    {
+      "attr": "WuQiDamage",
+      "value": 25.0,
+      "op": "Additive"
+    }
+  ],
+  "4012": [
+    {
+      "attr": "WuQiDamage",
+      "value": 60.0,
+      "op": "Additive"
+    }
+  ],
+  "4013": [
+    {
+      "attr": "WuQiDamage",
+      "value": 80.0,
+      "op": "Additive"
+    }
+  ],
+  "5001": [
+    {
+      "attr": "WuQiDamage",
+      "value": 25.0,
+      "op": "Additive"
+    }
+  ],
+  "5002": [
+    {
+      "attr": "WuQiDamage",
+      "value": 35.0,
+      "op": "Additive"
+    }
+  ],
+  "5003": [
+    {
+      "attr": "WuQiDamage",
+      "value": 45.0,
+      "op": "Additive"
+    }
+  ],
+  "5004": [
+    {
+      "attr": "WuQiDamage",
+      "value": 62.0,
+      "op": "Additive"
+    }
+  ],
+  "6001": [
+    {
+      "attr": "WuQiDamage",
+      "value": 15.0,
+      "op": "Additive"
+    }
+  ],
+  "6002": [
+    {
+      "attr": "WuQiDamage",
+      "value": 30.0,
+      "op": "Additive"
+    }
+  ],
+  "6003": [
+    {
+      "attr": "WuQiDamage",
+      "value": 45.0,
+      "op": "Additive"
+    }
+  ],
+  "6004": [
+    {
+      "attr": "WuQiDamage",
+      "value": 60.0,
+      "op": "Additive"
+    }
+  ],
+  "6005": [
+    {
+      "attr": "WuQiDamage",
+      "value": 80.0,
+      "op": "Additive"
+    }
+  ],
+  "7001": [
+    {
+      "attr": "WuQiDamage",
+      "value": 20.0,
+      "op": "Additive"
+    }
+  ],
+  "7002": [
+    {
+      "attr": "WuQiDamage",
+      "value": 30.0,
+      "op": "Additive"
+    }
+  ],
+  "7003": [
+    {
+      "attr": "WuQiDamage",
+      "value": 45.0,
+      "op": "Additive"
+    }
+  ],
+  "7004": [
+    {
+      "attr": "WuQiDamage",
+      "value": 60.0,
+      "op": "Additive"
+    }
+  ],
+  "7005": [
+    {
+      "attr": "WuQiDamage",
+      "value": 80.0,
+      "op": "Additive"
+    }
+  ],
+  "8001": [
+    {
+      "attr": "WuQiDamage",
+      "value": 40.0,
+      "op": "Additive"
+    }
+  ],
+  "8002": [
+    {
+      "attr": "WuQiDamage",
+      "value": 50.0,
+      "op": "Additive"
+    }
+  ],
+  "8003": [
+    {
+      "attr": "WuQiDamage",
+      "value": 75.0,
+      "op": "Additive"
+    }
+  ],
+  "8004": [
+    {
+      "attr": "WuQiDamage",
+      "value": 100.0,
+      "op": "Additive"
+    }
+  ],
+  "8005": [
+    {
+      "attr": "WuQiDamage",
+      "value": 133.0,
+      "op": "Additive"
+    }
+  ],
+  "9001": [
+    {
+      "attr": "TiLiWakenJianMian",
+      "value": 0.05000000074505806,
+      "op": "Additive"
+    }
+  ],
+  "9002": [
+    {
+      "attr": "TiLiWakenJianMian",
+      "value": 0.10000000149011612,
+      "op": "Additive"
+    }
+  ],
+  "9003": [
+    {
+      "attr": "TiLiWakenJianMian",
+      "value": 0.15000000596046448,
+      "op": "Additive"
+    }
+  ],
+  "9004": [
+    {
+      "attr": "TiLiWakenJianMian",
+      "value": 0.20000000298023224,
+      "op": "Additive"
+    }
+  ],
+  "9005": [
+    {
+      "attr": "TiLiWakenJianMian",
+      "value": 0.25,
+      "op": "Additive"
+    }
+  ],
+  "10001": [
+    {
+      "attr": "MaxHealth",
+      "value": 0.009999999776482582,
+      "op": "Multiplicitive"
+    }
+  ],
+  "10002": [
+    {
+      "attr": "Defense",
+      "value": 0.009999999776482582,
+      "op": "Multiplicitive"
+    }
+  ],
+  "10003": [
+    {
+      "attr": "CritDef",
+      "value": 0.009999999776482582,
+      "op": "Additive"
+    }
+  ],
+  "10004": [
+    {
+      "attr": "Attack",
+      "value": 0.009999999776482582,
+      "op": "Multiplicitive"
+    }
+  ],
+  "10005": [
+    {
+      "attr": "CritDamageDec",
+      "value": 0.009999999776482582,
+      "op": "Additive"
+    }
+  ],
+  "10006": [
+    {
+      "attr": "DamageDec",
+      "value": 0.009999999776482582,
+      "op": "Additive"
+    }
+  ],
+  "10007": [
+    {
+      "attr": "DamageInc",
+      "value": 0.009999999776482582,
+      "op": "Additive"
+    }
+  ],
+  "10008": [
+    {
+      "attr": "CritDamageInc",
+      "value": 0.009999999776482582,
+      "op": "Additive"
+    }
+  ],
+  "10009": [
+    {
+      "attr": "Crit",
+      "value": 0.009999999776482582,
+      "op": "Additive"
+    }
+  ],
+  "10011": [
+    {
+      "attr": "MaxHealth",
+      "value": 0.019999999552965164,
+      "op": "Multiplicitive"
+    }
+  ],
+  "10012": [
+    {
+      "attr": "Defense",
+      "value": 0.019999999552965164,
+      "op": "Multiplicitive"
+    }
+  ],
+  "10013": [
+    {
+      "attr": "CritDef",
+      "value": 0.019999999552965164,
+      "op": "Additive"
+    }
+  ],
+  "10014": [
+    {
+      "attr": "Attack",
+      "value": 0.019999999552965164,
+      "op": "Multiplicitive"
+    }
+  ],
+  "10015": [
+    {
+      "attr": "CritDamageDec",
+      "value": 0.019999999552965164,
+      "op": "Additive"
+    }
+  ],
+  "10016": [
+    {
+      "attr": "DamageDec",
+      "value": 0.019999999552965164,
+      "op": "Additive"
+    }
+  ],
+  "10017": [
+    {
+      "attr": "DamageInc",
+      "value": 0.019999999552965164,
+      "op": "Additive"
+    }
+  ],
+  "10018": [
+    {
+      "attr": "CritDamageInc",
+      "value": 0.019999999552965164,
+      "op": "Additive"
+    }
+  ],
+  "10019": [
+    {
+      "attr": "Crit",
+      "value": 0.019999999552965164,
+      "op": "Additive"
+    }
+  ],
+  "10021": [
+    {
+      "attr": "MaxHealth",
+      "value": 0.029999999329447746,
+      "op": "Multiplicitive"
+    }
+  ],
+  "10022": [
+    {
+      "attr": "Defense",
+      "value": 0.029999999329447746,
+      "op": "Multiplicitive"
+    }
+  ],
+  "10023": [
+    {
+      "attr": "CritDef",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    }
+  ],
+  "10024": [
+    {
+      "attr": "Attack",
+      "value": 0.029999999329447746,
+      "op": "Multiplicitive"
+    }
+  ],
+  "10025": [
+    {
+      "attr": "CritDamageDec",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    }
+  ],
+  "10026": [
+    {
+      "attr": "DamageDec",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    }
+  ],
+  "10027": [
+    {
+      "attr": "DamageInc",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    }
+  ],
+  "10028": [
+    {
+      "attr": "CritDamageInc",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    }
+  ],
+  "10029": [
+    {
+      "attr": "Crit",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    }
+  ],
+  "10031": [
+    {
+      "attr": "MaxHealth",
+      "value": 0.03999999910593033,
+      "op": "Multiplicitive"
+    }
+  ],
+  "10032": [
+    {
+      "attr": "Defense",
+      "value": 0.03999999910593033,
+      "op": "Multiplicitive"
+    }
+  ],
+  "10033": [
+    {
+      "attr": "CritDef",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    }
+  ],
+  "10034": [
+    {
+      "attr": "Attack",
+      "value": 0.03999999910593033,
+      "op": "Multiplicitive"
+    }
+  ],
+  "10035": [
+    {
+      "attr": "CritDamageDec",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    }
+  ],
+  "10036": [
+    {
+      "attr": "DamageDec",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    }
+  ],
+  "10037": [
+    {
+      "attr": "DamageInc",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    }
+  ],
+  "10038": [
+    {
+      "attr": "CritDamageInc",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    }
+  ],
+  "10039": [
+    {
+      "attr": "Crit",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    }
+  ],
+  "10041": [
+    {
+      "attr": "MaxHealth",
+      "value": 0.05000000074505806,
+      "op": "Multiplicitive"
+    }
+  ],
+  "10042": [
+    {
+      "attr": "Defense",
+      "value": 0.05000000074505806,
+      "op": "Multiplicitive"
+    }
+  ],
+  "10043": [
+    {
+      "attr": "CritDef",
+      "value": 0.05000000074505806,
+      "op": "Additive"
+    }
+  ],
+  "10044": [
+    {
+      "attr": "Attack",
+      "value": 0.05000000074505806,
+      "op": "Multiplicitive"
+    }
+  ],
+  "10045": [
+    {
+      "attr": "CritDamageDec",
+      "value": 0.05000000074505806,
+      "op": "Additive"
+    }
+  ],
+  "10046": [
+    {
+      "attr": "DamageDec",
+      "value": 0.05000000074505806,
+      "op": "Additive"
+    }
+  ],
+  "10047": [
+    {
+      "attr": "DamageInc",
+      "value": 0.05000000074505806,
+      "op": "Additive"
+    }
+  ],
+  "10048": [
+    {
+      "attr": "CritDamageInc",
+      "value": 0.05000000074505806,
+      "op": "Additive"
+    }
+  ],
+  "10049": [
+    {
+      "attr": "Crit",
+      "value": 0.05000000074505806,
+      "op": "Additive"
+    }
+  ],
+  "10101": [
+    {
+      "attr": "MaxHealth",
+      "value": 80.0,
+      "op": "Additive"
+    }
+  ],
+  "10102": [
+    {
+      "attr": "Defense",
+      "value": 5.0,
+      "op": "Additive"
+    }
+  ],
+  "10201": [
+    {
+      "attr": "MaxHealth",
+      "value": 60.0,
+      "op": "Additive"
+    }
+  ],
+  "10202": [
+    {
+      "attr": "Defense",
+      "value": 5.0,
+      "op": "Additive"
+    }
+  ],
+  "10301": [
+    {
+      "attr": "MaxHealth",
+      "value": 20.0,
+      "op": "Additive"
+    }
+  ],
+  "10302": [
+    {
+      "attr": "Defense",
+      "value": 5.0,
+      "op": "Additive"
+    }
+  ],
+  "10401": [
+    {
+      "attr": "MaxHealth",
+      "value": 20.0,
+      "op": "Additive"
+    }
+  ],
+  "10402": [
+    {
+      "attr": "Attack",
+      "value": 5.0,
+      "op": "Additive"
+    }
+  ],
+  "10501": [
+    {
+      "attr": "MaxHealth",
+      "value": 30.0,
+      "op": "Additive"
+    }
+  ],
+  "10502": [
+    {
+      "attr": "Attack",
+      "value": 5.0,
+      "op": "Additive"
+    }
+  ],
+  "10601": [
+    {
+      "attr": "MaxHealth",
+      "value": 30.0,
+      "op": "Additive"
+    }
+  ],
+  "10602": [
+    {
+      "attr": "Attack",
+      "value": 5.0,
+      "op": "Additive"
+    }
+  ],
+  "20101": [
+    {
+      "attr": "MaxHealth",
+      "value": 160.0,
+      "op": "Additive"
+    }
+  ],
+  "20102": [
+    {
+      "attr": "Defense",
+      "value": 10.0,
+      "op": "Additive"
+    }
+  ],
+  "20201": [
+    {
+      "attr": "MaxHealth",
+      "value": 120.0,
+      "op": "Additive"
+    }
+  ],
+  "20202": [
+    {
+      "attr": "Defense",
+      "value": 10.0,
+      "op": "Additive"
+    }
+  ],
+  "20301": [
+    {
+      "attr": "MaxHealth",
+      "value": 40.0,
+      "op": "Additive"
+    }
+  ],
+  "20302": [
+    {
+      "attr": "Defense",
+      "value": 10.0,
+      "op": "Additive"
+    }
+  ],
+  "20401": [
+    {
+      "attr": "MaxHealth",
+      "value": 40.0,
+      "op": "Additive"
+    }
+  ],
+  "20402": [
+    {
+      "attr": "Attack",
+      "value": 10.0,
+      "op": "Additive"
+    }
+  ],
+  "20501": [
+    {
+      "attr": "MaxHealth",
+      "value": 60.0,
+      "op": "Additive"
+    }
+  ],
+  "20502": [
+    {
+      "attr": "Attack",
+      "value": 10.0,
+      "op": "Additive"
+    }
+  ],
+  "20601": [
+    {
+      "attr": "MaxHealth",
+      "value": 60.0,
+      "op": "Additive"
+    }
+  ],
+  "20602": [
+    {
+      "attr": "Attack",
+      "value": 10.0,
+      "op": "Additive"
+    }
+  ],
+  "30101": [
+    {
+      "attr": "MaxHealth",
+      "value": 240.0,
+      "op": "Additive"
+    }
+  ],
+  "30102": [
+    {
+      "attr": "Defense",
+      "value": 15.0,
+      "op": "Additive"
+    }
+  ],
+  "30201": [
+    {
+      "attr": "MaxHealth",
+      "value": 180.0,
+      "op": "Additive"
+    }
+  ],
+  "30202": [
+    {
+      "attr": "Defense",
+      "value": 15.0,
+      "op": "Additive"
+    }
+  ],
+  "30301": [
+    {
+      "attr": "MaxHealth",
+      "value": 60.0,
+      "op": "Additive"
+    }
+  ],
+  "30302": [
+    {
+      "attr": "Defense",
+      "value": 15.0,
+      "op": "Additive"
+    }
+  ],
+  "30401": [
+    {
+      "attr": "MaxHealth",
+      "value": 60.0,
+      "op": "Additive"
+    }
+  ],
+  "30402": [
+    {
+      "attr": "Attack",
+      "value": 15.0,
+      "op": "Additive"
+    }
+  ],
+  "30501": [
+    {
+      "attr": "MaxHealth",
+      "value": 90.0,
+      "op": "Additive"
+    }
+  ],
+  "30502": [
+    {
+      "attr": "Attack",
+      "value": 15.0,
+      "op": "Additive"
+    }
+  ],
+  "30601": [
+    {
+      "attr": "MaxHealth",
+      "value": 90.0,
+      "op": "Additive"
+    }
+  ],
+  "30602": [
+    {
+      "attr": "Attack",
+      "value": 15.0,
+      "op": "Additive"
+    }
+  ],
+  "40101": [
+    {
+      "attr": "MaxHealth",
+      "value": 320.0,
+      "op": "Additive"
+    }
+  ],
+  "40102": [
+    {
+      "attr": "Defense",
+      "value": 20.0,
+      "op": "Additive"
+    }
+  ],
+  "40201": [
+    {
+      "attr": "MaxHealth",
+      "value": 240.0,
+      "op": "Additive"
+    }
+  ],
+  "40202": [
+    {
+      "attr": "Defense",
+      "value": 20.0,
+      "op": "Additive"
+    }
+  ],
+  "40301": [
+    {
+      "attr": "MaxHealth",
+      "value": 80.0,
+      "op": "Additive"
+    }
+  ],
+  "40302": [
+    {
+      "attr": "Defense",
+      "value": 20.0,
+      "op": "Additive"
+    }
+  ],
+  "40401": [
+    {
+      "attr": "MaxHealth",
+      "value": 80.0,
+      "op": "Additive"
+    }
+  ],
+  "40402": [
+    {
+      "attr": "Attack",
+      "value": 20.0,
+      "op": "Additive"
+    }
+  ],
+  "40501": [
+    {
+      "attr": "MaxHealth",
+      "value": 120.0,
+      "op": "Additive"
+    }
+  ],
+  "40502": [
+    {
+      "attr": "Attack",
+      "value": 20.0,
+      "op": "Additive"
+    }
+  ],
+  "40601": [
+    {
+      "attr": "MaxHealth",
+      "value": 120.0,
+      "op": "Additive"
+    }
+  ],
+  "40602": [
+    {
+      "attr": "Attack",
+      "value": 20.0,
+      "op": "Additive"
+    }
+  ],
+  "50101": [
+    {
+      "attr": "MaxHealth",
+      "value": 440.0,
+      "op": "Additive"
+    }
+  ],
+  "50102": [
+    {
+      "attr": "Defense",
+      "value": 27.5,
+      "op": "Additive"
+    }
+  ],
+  "50201": [
+    {
+      "attr": "MaxHealth",
+      "value": 330.0,
+      "op": "Additive"
+    }
+  ],
+  "50202": [
+    {
+      "attr": "Defense",
+      "value": 27.5,
+      "op": "Additive"
+    }
+  ],
+  "50301": [
+    {
+      "attr": "MaxHealth",
+      "value": 110.0,
+      "op": "Additive"
+    }
+  ],
+  "50302": [
+    {
+      "attr": "Defense",
+      "value": 27.5,
+      "op": "Additive"
+    }
+  ],
+  "50401": [
+    {
+      "attr": "MaxHealth",
+      "value": 110.0,
+      "op": "Additive"
+    }
+  ],
+  "50402": [
+    {
+      "attr": "Attack",
+      "value": 27.5,
+      "op": "Additive"
+    }
+  ],
+  "50501": [
+    {
+      "attr": "MaxHealth",
+      "value": 165.0,
+      "op": "Additive"
+    }
+  ],
+  "50502": [
+    {
+      "attr": "Attack",
+      "value": 27.5,
+      "op": "Additive"
+    }
+  ],
+  "50601": [
+    {
+      "attr": "MaxHealth",
+      "value": 165.0,
+      "op": "Additive"
+    }
+  ],
+  "50602": [
+    {
+      "attr": "Attack",
+      "value": 27.5,
+      "op": "Additive"
+    }
+  ],
+  "60101": [
+    {
+      "attr": "BodyMaxHP",
+      "value": 80.0,
+      "op": "Additive"
+    }
+  ],
+  "60102": [
+    {
+      "attr": "BodyMaxHP",
+      "value": 160.0,
+      "op": "Additive"
+    }
+  ],
+  "60103": [
+    {
+      "attr": "BodyMaxHP",
+      "value": 240.0,
+      "op": "Additive"
+    }
+  ],
+  "60104": [
+    {
+      "attr": "BodyMaxHP",
+      "value": 320.0,
+      "op": "Additive"
+    }
+  ],
+  "60105": [
+    {
+      "attr": "BodyMaxHP",
+      "value": 440.0,
+      "op": "Additive"
+    }
+  ],
+  "60201": [
+    {
+      "attr": "LeftLegMaxHP",
+      "value": 60.0,
+      "op": "Additive"
+    }
+  ],
+  "60202": [
+    {
+      "attr": "LeftLegMaxHP",
+      "value": 120.0,
+      "op": "Additive"
+    }
+  ],
+  "60203": [
+    {
+      "attr": "LeftLegMaxHP",
+      "value": 180.0,
+      "op": "Additive"
+    }
+  ],
+  "60204": [
+    {
+      "attr": "LeftLegMaxHP",
+      "value": 240.0,
+      "op": "Additive"
+    }
+  ],
+  "60205": [
+    {
+      "attr": "LeftLegMaxHP",
+      "value": 330.0,
+      "op": "Additive"
+    }
+  ],
+  "60301": [
+    {
+      "attr": "LeftLegMaxHP",
+      "value": 20.0,
+      "op": "Additive"
+    }
+  ],
+  "60302": [
+    {
+      "attr": "LeftLegMaxHP",
+      "value": 40.0,
+      "op": "Additive"
+    }
+  ],
+  "60303": [
+    {
+      "attr": "LeftLegMaxHP",
+      "value": 60.0,
+      "op": "Additive"
+    }
+  ],
+  "60304": [
+    {
+      "attr": "LeftLegMaxHP",
+      "value": 80.0,
+      "op": "Additive"
+    }
+  ],
+  "60305": [
+    {
+      "attr": "LeftLegMaxHP",
+      "value": 110.0,
+      "op": "Additive"
+    }
+  ],
+  "60401": [
+    {
+      "attr": "LeftArmMaxHP",
+      "value": 20.0,
+      "op": "Additive"
+    }
+  ],
+  "60402": [
+    {
+      "attr": "LeftArmMaxHP",
+      "value": 40.0,
+      "op": "Additive"
+    }
+  ],
+  "60403": [
+    {
+      "attr": "LeftArmMaxHP",
+      "value": 60.0,
+      "op": "Additive"
+    }
+  ],
+  "60404": [
+    {
+      "attr": "LeftArmMaxHP",
+      "value": 80.0,
+      "op": "Additive"
+    }
+  ],
+  "60405": [
+    {
+      "attr": "LeftArmMaxHP",
+      "value": 110.0,
+      "op": "Additive"
+    }
+  ],
+  "60501": [
+    {
+      "attr": "HeadMaxHP",
+      "value": 30.0,
+      "op": "Additive"
+    }
+  ],
+  "60502": [
+    {
+      "attr": "HeadMaxHP",
+      "value": 60.0,
+      "op": "Additive"
+    }
+  ],
+  "60503": [
+    {
+      "attr": "HeadMaxHP",
+      "value": 90.0,
+      "op": "Additive"
+    }
+  ],
+  "60504": [
+    {
+      "attr": "HeadMaxHP",
+      "value": 120.0,
+      "op": "Additive"
+    }
+  ],
+  "60505": [
+    {
+      "attr": "HeadMaxHP",
+      "value": 165.0,
+      "op": "Additive"
+    }
+  ],
+  "60601": [
+    {
+      "attr": "LeftArmMaxHP",
+      "value": 30.0,
+      "op": "Additive"
+    }
+  ],
+  "60602": [
+    {
+      "attr": "LeftArmMaxHP",
+      "value": 60.0,
+      "op": "Additive"
+    }
+  ],
+  "60603": [
+    {
+      "attr": "LeftArmMaxHP",
+      "value": 90.0,
+      "op": "Additive"
+    }
+  ],
+  "60604": [
+    {
+      "attr": "LeftArmMaxHP",
+      "value": 120.0,
+      "op": "Additive"
+    }
+  ],
+  "60605": [
+    {
+      "attr": "LeftArmMaxHP",
+      "value": 165.0,
+      "op": "Additive"
+    }
+  ],
+  "70001": [
+    {
+      "attr": "MaxFuZhong",
+      "value": 5.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxTiLi",
+      "value": 5.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxTenacity",
+      "value": 5.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WenDuBaoNuan",
+      "value": 3.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WenDuSanRe",
+      "value": 5.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "ZhuangBeiFangDu",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    },
+    {
+      "attr": "ZhuangBeiFangFuShe",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    }
+  ],
+  "70002": [
+    {
+      "attr": "MaxFuZhong",
+      "value": 10.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxTiLi",
+      "value": 10.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxTenacity",
+      "value": 10.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WenDuBaoNuan",
+      "value": 4.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WenDuSanRe",
+      "value": 8.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "ZhuangBeiFangDu",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "ZhuangBeiFangFuShe",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    }
+  ],
+  "70003": [
+    {
+      "attr": "MaxFuZhong",
+      "value": 15.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxTiLi",
+      "value": 15.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxTenacity",
+      "value": 15.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WenDuBaoNuan",
+      "value": 5.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WenDuSanRe",
+      "value": 10.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "ZhuangBeiFangDu",
+      "value": 0.05000000074505806,
+      "op": "Additive"
+    },
+    {
+      "attr": "ZhuangBeiFangFuShe",
+      "value": 0.05000000074505806,
+      "op": "Additive"
+    }
+  ],
+  "70101": [
+    {
+      "attr": "YinBiValue",
+      "value": 30.0,
+      "op": "Additive"
+    }
+  ],
+  "70102": [
+    {
+      "attr": "YinBiValue",
+      "value": 15.0,
+      "op": "Additive"
+    }
+  ],
+  "70103": [
+    {
+      "attr": "YinBiValue",
+      "value": 8.0,
+      "op": "Additive"
+    }
+  ],
+  "70201": [
+    {
+      "attr": "YinBiValue",
+      "value": 20.0,
+      "op": "Additive"
+    }
+  ],
+  "70202": [
+    {
+      "attr": "YinBiValue",
+      "value": 10.0,
+      "op": "Additive"
+    }
+  ],
+  "70203": [
+    {
+      "attr": "YinBiValue",
+      "value": 5.0,
+      "op": "Additive"
+    }
+  ],
+  "70301": [
+    {
+      "attr": "YinBiValue",
+      "value": 25.0,
+      "op": "Additive"
+    }
+  ],
+  "70302": [
+    {
+      "attr": "YinBiValue",
+      "value": 12.0,
+      "op": "Additive"
+    }
+  ],
+  "70303": [
+    {
+      "attr": "YinBiValue",
+      "value": 3.0,
+      "op": "Additive"
+    }
+  ],
+  "80101": [
+    {
+      "attr": "MaxHealth",
+      "value": 0.009999999776482582,
+      "op": "Multiplicitive"
+    }
+  ],
+  "80102": [
+    {
+      "attr": "Attack",
+      "value": 0.009999999776482582,
+      "op": "Multiplicitive"
+    }
+  ],
+  "80103": [
+    {
+      "attr": "Defense",
+      "value": 0.009999999776482582,
+      "op": "Multiplicitive"
+    }
+  ],
+  "80104": [
+    {
+      "attr": "CritDef",
+      "value": 0.009999999776482582,
+      "op": "Additive"
+    }
+  ],
+  "80105": [
+    {
+      "attr": "CritDamageDec",
+      "value": 0.009999999776482582,
+      "op": "Additive"
+    }
+  ],
+  "80106": [
+    {
+      "attr": "DamageDec",
+      "value": 0.009999999776482582,
+      "op": "Additive"
+    }
+  ],
+  "80107": [
+    {
+      "attr": "DamageInc",
+      "value": 0.009999999776482582,
+      "op": "Additive"
+    }
+  ],
+  "80108": [
+    {
+      "attr": "CritDamageInc",
+      "value": 0.009999999776482582,
+      "op": "Additive"
+    }
+  ],
+  "80109": [
+    {
+      "attr": "Crit",
+      "value": 0.009999999776482582,
+      "op": "Additive"
+    }
+  ],
+  "80601": [
+    {
+      "attr": "MaxHealth",
+      "value": 30.0,
+      "op": "Additive"
+    }
+  ],
+  "80602": [
+    {
+      "attr": "Attack",
+      "value": 3.0,
+      "op": "Additive"
+    }
+  ],
+  "80603": [
+    {
+      "attr": "Defense",
+      "value": 3.0,
+      "op": "Additive"
+    }
+  ],
+  "80611": [
+    {
+      "attr": "MaxHealth",
+      "value": 30.0,
+      "op": "Additive"
+    }
+  ],
+  "80612": [
+    {
+      "attr": "Attack",
+      "value": 3.0,
+      "op": "Additive"
+    }
+  ],
+  "80613": [
+    {
+      "attr": "Defense",
+      "value": 3.0,
+      "op": "Additive"
+    }
+  ],
+  "90101": [
+    {
+      "attr": "MaxHealth",
+      "value": 240.0,
+      "op": "Additive"
+    }
+  ],
+  "90102": [
+    {
+      "attr": "MaxHealth",
+      "value": 320.0,
+      "op": "Additive"
+    }
+  ],
+  "90103": [
+    {
+      "attr": "MaxHealth",
+      "value": 400.0,
+      "op": "Additive"
+    }
+  ],
+  "90201": [
+    {
+      "attr": "Defense",
+      "value": 24.0,
+      "op": "Additive"
+    }
+  ],
+  "90202": [
+    {
+      "attr": "Defense",
+      "value": 32.0,
+      "op": "Additive"
+    }
+  ],
+  "90203": [
+    {
+      "attr": "Defense",
+      "value": 40.0,
+      "op": "Additive"
+    }
+  ],
+  "90301": [
+    {
+      "attr": "Attack",
+      "value": 24.0,
+      "op": "Additive"
+    }
+  ],
+  "90302": [
+    {
+      "attr": "Attack",
+      "value": 32.0,
+      "op": "Additive"
+    }
+  ],
+  "90303": [
+    {
+      "attr": "Attack",
+      "value": 40.0,
+      "op": "Additive"
+    }
+  ],
+  "90401": [
+    {
+      "attr": "BodyMaxHP",
+      "value": 240.0,
+      "op": "Additive"
+    }
+  ],
+  "90402": [
+    {
+      "attr": "BodyMaxHP",
+      "value": 320.0,
+      "op": "Additive"
+    }
+  ],
+  "90403": [
+    {
+      "attr": "BodyMaxHP",
+      "value": 400.0,
+      "op": "Additive"
+    }
+  ],
+  "90501": [
+    {
+      "attr": "LeftLegMaxHP",
+      "value": 120.0,
+      "op": "Additive"
+    }
+  ],
+  "90502": [
+    {
+      "attr": "LeftLegMaxHP",
+      "value": 160.0,
+      "op": "Additive"
+    }
+  ],
+  "90503": [
+    {
+      "attr": "LeftLegMaxHP",
+      "value": 200.0,
+      "op": "Additive"
+    }
+  ],
+  "90601": [
+    {
+      "attr": "LeftArmMaxHP",
+      "value": 120.0,
+      "op": "Additive"
+    }
+  ],
+  "90602": [
+    {
+      "attr": "LeftArmMaxHP",
+      "value": 160.0,
+      "op": "Additive"
+    }
+  ],
+  "90603": [
+    {
+      "attr": "LeftArmMaxHP",
+      "value": 200.0,
+      "op": "Additive"
+    }
+  ],
+  "90701": [
+    {
+      "attr": "HeadMaxHP",
+      "value": 240.0,
+      "op": "Additive"
+    }
+  ],
+  "90702": [
+    {
+      "attr": "HeadMaxHP",
+      "value": 320.0,
+      "op": "Additive"
+    }
+  ],
+  "90703": [
+    {
+      "attr": "HeadMaxHP",
+      "value": 400.0,
+      "op": "Additive"
+    }
+  ],
+  "91101": [
+    {
+      "attr": "MaxHealth",
+      "value": 0.03999999910593033,
+      "op": "Multiplicitive"
+    },
+    {
+      "attr": "Defense",
+      "value": 0.03999999910593033,
+      "op": "Multiplicitive"
+    },
+    {
+      "attr": "DamageDec",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "CritDamageDec",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "CritDef",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxTenacity",
+      "value": 10.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WeakenTenacityDefense",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    }
+  ],
+  "91102": [
+    {
+      "attr": "MaxHealth",
+      "value": 0.05000000074505806,
+      "op": "Multiplicitive"
+    },
+    {
+      "attr": "Defense",
+      "value": 0.05000000074505806,
+      "op": "Multiplicitive"
+    },
+    {
+      "attr": "DamageDec",
+      "value": 0.05000000074505806,
+      "op": "Additive"
+    },
+    {
+      "attr": "CritDamageDec",
+      "value": 0.05000000074505806,
+      "op": "Additive"
+    },
+    {
+      "attr": "CritDef",
+      "value": 0.05000000074505806,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxTenacity",
+      "value": 15.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WeakenTenacityDefense",
+      "value": 0.05000000074505806,
+      "op": "Additive"
+    }
+  ],
+  "91103": [
+    {
+      "attr": "MaxHealth",
+      "value": 0.05999999865889549,
+      "op": "Multiplicitive"
+    },
+    {
+      "attr": "Defense",
+      "value": 0.05999999865889549,
+      "op": "Multiplicitive"
+    },
+    {
+      "attr": "DamageDec",
+      "value": 0.05999999865889549,
+      "op": "Additive"
+    },
+    {
+      "attr": "CritDamageDec",
+      "value": 0.05999999865889549,
+      "op": "Additive"
+    },
+    {
+      "attr": "CritDef",
+      "value": 0.05999999865889549,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxTenacity",
+      "value": 20.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WeakenTenacityDefense",
+      "value": 0.05999999865889549,
+      "op": "Additive"
+    }
+  ],
+  "91201": [
+    {
+      "attr": "AttackSpeed",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "Attack",
+      "value": 0.03999999910593033,
+      "op": "Multiplicitive"
+    },
+    {
+      "attr": "DamageInc",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "CritDamageInc",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "Crit",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    }
+  ],
+  "91202": [
+    {
+      "attr": "AttackSpeed",
+      "value": 0.05000000074505806,
+      "op": "Additive"
+    },
+    {
+      "attr": "Attack",
+      "value": 0.05000000074505806,
+      "op": "Multiplicitive"
+    },
+    {
+      "attr": "DamageInc",
+      "value": 0.05000000074505806,
+      "op": "Additive"
+    },
+    {
+      "attr": "CritDamageInc",
+      "value": 0.05000000074505806,
+      "op": "Additive"
+    },
+    {
+      "attr": "Crit",
+      "value": 0.05000000074505806,
+      "op": "Additive"
+    }
+  ],
+  "91203": [
+    {
+      "attr": "AttackSpeed",
+      "value": 0.05999999865889549,
+      "op": "Additive"
+    },
+    {
+      "attr": "Attack",
+      "value": 0.05999999865889549,
+      "op": "Multiplicitive"
+    },
+    {
+      "attr": "DamageInc",
+      "value": 0.05999999865889549,
+      "op": "Additive"
+    },
+    {
+      "attr": "CritDamageInc",
+      "value": 0.05999999865889549,
+      "op": "Additive"
+    },
+    {
+      "attr": "Crit",
+      "value": 0.05999999865889549,
+      "op": "Additive"
+    }
+  ],
+  "91301": [
+    {
+      "attr": "MaxTiLi",
+      "value": 10.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxFuZhong",
+      "value": 10.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "YinBiValue",
+      "value": 10.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "ShengYinRatio",
+      "value": -0.029999999329447746,
+      "op": "Additive"
+    },
+    {
+      "attr": "WenDuBaoNuan",
+      "value": 5.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WenDuSanRe",
+      "value": 6.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "ZhuangBeiFangDu",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    },
+    {
+      "attr": "ZhuangBeiFangFuShe",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    }
+  ],
+  "91302": [
+    {
+      "attr": "MaxTiLi",
+      "value": 12.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxFuZhong",
+      "value": 12.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "YinBiValue",
+      "value": 12.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "ShengYinRatio",
+      "value": -0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "WenDuBaoNuan",
+      "value": 6.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WenDuSanRe",
+      "value": 8.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "ZhuangBeiFangDu",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "ZhuangBeiFangFuShe",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    }
+  ],
+  "91303": [
+    {
+      "attr": "MaxTiLi",
+      "value": 15.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxFuZhong",
+      "value": 15.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "YinBiValue",
+      "value": 15.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "ShengYinRatio",
+      "value": -0.05000000074505806,
+      "op": "Additive"
+    },
+    {
+      "attr": "WenDuBaoNuan",
+      "value": 8.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WenDuSanRe",
+      "value": 10.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "ZhuangBeiFangDu",
+      "value": 0.05000000074505806,
+      "op": "Additive"
+    },
+    {
+      "attr": "ZhuangBeiFangFuShe",
+      "value": 0.05000000074505806,
+      "op": "Additive"
+    }
+  ],
+  "101": [
+    {
+      "attr": "MaxHealth",
+      "value": 0.30000001192092896,
+      "op": "Multiplicitive"
+    }
+  ],
+  "102": [
+    {
+      "attr": "Defense",
+      "value": 20.0,
+      "op": "Additive"
+    }
+  ],
+  "103": [
+    {
+      "attr": "MaxFuZhong",
+      "value": 100.0,
+      "op": "Additive"
+    }
+  ],
+  "104": [
+    {
+      "attr": "MaxTiLi",
+      "value": 20.0,
+      "op": "Additive"
+    }
+  ],
+  "105": [
+    {
+      "attr": "DamageDec",
+      "value": 0.4000000059604645,
+      "op": "Additive"
+    }
+  ],
+  "111": [
+    {
+      "attr": "MaxHealth",
+      "value": 0.30000001192092896,
+      "op": "Multiplicitive"
+    }
+  ],
+  "112": [
+    {
+      "attr": "Defense",
+      "value": 25.0,
+      "op": "Additive"
+    }
+  ],
+  "113": [
+    {
+      "attr": "MaxFuZhong",
+      "value": 50.0,
+      "op": "Additive"
+    }
+  ],
+  "114": [
+    {
+      "attr": "MaxTiLi",
+      "value": 25.0,
+      "op": "Additive"
+    }
+  ],
+  "115": [
+    {
+      "attr": "DamageDec",
+      "value": 0.5,
+      "op": "Additive"
+    }
+  ],
+  "121": [
+    {
+      "attr": "MaxHealth",
+      "value": 0.30000001192092896,
+      "op": "Multiplicitive"
+    }
+  ],
+  "122": [
+    {
+      "attr": "Defense",
+      "value": 30.0,
+      "op": "Additive"
+    }
+  ],
+  "123": [
+    {
+      "attr": "MaxFuZhong",
+      "value": 75.0,
+      "op": "Additive"
+    }
+  ],
+  "124": [
+    {
+      "attr": "MaxTiLi",
+      "value": 30.0,
+      "op": "Additive"
+    }
+  ],
+  "125": [
+    {
+      "attr": "DamageDec",
+      "value": 0.6000000238418579,
+      "op": "Additive"
+    }
+  ],
+  "131": [
+    {
+      "attr": "MaxHealth",
+      "value": 0.30000001192092896,
+      "op": "Multiplicitive"
+    }
+  ],
+  "132": [
+    {
+      "attr": "Defense",
+      "value": 40.0,
+      "op": "Additive"
+    }
+  ],
+  "133": [
+    {
+      "attr": "MaxFuZhong",
+      "value": 50.0,
+      "op": "Additive"
+    }
+  ],
+  "134": [
+    {
+      "attr": "MaxTiLi",
+      "value": 40.0,
+      "op": "Additive"
+    }
+  ],
+  "135": [
+    {
+      "attr": "DamageDec",
+      "value": 0.6399999856948853,
+      "op": "Additive"
+    }
+  ],
+  "141": [
+    {
+      "attr": "MaxHealth",
+      "value": 0.30000001192092896,
+      "op": "Multiplicitive"
+    }
+  ],
+  "142": [
+    {
+      "attr": "Defense",
+      "value": 40.0,
+      "op": "Additive"
+    }
+  ],
+  "143": [
+    {
+      "attr": "MaxFuZhong",
+      "value": 500.0,
+      "op": "Additive"
+    }
+  ],
+  "144": [
+    {
+      "attr": "MaxTiLi",
+      "value": 50.0,
+      "op": "Additive"
+    }
+  ],
+  "145": [
+    {
+      "attr": "DamageDec",
+      "value": 0.6399999856948853,
+      "op": "Additive"
+    }
+  ],
+  "201": [
+    {
+      "attr": "HealthRecover",
+      "value": 2.0,
+      "op": "Additive"
+    }
+  ],
+  "202": [
+    {
+      "attr": "HealthRecover",
+      "value": 3.0,
+      "op": "Additive"
+    }
+  ],
+  "203": [
+    {
+      "attr": "HealthRecover",
+      "value": 4.0,
+      "op": "Additive"
+    }
+  ],
+  "204": [
+    {
+      "attr": "HealthRecover",
+      "value": 5.0,
+      "op": "Additive"
+    }
+  ],
+  "205": [
+    {
+      "attr": "HealthRecover",
+      "value": 6.0,
+      "op": "Additive"
+    }
+  ],
+  "301": [
+    {
+      "attr": "Attack",
+      "value": 0.03999999910593033,
+      "op": "Multiplicitive"
+    },
+    {
+      "attr": "DamageInc",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "Crit",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "CritDamageInc",
+      "value": 0.07999999821186066,
+      "op": "Additive"
+    }
+  ],
+  "302": [
+    {
+      "attr": "MaxHealth",
+      "value": 0.03999999910593033,
+      "op": "Multiplicitive"
+    },
+    {
+      "attr": "Defense",
+      "value": 0.03999999910593033,
+      "op": "Multiplicitive"
+    },
+    {
+      "attr": "DamageDec",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "CritDef",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "CritDamageDec",
+      "value": 0.07999999821186066,
+      "op": "Additive"
+    },
+    {
+      "attr": "TiLiWakenJianMian",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "FallDamageDec",
+      "value": 0.05000000074505806,
+      "op": "Additive"
+    }
+  ],
+  "303": [
+    {
+      "attr": "HealthRecover",
+      "value": 1.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "TiLiRecover",
+      "value": 5.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxTiLi",
+      "value": 10.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxTenacity",
+      "value": 10.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "HanKang",
+      "value": 4.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "YanKang",
+      "value": 4.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "DuKang",
+      "value": 4.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "FuKang",
+      "value": 4.0,
+      "op": "Additive"
+    }
+  ],
+  "901": [
+    {
+      "attr": "WuQiDamage",
+      "value": 10.0,
+      "op": "Additive"
+    }
+  ],
+  "902": [
+    {
+      "attr": "WuQiDamage",
+      "value": 15.0,
+      "op": "Additive"
+    }
+  ],
+  "903": [
+    {
+      "attr": "WuQiDamage",
+      "value": 20.0,
+      "op": "Additive"
+    }
+  ],
+  "904": [
+    {
+      "attr": "WuQiDamage",
+      "value": 25.0,
+      "op": "Additive"
+    }
+  ],
+  "905": [
+    {
+      "attr": "WuQiDamage",
+      "value": 30.0,
+      "op": "Additive"
+    }
+  ],
+  "801": [
+    {
+      "attr": "WuQiDamage",
+      "value": 64.0,
+      "op": "Additive"
+    }
+  ],
+  "802": [
+    {
+      "attr": "WuQiDamage",
+      "value": 88.0,
+      "op": "Additive"
+    }
+  ],
+  "803": [
+    {
+      "attr": "WuQiDamage",
+      "value": 112.0,
+      "op": "Additive"
+    }
+  ],
+  "811": [
+    {
+      "attr": "WuQiDamage",
+      "value": 112.0,
+      "op": "Additive"
+    }
+  ],
+  "812": [
+    {
+      "attr": "WuQiDamage",
+      "value": 144.0,
+      "op": "Additive"
+    }
+  ],
+  "813": [
+    {
+      "attr": "WuQiDamage",
+      "value": 176.0,
+      "op": "Additive"
+    }
+  ],
+  "821": [
+    {
+      "attr": "WuQiDamage",
+      "value": 84.0,
+      "op": "Additive"
+    }
+  ],
+  "822": [
+    {
+      "attr": "WuQiDamage",
+      "value": 112.0,
+      "op": "Additive"
+    }
+  ],
+  "823": [
+    {
+      "attr": "WuQiDamage",
+      "value": 144.0,
+      "op": "Additive"
+    }
+  ],
+  "831": [
+    {
+      "attr": "WuQiDamage",
+      "value": 44.0,
+      "op": "Additive"
+    }
+  ],
+  "832": [
+    {
+      "attr": "WuQiDamage",
+      "value": 60.0,
+      "op": "Additive"
+    }
+  ],
+  "833": [
+    {
+      "attr": "WuQiDamage",
+      "value": 80.0,
+      "op": "Additive"
+    }
+  ],
+  "841": [
+    {
+      "attr": "WuQiDamage",
+      "value": 48.0,
+      "op": "Additive"
+    }
+  ],
+  "842": [
+    {
+      "attr": "WuQiDamage",
+      "value": 64.0,
+      "op": "Additive"
+    }
+  ],
+  "843": [
+    {
+      "attr": "WuQiDamage",
+      "value": 84.0,
+      "op": "Additive"
+    }
+  ],
+  "851": [
+    {
+      "attr": "TiLiWakenJianMian",
+      "value": 0.23999999463558197,
+      "op": "Additive"
+    }
+  ],
+  "852": [
+    {
+      "attr": "TiLiWakenJianMian",
+      "value": 0.2800000011920929,
+      "op": "Additive"
+    }
+  ],
+  "853": [
+    {
+      "attr": "TiLiWakenJianMian",
+      "value": 0.3199999928474426,
+      "op": "Additive"
+    }
+  ],
+  "861": [
+    {
+      "attr": "WuQiDamage",
+      "value": 84.0,
+      "op": "Additive"
+    }
+  ],
+  "862": [
+    {
+      "attr": "WuQiDamage",
+      "value": 112.0,
+      "op": "Additive"
+    }
+  ],
+  "863": [
+    {
+      "attr": "WuQiDamage",
+      "value": 144.0,
+      "op": "Additive"
+    }
+  ],
+  "871": [
+    {
+      "attr": "WuQiDamage",
+      "value": 128.0,
+      "op": "Additive"
+    }
+  ],
+  "872": [
+    {
+      "attr": "WuQiDamage",
+      "value": 168.0,
+      "op": "Additive"
+    }
+  ],
+  "873": [
+    {
+      "attr": "WuQiDamage",
+      "value": 216.0,
+      "op": "Additive"
+    }
+  ],
+  "1501": [
+    {
+      "attr": "Crit",
+      "value": 0.009999999776482582,
+      "op": "Additive"
+    },
+    {
+      "attr": "CritDamageInc",
+      "value": 0.019999999552965164,
+      "op": "Additive"
+    },
+    {
+      "attr": "WuQiDamageInc",
+      "value": 0.019999999552965164,
+      "op": "Additive"
+    },
+    {
+      "attr": "FallSleepDamageCarried",
+      "value": 2.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "ParalysisDamageCarried",
+      "value": 2.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "BleedingDamageCarried",
+      "value": 2.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "AttackSpeed",
+      "value": 0.019999999552965164,
+      "op": "Additive"
+    },
+    {
+      "attr": "WuQiDamageIncAgainstDun",
+      "value": 0.019999999552965164,
+      "op": "Additive"
+    },
+    {
+      "attr": "WuQiDamage",
+      "value": 3.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WuQiDamageDecIgnore",
+      "value": 0.019999999552965164,
+      "op": "Additive"
+    }
+  ],
+  "1502": [
+    {
+      "attr": "Crit",
+      "value": 0.014999999664723873,
+      "op": "Additive"
+    },
+    {
+      "attr": "CritDamageInc",
+      "value": 0.02500000037252903,
+      "op": "Additive"
+    },
+    {
+      "attr": "WuQiDamageInc",
+      "value": 0.02500000037252903,
+      "op": "Additive"
+    },
+    {
+      "attr": "FallSleepDamageCarried",
+      "value": 3.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "ParalysisDamageCarried",
+      "value": 3.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "BleedingDamageCarried",
+      "value": 3.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "AttackSpeed",
+      "value": 0.02500000037252903,
+      "op": "Additive"
+    },
+    {
+      "attr": "WuQiDamageIncAgainstDun",
+      "value": 0.02500000037252903,
+      "op": "Additive"
+    },
+    {
+      "attr": "WuQiDamage",
+      "value": 4.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WuQiDamageDecIgnore",
+      "value": 0.02500000037252903,
+      "op": "Additive"
+    }
+  ],
+  "1503": [
+    {
+      "attr": "Crit",
+      "value": 0.014999999664723873,
+      "op": "Additive"
+    },
+    {
+      "attr": "CritDamageInc",
+      "value": 0.02500000037252903,
+      "op": "Additive"
+    },
+    {
+      "attr": "WuQiDamageInc",
+      "value": 0.02500000037252903,
+      "op": "Additive"
+    },
+    {
+      "attr": "FallSleepDamageCarried",
+      "value": 3.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "ParalysisDamageCarried",
+      "value": 3.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "BleedingDamageCarried",
+      "value": 3.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "AttackSpeed",
+      "value": 0.02500000037252903,
+      "op": "Additive"
+    },
+    {
+      "attr": "WuQiDamageIncAgainstDun",
+      "value": 0.02500000037252903,
+      "op": "Additive"
+    },
+    {
+      "attr": "WuQiDamage",
+      "value": 4.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WuQiDamageDecIgnore",
+      "value": 0.02500000037252903,
+      "op": "Additive"
+    }
+  ],
+  "1504": [
+    {
+      "attr": "Crit",
+      "value": 0.019999999552965164,
+      "op": "Additive"
+    },
+    {
+      "attr": "CritDamageInc",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    },
+    {
+      "attr": "WuQiDamageInc",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    },
+    {
+      "attr": "FallSleepDamageCarried",
+      "value": 4.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "ParalysisDamageCarried",
+      "value": 4.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "BleedingDamageCarried",
+      "value": 4.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "AttackSpeed",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    },
+    {
+      "attr": "WuQiDamageIncAgainstDun",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    },
+    {
+      "attr": "WuQiDamage",
+      "value": 5.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WuQiDamageDecIgnore",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    }
+  ],
+  "1505": [
+    {
+      "attr": "Crit",
+      "value": 0.019999999552965164,
+      "op": "Additive"
+    },
+    {
+      "attr": "CritDamageInc",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    },
+    {
+      "attr": "WuQiDamageInc",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    },
+    {
+      "attr": "FallSleepDamageCarried",
+      "value": 4.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "ParalysisDamageCarried",
+      "value": 4.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "BleedingDamageCarried",
+      "value": 4.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "AttackSpeed",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    },
+    {
+      "attr": "WuQiDamageIncAgainstDun",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    },
+    {
+      "attr": "WuQiDamage",
+      "value": 5.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WuQiDamageDecIgnore",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    }
+  ],
+  "1506": [
+    {
+      "attr": "Crit",
+      "value": 0.019999999552965164,
+      "op": "Additive"
+    },
+    {
+      "attr": "CritDamageInc",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    },
+    {
+      "attr": "WuQiDamageInc",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    },
+    {
+      "attr": "FallSleepDamageCarried",
+      "value": 4.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "ParalysisDamageCarried",
+      "value": 4.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "BleedingDamageCarried",
+      "value": 4.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "AttackSpeed",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    },
+    {
+      "attr": "WuQiDamageIncAgainstDun",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    },
+    {
+      "attr": "WuQiDamage",
+      "value": 5.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WuQiDamageDecIgnore",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    }
+  ],
+  "1601": [
+    {
+      "attr": "MaxFuZhong",
+      "value": 4.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxTiLi",
+      "value": 4.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxTenacity",
+      "value": 4.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WenDuBaoNuan",
+      "value": 2.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WenDuSanRe",
+      "value": 4.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "ZhuangBeiFangDu",
+      "value": 0.019999999552965164,
+      "op": "Additive"
+    },
+    {
+      "attr": "ZhuangBeiFangFuShe",
+      "value": 0.019999999552965164,
+      "op": "Additive"
+    },
+    {
+      "attr": "YinBiValue",
+      "value": 4.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WeakenTenacityDefense",
+      "value": 0.019999999552965164,
+      "op": "Additive"
+    },
+    {
+      "attr": "PoisoningDamageDecRate",
+      "value": 0.019999999552965164,
+      "op": "Additive"
+    },
+    {
+      "attr": "FallSleepDamageDecRate",
+      "value": 0.019999999552965164,
+      "op": "Additive"
+    },
+    {
+      "attr": "ParalysisDamageDecRate",
+      "value": 0.019999999552965164,
+      "op": "Additive"
+    },
+    {
+      "attr": "BleedingDamageDecRate",
+      "value": 0.019999999552965164,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxHealth",
+      "value": 0.009999999776482582,
+      "op": "Multiplicitive"
+    },
+    {
+      "attr": "Defense",
+      "value": 0.009999999776482582,
+      "op": "Multiplicitive"
+    }
+  ],
+  "1602": [
+    {
+      "attr": "MaxFuZhong",
+      "value": 5.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxTiLi",
+      "value": 5.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxTenacity",
+      "value": 5.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WenDuBaoNuan",
+      "value": 3.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WenDuSanRe",
+      "value": 5.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "ZhuangBeiFangDu",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    },
+    {
+      "attr": "ZhuangBeiFangFuShe",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    },
+    {
+      "attr": "YinBiValue",
+      "value": 5.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WeakenTenacityDefense",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    },
+    {
+      "attr": "PoisoningDamageDecRate",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    },
+    {
+      "attr": "FallSleepDamageDecRate",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    },
+    {
+      "attr": "ParalysisDamageDecRate",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    },
+    {
+      "attr": "BleedingDamageDecRate",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxHealth",
+      "value": 0.009999999776482582,
+      "op": "Multiplicitive"
+    },
+    {
+      "attr": "Defense",
+      "value": 0.009999999776482582,
+      "op": "Multiplicitive"
+    }
+  ],
+  "1603": [
+    {
+      "attr": "MaxFuZhong",
+      "value": 5.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxTiLi",
+      "value": 5.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxTenacity",
+      "value": 5.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WenDuBaoNuan",
+      "value": 3.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WenDuSanRe",
+      "value": 5.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "ZhuangBeiFangDu",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    },
+    {
+      "attr": "ZhuangBeiFangFuShe",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    },
+    {
+      "attr": "YinBiValue",
+      "value": 5.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WeakenTenacityDefense",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    },
+    {
+      "attr": "PoisoningDamageDecRate",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    },
+    {
+      "attr": "FallSleepDamageDecRate",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    },
+    {
+      "attr": "ParalysisDamageDecRate",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    },
+    {
+      "attr": "BleedingDamageDecRate",
+      "value": 0.029999999329447746,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxHealth",
+      "value": 0.009999999776482582,
+      "op": "Multiplicitive"
+    },
+    {
+      "attr": "Defense",
+      "value": 0.009999999776482582,
+      "op": "Multiplicitive"
+    }
+  ],
+  "1604": [
+    {
+      "attr": "MaxFuZhong",
+      "value": 6.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxTiLi",
+      "value": 6.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxTenacity",
+      "value": 6.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WenDuBaoNuan",
+      "value": 4.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WenDuSanRe",
+      "value": 6.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "ZhuangBeiFangDu",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "ZhuangBeiFangFuShe",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "YinBiValue",
+      "value": 6.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WeakenTenacityDefense",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "PoisoningDamageDecRate",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "FallSleepDamageDecRate",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "ParalysisDamageDecRate",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "BleedingDamageDecRate",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxHealth",
+      "value": 0.009999999776482582,
+      "op": "Multiplicitive"
+    },
+    {
+      "attr": "Defense",
+      "value": 0.009999999776482582,
+      "op": "Multiplicitive"
+    }
+  ],
+  "1605": [
+    {
+      "attr": "MaxFuZhong",
+      "value": 6.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxTiLi",
+      "value": 6.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxTenacity",
+      "value": 6.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WenDuBaoNuan",
+      "value": 4.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WenDuSanRe",
+      "value": 6.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "ZhuangBeiFangDu",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "ZhuangBeiFangFuShe",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "YinBiValue",
+      "value": 6.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WeakenTenacityDefense",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "PoisoningDamageDecRate",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "FallSleepDamageDecRate",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "ParalysisDamageDecRate",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "BleedingDamageDecRate",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxHealth",
+      "value": 0.009999999776482582,
+      "op": "Multiplicitive"
+    },
+    {
+      "attr": "Defense",
+      "value": 0.009999999776482582,
+      "op": "Multiplicitive"
+    }
+  ],
+  "1606": [
+    {
+      "attr": "MaxFuZhong",
+      "value": 6.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxTiLi",
+      "value": 6.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxTenacity",
+      "value": 6.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WenDuBaoNuan",
+      "value": 4.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WenDuSanRe",
+      "value": 6.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "ZhuangBeiFangDu",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "ZhuangBeiFangFuShe",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "YinBiValue",
+      "value": 6.0,
+      "op": "Additive"
+    },
+    {
+      "attr": "WeakenTenacityDefense",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "PoisoningDamageDecRate",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "FallSleepDamageDecRate",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "ParalysisDamageDecRate",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "BleedingDamageDecRate",
+      "value": 0.03999999910593033,
+      "op": "Additive"
+    },
+    {
+      "attr": "MaxHealth",
+      "value": 0.009999999776482582,
+      "op": "Multiplicitive"
+    },
+    {
+      "attr": "Defense",
+      "value": 0.009999999776482582,
+      "op": "Multiplicitive"
+    }
+  ]
+}

@@ -132,6 +132,15 @@ def parse_item(filepath, rel_path):
     durability_decay = (get_prop(exports, "NaiJiuXiShu") or {}).get("Value")
     stats = extract_stats(get_prop(exports, "DefaultZhuangBeiProp"))
 
+    # PropPack references into DT_ZhuangBeiPropTable
+    pp_prop = get_prop(exports, "PropPackID")
+    prop_pack_ids = None
+    if pp_prop and pp_prop.get("Value"):
+        prop_pack_ids = [v.get("Value") for v in pp_prop["Value"] if v.get("Value") is not None]
+        if not prop_pack_ids:
+            prop_pack_ids = None
+    extra_prop_pack_id = (get_prop(exports, "ExtraPropPackID") or {}).get("Value")
+
     # Material type (e.g. wood, metal)
     cailiao_type_prop = get_prop(exports, "CaiLiaoType")
     material_type = None
@@ -173,6 +182,8 @@ def parse_item(filepath, rel_path):
         "spoil_time_seconds": spoil_time,
         "storage_level": storage_level,
         "stats": stats if stats else None,
+        "prop_pack_ids": prop_pack_ids,
+        "extra_prop_pack_id": extra_prop_pack_id,
         "icon_path": icon_path,
     }
 
@@ -217,6 +228,8 @@ def main():
     print(f"With weight: {sum(1 for i in items if i['weight'] is not None)}")
     print(f"With durability: {sum(1 for i in items if i['durability'] is not None)}")
     print(f"With stats: {sum(1 for i in items if i['stats'])}")
+    print(f"With prop_pack_ids: {sum(1 for i in items if i['prop_pack_ids'])}")
+    print(f"With extra_prop_pack_id: {sum(1 for i in items if i['extra_prop_pack_id'])}")
 
     print(f"\nSample items:")
     for i in items[:3]:

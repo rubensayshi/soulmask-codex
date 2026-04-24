@@ -48,6 +48,16 @@ def main():
     items = load_json(PARSED / "items.json")
     recipes = load_json(PARSED / "recipes.json")
     tech_nodes = load_json(PARSED / "tech_tree.json")
+    prop_packs = load_json(PARSED / "prop_packs.json")
+
+    def resolve_stats(it):
+        """Resolve prop_pack_ids + extra_prop_pack_id into a merged stats array.
+        Falls back to the per-blueprint DefaultZhuangBeiProp stats."""
+        merged = []
+        for ppid in it.get("prop_pack_ids") or []:
+            merged.extend(prop_packs.get(str(ppid), []))
+        merged.extend(prop_packs.get(str(it.get("extra_prop_pack_id") or 0), []))
+        return merged if merged else it.get("stats")
 
     # items — `role` is set by classify_items.py. Reject if missing so
     # we never silently fall back to a meaningless default.
@@ -58,6 +68,7 @@ def main():
                 f"item {it['id']} has no role — run pipeline/classify_items.py "
                 "after parse_items.py + parse_recipes.py"
             )
+        stats = resolve_stats(it)
         db.execute(
             "INSERT INTO items (id, category, subcategory, name_zh, name_en, "
             "description_zh, weight, max_stack, durability, icon_path, role, stats_json, buffs_json) "
@@ -68,7 +79,7 @@ def main():
                 it.get("description_zh"), it.get("weight"), it.get("max_stack"),
                 it.get("durability"), it.get("icon_path"),
                 role,
-                json.dumps(it.get("stats")) if it.get("stats") else None,
+                json.dumps(stats) if stats else None,
                 json.dumps(it.get("buffs")) if it.get("buffs") else None,
             ),
         )
