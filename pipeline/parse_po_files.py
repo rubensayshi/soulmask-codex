@@ -3,6 +3,7 @@ Parse localization/Game/en/Game.po into data/translations/po.json.
 
 Maps PO entries to our translation-key scheme:
   - .Name / .ItemName / .DisplayName on a /DaoJu/ path     → item:<BP id>
+  - .Description on a /DaoJu/ path                          → item_desc:<BP id>
   - .JianZhuDisplayName / .Name on a /JianZhu/ path         → station:<BP id>  (only stations)
   - .Name on a /KeJiShu/ path                               → tech_node:<BP id>
 
@@ -32,13 +33,14 @@ FIELD_RE = re.compile(
 # Field-name priority per key prefix. First match wins.
 FIELD_BY_PREFIX = {
     "item":      ("Name", "ItemName", "DisplayName"),
+    "item_desc": ("Description",),
     "station":   ("JianZhuDisplayName", "Name", "DisplayName"),
     "tech_node": ("Name", "DisplayName"),
 }
 
 
-def classify(path: str) -> str | None:
-    """Return the key prefix for a given Blueprints path, or None if unrecognized.
+def classify(path: str) -> list[str]:
+    """Return the key prefixes for a given Blueprints path.
 
     `path` comes from the regex without a trailing slash, so we normalize both
     sides with leading/trailing slashes before substring-matching. Without this,
@@ -47,14 +49,12 @@ def classify(path: str) -> str | None:
     """
     p = "/" + path.strip("/") + "/"
     if "/DaoJu/" in p or "/Daoju/" in p:
-        return "item"
+        return ["item", "item_desc"]
     if p.endswith("/JianZhu/GongZuoTai/"):
-        # Only the exact /JianZhu/GongZuoTai/ folder — not deeper subdirs like
-        # .../GongZuoTai/BuJian/ (sub-component parts, unused by the app's stations table).
-        return "station"
+        return ["station"]
     if "/KeJiShu/" in p:
-        return "tech_node"
-    return None
+        return ["tech_node"]
+    return []
 
 
 def iter_po_entries(po_path: Path):
@@ -116,15 +116,17 @@ def main():
             path = m.group("path")
             bp_id = m.group("bp_id")
             field = m.group("field")
-            prefix = classify(path)
-            if not prefix or field not in FIELD_BY_PREFIX[prefix]:
+            prefixes = classify(path)
+            if not prefixes:
                 continue
             en = msgstr.strip() or msgid.strip()
             if not en:
                 continue
-            key = (prefix, bp_id)
-            candidates.setdefault(key, {})[field] = en
-            stats["entries_matched"] += 1
+            for prefix in prefixes:
+                if field in FIELD_BY_PREFIX[prefix]:
+                    key = (prefix, bp_id)
+                    candidates.setdefault(key, {})[field] = en
+                    stats["entries_matched"] += 1
 
     # Resolve each candidate to the preferred field.
     entries: dict[str, str] = {}

@@ -25,6 +25,7 @@ type Item struct {
 	Cat      *string     `json:"cat"`
 	Role     string      `json:"role"` // 'final' | 'intermediate' | 'raw' | 'standalone'
 	IconPath *string     `json:"ic,omitempty"`
+	DescEn   *string     `json:"de,omitempty"`
 	DescZh   *string     `json:"dz,omitempty"`
 	Weight   *float64    `json:"w,omitempty"`
 	Dur      *int64      `json:"dur,omitempty"`
@@ -82,6 +83,7 @@ func Build(ctx context.Context, sqlDB *sql.DB) (*Graph, error) {
 			Cat:      nullable(r.Category),
 			Role:     r.Role,
 			IconPath: nullable(r.IconPath),
+			DescEn:   nullable(r.DescriptionEn),
 			DescZh:   nullable(r.DescriptionZh),
 			Weight:   nullablef(r.Weight),
 			Dur:      nullablei(r.Durability),

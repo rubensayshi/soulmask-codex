@@ -20,6 +20,7 @@ export interface Item {
   cat: string | null
   role: ItemRole
   ic?: string | null
+  de?: string | null         // description_en
   dz?: string | null         // description_zh
   w?: number | null          // weight
   dur?: number | null        // durability

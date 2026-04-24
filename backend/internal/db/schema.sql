@@ -5,6 +5,7 @@ CREATE TABLE items (
   name_zh         TEXT,
   name_en         TEXT,
   description_zh  TEXT,
+  description_en  TEXT,
   weight          REAL,
   max_stack       INTEGER,
   durability      INTEGER,

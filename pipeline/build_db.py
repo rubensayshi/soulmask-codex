@@ -235,6 +235,11 @@ def main():
         )
     """)
     db.execute("""
+        UPDATE items SET description_en = (
+          SELECT en FROM translations WHERE key = 'item_desc:' || items.id
+        )
+    """)
+    db.execute("""
         UPDATE stations SET name_en = COALESCE(
           (SELECT en FROM translations WHERE key = 'station:' || stations.id),
           stations.name_en

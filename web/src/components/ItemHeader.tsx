@@ -51,6 +51,9 @@ export default function ItemHeader({ item, recipe, station }: Props) {
         <div className="text-[11px] text-text-dim tracking-[.12em] uppercase mt-[3px] font-medium">
           Classification: {classification}
         </div>
+        {item.de && (
+          <div className="text-[12px] text-text-mute mt-[6px] leading-[1.5] max-w-[600px]">{item.de}</div>
+        )}
 
         <div className="flex flex-wrap gap-[18px] mt-[14px]">
           {showsCraftMeta ? (

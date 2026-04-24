@@ -31,6 +31,7 @@ type Item struct {
 	NameZh        sql.NullString
 	NameEn        sql.NullString
 	DescriptionZh sql.NullString
+	DescriptionEn sql.NullString
 	Weight        sql.NullFloat64
 	MaxStack      sql.NullInt64
 	Durability    sql.NullInt64

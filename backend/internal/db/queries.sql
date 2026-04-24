@@ -3,7 +3,7 @@ SELECT * FROM items WHERE id = ?;
 
 -- name: ListItemsForGraph :many
 SELECT id, name_en, name_zh, category, role, icon_path, slug,
-       description_zh, weight, durability, stats_json
+       description_en, description_zh, weight, durability, stats_json
 FROM items;
 
 -- name: GetItemBySlug :one

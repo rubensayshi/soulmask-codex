@@ -56,7 +56,7 @@ func (q *Queries) GetDropSourcesForItem(ctx context.Context, itemID string) ([]G
 }
 
 const getItem = `-- name: GetItem :one
-SELECT id, category, subcategory, name_zh, name_en, description_zh, weight, max_stack, durability, icon_path, role, stats_json, buffs_json, slug FROM items WHERE id = ?
+SELECT id, category, subcategory, name_zh, name_en, description_zh, description_en, weight, max_stack, durability, icon_path, role, stats_json, buffs_json, slug FROM items WHERE id = ?
 `
 
 func (q *Queries) GetItem(ctx context.Context, id string) (Item, error) {
@@ -69,6 +69,7 @@ func (q *Queries) GetItem(ctx context.Context, id string) (Item, error) {
 		&i.NameZh,
 		&i.NameEn,
 		&i.DescriptionZh,
+		&i.DescriptionEn,
 		&i.Weight,
 		&i.MaxStack,
 		&i.Durability,
@@ -82,7 +83,7 @@ func (q *Queries) GetItem(ctx context.Context, id string) (Item, error) {
 }
 
 const getItemBySlug = `-- name: GetItemBySlug :one
-SELECT id, category, subcategory, name_zh, name_en, description_zh, weight, max_stack, durability, icon_path, role, stats_json, buffs_json, slug FROM items WHERE slug = ?
+SELECT id, category, subcategory, name_zh, name_en, description_zh, description_en, weight, max_stack, durability, icon_path, role, stats_json, buffs_json, slug FROM items WHERE slug = ?
 `
 
 func (q *Queries) GetItemBySlug(ctx context.Context, slug sql.NullString) (Item, error) {
@@ -95,6 +96,7 @@ func (q *Queries) GetItemBySlug(ctx context.Context, slug sql.NullString) (Item,
 		&i.NameZh,
 		&i.NameEn,
 		&i.DescriptionZh,
+		&i.DescriptionEn,
 		&i.Weight,
 		&i.MaxStack,
 		&i.Durability,
@@ -284,7 +286,7 @@ func (q *Queries) ListBuffedItems(ctx context.Context) ([]ListBuffedItemsRow, er
 
 const listItemsForGraph = `-- name: ListItemsForGraph :many
 SELECT id, name_en, name_zh, category, role, icon_path, slug,
-       description_zh, weight, durability, stats_json
+       description_en, description_zh, weight, durability, stats_json
 FROM items
 `
 
@@ -296,6 +298,7 @@ type ListItemsForGraphRow struct {
 	Role          string
 	IconPath      sql.NullString
 	Slug          sql.NullString
+	DescriptionEn sql.NullString
 	DescriptionZh sql.NullString
 	Weight        sql.NullFloat64
 	Durability    sql.NullInt64
@@ -319,6 +322,7 @@ func (q *Queries) ListItemsForGraph(ctx context.Context) ([]ListItemsForGraphRow
 			&i.Role,
 			&i.IconPath,
 			&i.Slug,
+			&i.DescriptionEn,
 			&i.DescriptionZh,
 			&i.Weight,
 			&i.Durability,
