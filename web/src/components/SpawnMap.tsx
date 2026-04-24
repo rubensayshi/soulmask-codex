@@ -107,13 +107,12 @@ export default function SpawnMap({ groups, mapType = 'base', compact }: Props) {
         className="w-full border border-hair-strong bg-panel"
         style={{ aspectRatio: compact ? '1 / 1' : '4 / 3', maxHeight: compact ? undefined : 600, cursor: 'default' }}
       />
-      {!compact && (
-        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 mt-2">
-          <span className="text-[10px] tracking-[.1em] uppercase text-text-dim font-medium">{MAP_LABELS[mapType] ?? mapType}</span>
+      {groups.length > 1 && (
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1.5">
           {groups.map((g, i) => (
-            <div key={g.creature} className="flex items-center gap-1.5 text-[11px]">
+            <div key={g.creature} className="flex items-center gap-1 text-[10px]">
               <span
-                className="w-2.5 h-2.5 rounded-full inline-block flex-shrink-0"
+                className="w-2 h-2 rounded-full inline-block flex-shrink-0"
                 style={{ backgroundColor: COLORS[i % COLORS.length] }}
               />
               <span className="text-text">{g.creature}</span>
