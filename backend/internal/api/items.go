@@ -70,15 +70,19 @@ func (s *Server) handleItem(w http.ResponseWriter, r *http.Request) {
 		usedInIDs = append(usedInIDs, r.ID)
 	}
 
-	seenNodes := map[string]bool{}
+	seenNames := map[string]bool{}
 	var techUnlocks []TechUnlock
 	for _, rec := range toCraft {
 		nodes, _ := q.GetTechUnlocksForRecipe(ctx, rec.ID)
 		for _, n := range nodes {
-			if seenNodes[n.ID] {
+			displayName := n.ID
+			if n.NameEn.Valid {
+				displayName = n.NameEn.String
+			}
+			if seenNames[displayName] {
 				continue
 			}
-			seenNodes[n.ID] = true
+			seenNames[displayName] = true
 			techUnlocks = append(techUnlocks, TechUnlock{
 				ID:                n.ID,
 				NameEn:            nullStr(n.NameEn),

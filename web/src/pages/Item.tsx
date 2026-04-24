@@ -107,13 +107,6 @@ export default function Item() {
         </>
       )}
 
-      {detail?.drop_sources && detail.drop_sources.length > 0 && (
-        <>
-          <SectionHeader title="Obtained From" sub="Drop Sources" accent="rust" />
-          <ObtainedFrom sources={detail.drop_sources} />
-        </>
-      )}
-
       {recipe && (
         <>
           <SectionHeader title="Materials Required" sub="Direct Ingredients" accent="green"
@@ -168,6 +161,13 @@ export default function Item() {
       {filteredIntermediateIds.length > 0
         ? <UsedIn graph={graph} rootId={item.id} filterIds={filteredIntermediateIds} catFilter={selectedCats} />
         : <div className="p-8 text-center text-[12px] text-text-dim italic border border-dashed border-hair bg-panel">Not used in any intermediate component</div>}
+
+      {detail?.drop_sources && detail.drop_sources.length > 0 && (
+        <>
+          <SectionHeader title="Obtained From" sub="Drop Sources" accent="rust" />
+          <ObtainedFrom sources={detail.drop_sources} />
+        </>
+      )}
     </div>
   )
 }
