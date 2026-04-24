@@ -18,9 +18,10 @@ const MAP_BOUNDS: L.LatLngBoundsExpression = [[-4096, 0], [0, 4096]]
 
 interface Props {
   groups: SpawnGroup[]
+  compact?: boolean
 }
 
-export default function SpawnMap({ groups }: Props) {
+export default function SpawnMap({ groups, compact }: Props) {
   const containerRef = useRef<HTMLDivElement>(null)
   const mapRef = useRef<L.Map | null>(null)
 
@@ -51,7 +52,7 @@ export default function SpawnMap({ groups }: Props) {
       group.spawns.forEach(pt => {
         allPts.push(L.latLng(pt.lat, pt.lon))
         L.circleMarker([pt.lat, pt.lon], {
-          radius: 5,
+          radius: compact ? 3 : 5,
           color: '#000',
           fillColor: color,
           fillOpacity: 0.85,
@@ -63,10 +64,19 @@ export default function SpawnMap({ groups }: Props) {
 
     if (allPts.length > 0) {
       const spawnBounds = L.latLngBounds(allPts)
-      const zoomedIn = map.getZoom() + 1
-      map.setView(spawnBounds.getCenter(), zoomedIn)
-      const viewBounds = map.getBounds()
-      if (!viewBounds.contains(spawnBounds)) {
+      const baseZoom = map.getZoom()
+      const maxStep = compact ? 0.5 : 1
+      let bestZoom = baseZoom
+      for (let step = maxStep; step >= 0.1; step -= 0.1) {
+        map.setView(spawnBounds.getCenter(), baseZoom + step)
+        if (map.getBounds().contains(spawnBounds)) {
+          bestZoom = baseZoom + step
+          break
+        }
+      }
+      if (bestZoom > baseZoom) {
+        map.setView(spawnBounds.getCenter(), bestZoom)
+      } else {
         map.fitBounds(MAP_BOUNDS)
       }
     }
@@ -80,27 +90,29 @@ export default function SpawnMap({ groups }: Props) {
   }, [groups])
 
   return (
-    <div className="mb-4">
+    <div className={compact ? '' : 'mb-4'}>
       <div
         ref={containerRef}
         className="w-full border border-hair bg-panel"
-        style={{ aspectRatio: '4 / 3', maxHeight: 600, cursor: 'default' }}
+        style={{ aspectRatio: compact ? '1 / 1' : '4 / 3', maxHeight: compact ? undefined : 600, cursor: 'default' }}
       />
-      <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2">
-        {groups.map((g, i) => (
-          <div key={g.creature} className="flex items-center gap-1.5 text-[11px]">
-            <span
-              className="w-2.5 h-2.5 rounded-full inline-block flex-shrink-0"
-              style={{ backgroundColor: COLORS[i % COLORS.length] }}
-            />
-            <span className="text-text">{g.creature}</span>
-            {g.level && (
-              <span className="text-text-dim">Lv {g.level}</span>
-            )}
-            <span className="text-text-mute tabular-nums">({g.spawns.length})</span>
-          </div>
-        ))}
-      </div>
+      {!compact && (
+        <div className="flex flex-wrap gap-x-4 gap-y-1 mt-2">
+          {groups.map((g, i) => (
+            <div key={g.creature} className="flex items-center gap-1.5 text-[11px]">
+              <span
+                className="w-2.5 h-2.5 rounded-full inline-block flex-shrink-0"
+                style={{ backgroundColor: COLORS[i % COLORS.length] }}
+              />
+              <span className="text-text">{g.creature}</span>
+              {g.level && (
+                <span className="text-text-dim">Lv {g.level}</span>
+              )}
+              <span className="text-text-mute tabular-nums">({g.spawns.length})</span>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }

@@ -128,9 +128,42 @@ export default function Item() {
           <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
         )}
       </Helmet>
-      <ItemHeader item={item} recipe={recipe} station={station} quality={quality}
-        trailing={<QualitySelector value={quality} onChange={setQuality} hasStats={hasStats} />}
-      />
+      {detail?.spawn_locations && detail.spawn_locations.length > 0 ? (
+        <div className="flex gap-5 items-start mb-[26px]">
+          <div className="flex-1 min-w-0 [&>div:first-child]:mb-0">
+            <ItemHeader item={item} recipe={recipe} station={station} quality={quality}
+              trailing={<QualitySelector value={quality} onChange={setQuality} hasStats={hasStats} />}
+            />
+            {detail.tech_unlocked_by && detail.tech_unlocked_by.length > 0 && (
+              <div className="mt-4">
+                <SectionHeader title="Unlocked By" sub="Tech Tree" accent="gold" />
+                <TechUnlock unlocks={detail.tech_unlocked_by} />
+              </div>
+            )}
+            {detail.drop_sources && detail.drop_sources.length > 0 && (
+              <div className="mt-4">
+                <SectionHeader title="Obtained From" sub="Drop Sources" accent="rust" />
+                <ObtainedFrom sources={detail.drop_sources} maxRows={6} />
+              </div>
+            )}
+          </div>
+          <div className="w-[50%] flex-shrink-0">
+            <SpawnMap groups={detail.spawn_locations} compact />
+          </div>
+        </div>
+      ) : (
+        <>
+          <ItemHeader item={item} recipe={recipe} station={station} quality={quality}
+            trailing={<QualitySelector value={quality} onChange={setQuality} hasStats={hasStats} />}
+          />
+          {detail?.tech_unlocked_by && detail.tech_unlocked_by.length > 0 && (
+            <>
+              <SectionHeader title="Unlocked By" sub="Tech Tree" accent="gold" />
+              <TechUnlock unlocks={detail.tech_unlocked_by} />
+            </>
+          )}
+        </>
+      )}
 
       {detail?.seed_source && (
         <>
@@ -143,13 +176,6 @@ export default function Item() {
         <>
           <SectionHeader title="Stats" sub="Equipment Attributes" accent="green" qualityColor={quality > 0 ? QUALITY_TIERS[quality]?.color : undefined} />
           <ItemStats stats={item.stats!} quality={quality} />
-        </>
-      )}
-
-      {detail?.tech_unlocked_by && detail.tech_unlocked_by.length > 0 && (
-        <>
-          <SectionHeader title="Unlocked By" sub="Tech Tree" accent="gold" />
-          <TechUnlock unlocks={detail.tech_unlocked_by} />
         </>
       )}
 
@@ -219,17 +245,10 @@ export default function Item() {
         </>
       )}
 
-      {detail?.drop_sources && detail.drop_sources.length > 0 && (
+      {detail?.drop_sources && detail.drop_sources.length > 0 && !(detail?.spawn_locations && detail.spawn_locations.length > 0) && (
         <>
           <SectionHeader title="Obtained From" sub="Drop Sources" accent="rust" />
           <ObtainedFrom sources={detail.drop_sources} />
-        </>
-      )}
-
-      {detail?.spawn_locations && detail.spawn_locations.length > 0 && (
-        <>
-          <SectionHeader title="Spawn Locations" sub="World Map" accent="rust" />
-          <SpawnMap groups={detail.spawn_locations} />
         </>
       )}
     </div>
