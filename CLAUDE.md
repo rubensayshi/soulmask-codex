@@ -70,6 +70,14 @@ This helper (and `find_props` / `get_prop` / `text_zh`) is copy-pasted into each
 - Cross-references (`recipe.output.item_id` → `items[].id`, `tech_node.unlocks_recipes[]` → `recipes[].id`, etc.) are documented with current coverage in `docs/DATA.md`. Changes that drop coverage are regressions even though there are no tests.
 - `Game/Parsed/*.json` is committed; `Game/Exports/*.json` is committed; `uasset_export/` is gitignored (too big).
 
+## Changelog
+
+The home page (`web/src/pages/Home.tsx`) has a `CHANGELOG` array shown to visitors. Update it when a change is user-visible (new data, new UI feature, meaningful fix). Skip internal refactors, parser tweaks, or pipeline changes.
+
+Write entries as a player would understand them — what they can now *do*, not how it was built. Short, plain language, no jargon. Examples:
+- Good: "Preview how quality tiers affect weapon damage and durability"
+- Bad: "Extract and display base weapon/equipment stats from PropPack tables"
+
 ## Conventions
 
 - Python 3.x, no external dependencies, no virtualenv needed for stage 2. `.venv/` exists in the repo but isn't required.

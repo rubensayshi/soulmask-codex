@@ -2,6 +2,16 @@ import { Link } from 'react-router-dom'
 import { useStore } from '../store'
 import { itemPath } from '../lib/graph'
 
+const CHANGELOG: { type: 'feat' | 'fix'; text: string }[] = [
+  { type: 'feat', text: 'Preview how quality tiers affect weapon damage and durability' },
+  { type: 'feat', text: 'See base stats (damage, armor, durability) on weapons and equipment' },
+  { type: 'feat', text: 'Filter drop sources by creature, chest, or gathering node' },
+  { type: 'feat', text: 'Item descriptions now show in English' },
+  { type: 'feat', text: 'Tech tree unlocks show the full research path' },
+  { type: 'feat', text: 'Item pages now show where to get materials and what tech to unlock' },
+  { type: 'fix',  text: 'Removed duplicate tech unlocks and drop source entries' },
+]
+
 const FEATURED: { id: string; label: string; blurb: string }[] = [
   { id: 'Daoju_Item_TieDing',  label: 'Iron Ingot',      blurb: 'Smelted from iron ore and carbon powder in the Blast Furnace.' },
   { id: 'BP_GongJu_FuZi_4',    label: 'Iron Axe',        blurb: 'A top-tier gathering tool. Follow the chain from iron ore + hardwood + leather.' },
@@ -125,35 +135,60 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Featured chains */}
-      <div className="px-9 pt-10 pb-12 max-w-[1100px] mx-auto">
-        <div className="flex items-center gap-3.5 mb-5">
-          <span className="text-[12px] text-green">◆</span>
-          <span className="font-heading text-[11px] tracking-[.32em] uppercase text-text-dim">Featured Chains</span>
-          <div className="flex-1 h-px" style={{ background: 'rgba(138,160,116,.14)' }} />
+      {/* Featured chains + Changelog */}
+      <div className="px-9 pt-10 pb-12 max-w-[1100px] mx-auto grid grid-cols-2 gap-8">
+        {/* Featured chains */}
+        <div>
+          <div className="flex items-center gap-3.5 mb-5">
+            <span className="text-[12px] text-green">◆</span>
+            <span className="font-heading text-[11px] tracking-[.32em] uppercase text-text-dim">Featured Chains</span>
+            <div className="flex-1 h-px" style={{ background: 'rgba(138,160,116,.14)' }} />
+          </div>
+
+          <div className="grid gap-2">
+            {available.map(f => {
+              const item = byId.get(f.id)!
+              return (
+                <Link
+                  key={f.id}
+                  to={itemPath(item)}
+                  className="relative block p-4 bg-panel border border-hair-strong hover:border-green-dim transition-colors"
+                >
+                  <div className="pointer-events-none absolute -top-px -left-px -right-px h-px opacity-60"
+                       style={{ background: 'linear-gradient(90deg, transparent, #5a6e48 30%, #5a6e48 70%, transparent)' }} />
+                  <div className="font-display text-[18px] text-text mb-1 tracking-[.02em] font-semibold">{f.label}</div>
+                  <div className="text-[12px] text-text-mute">{f.blurb}</div>
+                </Link>
+              )
+            })}
+            {available.length === 0 && (
+              <p className="text-text-dim text-xs italic">
+                Featured items aren't in the database yet — use the sidebar search to find something.
+              </p>
+            )}
+          </div>
         </div>
 
-        <div className="grid gap-2">
-          {available.map(f => {
-            const item = byId.get(f.id)!
-            return (
-              <Link
-                key={f.id}
-                to={itemPath(item)}
-                className="relative block p-4 bg-panel border border-hair-strong hover:border-green-dim transition-colors"
-              >
-                <div className="pointer-events-none absolute -top-px -left-px -right-px h-px opacity-60"
-                     style={{ background: 'linear-gradient(90deg, transparent, #5a6e48 30%, #5a6e48 70%, transparent)' }} />
-                <div className="font-display text-[18px] text-text mb-1 tracking-[.02em] font-semibold">{f.label}</div>
-                <div className="text-[12px] text-text-mute">{f.blurb}</div>
-              </Link>
-            )
-          })}
-          {available.length === 0 && (
-            <p className="text-text-dim text-xs italic">
-              Featured items aren't in the database yet — use the sidebar search to find something.
-            </p>
-          )}
+        {/* Changelog */}
+        <div>
+          <div className="flex items-center gap-3.5 mb-5">
+            <span className="text-[12px] text-gold">◆</span>
+            <span className="font-heading text-[11px] tracking-[.32em] uppercase text-text-dim">Changelog</span>
+            <div className="flex-1 h-px" style={{ background: 'rgba(184,160,96,.14)' }} />
+          </div>
+
+          <div className="grid gap-1.5">
+            {CHANGELOG.map((entry, i) => (
+              <div key={i} className="flex gap-3 px-3 py-2.5 bg-panel border border-hair-strong">
+                <span className={`shrink-0 w-[38px] text-center mt-[3px] text-[9px] font-bold uppercase tracking-wider py-0.5 rounded ${
+                  entry.type === 'feat' ? 'bg-green/15 text-green' : 'bg-gold/15 text-gold'
+                }`}>
+                  {entry.type}
+                </span>
+                <span className="text-[12px] text-text-mute leading-snug mt-[3px]">{entry.text}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

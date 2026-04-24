@@ -1,15 +1,30 @@
+import { useMemo } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import markSvg from '../assets/mark-compact.svg'
+import { useStore } from '../store'
+import { resolveItem, itemPath } from '../lib/graph'
 
-const TABS = [
-  { to: '/', label: 'Codex', match: (p: string) => p === '/' },
-  { to: '/item/Daoju_Item_TieDing', label: 'Recipes', match: (p: string) => p.startsWith('/item/') },
-  { to: '/awareness-xp', label: 'Awareness XP', match: (p: string) => p === '/awareness-xp' },
-  { to: '/food-almanac', label: 'Food Almanac', match: (p: string) => p === '/food-almanac' },
-]
+const DEFAULT_ITEM_ID = 'Daoju_Item_TieDing'
 
 export default function TopNav() {
   const { pathname } = useLocation()
+  const graph = useStore(s => s.graph)
+  const recentVisits = useStore(s => s.recentVisits)
+
+  const recipesTo = useMemo(() => {
+    const targetId = recentVisits[0] ?? DEFAULT_ITEM_ID
+    if (graph) {
+      const item = resolveItem(graph, targetId)
+      if (item) return itemPath(item)
+    }
+    return `/item/${targetId}`
+  }, [graph, recentVisits])
+
+  const tabs = [
+    { to: recipesTo, label: 'Recipes', match: (p: string) => p.startsWith('/item/') },
+    { to: '/awareness-xp', label: 'Awareness XP', match: (p: string) => p === '/awareness-xp' },
+    { to: '/food-almanac', label: 'Food Almanac', match: (p: string) => p === '/food-almanac' },
+  ]
 
   return (
     <div className="relative flex items-center h-[72px] px-8 flex-shrink-0 border-b border-hair"
@@ -30,11 +45,11 @@ export default function TopNav() {
       </Link>
 
       <div className="flex items-stretch h-full ml-4">
-        {TABS.map(tab => {
+        {tabs.map(tab => {
           const active = tab.match(pathname)
           return (
             <Link
-              key={tab.to}
+              key={tab.label}
               to={tab.to}
               className={`relative px-[22px] flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-widest2 bg-transparent transition-colors ${active ? 'text-green' : 'text-text-mute hover:text-text'}`}
             >
