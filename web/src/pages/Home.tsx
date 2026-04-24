@@ -4,6 +4,8 @@ import { useStore } from '../store'
 import { itemPath } from '../lib/graph'
 
 const CHANGELOG: { type: 'feat' | 'fix'; text: string }[] = [
+  { type: 'feat', text: 'Spawn maps show where creatures live on both Cloud & Mist and Shifting Sands' },
+  { type: 'feat', text: 'Seed farming info — planting requirements and how to get seeds' },
   { type: 'feat', text: 'Preview how quality tiers affect weapon damage and durability' },
   { type: 'feat', text: 'See base stats (damage, armor, durability) on weapons and equipment' },
   { type: 'feat', text: 'Filter drop sources by creature, chest, or gathering node' },
