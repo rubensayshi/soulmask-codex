@@ -75,12 +75,18 @@ export default function SpawnMap({ groups, mapType = 'base', compact }: Props) {
 
     if (allPts.length > 0) {
       const spawnBounds = L.latLngBounds(allPts)
+      const padLat = Math.max((spawnBounds.getNorth() - spawnBounds.getSouth()) * 0.15, 80)
+      const padLng = Math.max((spawnBounds.getEast() - spawnBounds.getWest()) * 0.15, 80)
+      const paddedBounds = L.latLngBounds(
+        [spawnBounds.getSouth() - padLat, spawnBounds.getWest() - padLng],
+        [spawnBounds.getNorth() + padLat, spawnBounds.getEast() + padLng],
+      )
       const baseZoom = map.getZoom()
       const maxStep = compact ? 0.5 : 1
       let bestZoom = baseZoom
       for (let step = maxStep; step >= 0.1; step -= 0.1) {
         map.setView(spawnBounds.getCenter(), baseZoom + step)
-        if (map.getBounds().contains(spawnBounds)) {
+        if (map.getBounds().contains(paddedBounds)) {
           bestZoom = baseZoom + step
           break
         }
