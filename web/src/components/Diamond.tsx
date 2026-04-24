@@ -41,8 +41,8 @@ export default function Diamond({ item, size = 42, variant = 'default', onClick,
     lit:        'lit',
   }[effVariant]
 
-  const hover = onClick && !terminal ? 'hover:border-green hover:-translate-y-px transition-all' : 'transition-colors'
-  const cursor = onClick && !terminal ? 'cursor-pointer' : ''
+  const hover = onClick ? 'hover:border-green hover:-translate-y-px transition-all' : 'transition-colors'
+  const cursor = onClick ? 'cursor-pointer' : ''
 
   return (
     <div

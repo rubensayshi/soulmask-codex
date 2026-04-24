@@ -100,7 +100,7 @@ function FlowNode({ graph, byId, id, qty, multiplier, isRoot = false, depth = 0,
           item={item}
           size={size}
           variant={isRoot ? 'root' : terminal ? 'raw' : 'default'}
-          onClick={() => !terminal && onNavigate(item)}
+          onClick={() => onNavigate(item)}
         />
         {badge}
       </div>
