@@ -27,9 +27,9 @@ cleanup() {
 trap cleanup INT TERM EXIT
 
 (
-    cd "$ROOT/backend"
-    exec reflex -d none -s -r '\.go$' \
-        -- go run ./cmd/server -dev -db "$ROOT/data/app.db" "$@"
+    cd "$ROOT"
+    exec reflex -d none -s -r '(backend/.*\.go|data/app\.db)$' \
+        -- sh -c 'cd backend && go run ./cmd/server -dev -db "'"$ROOT"'/data/app.db" '"$*"''
 ) 2>&1 | sed 's/^/[be] /' &
 PIDS+=($!)
 
