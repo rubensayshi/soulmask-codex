@@ -148,22 +148,21 @@ export default function Item() {
               </div>
             )}
           </div>
-          <div className="w-[50%] flex-shrink-0">
+          <div className="w-[50%] flex-shrink-0 border border-hair-strong p-2 bg-panel">
             {(() => {
               const maps = detail.spawn_locations
               const current = maps.find(m => m.map === activeMap) ?? maps[0]
               return (
                 <>
-                  <SpawnMap key={current.map} groups={current.groups} mapType={current.map} compact />
                   {maps.length > 1 && (
-                    <div className="flex gap-1.5 mt-2">
+                    <div className="flex mb-2">
                       {maps.map(sm => (
                         <button key={sm.map}
                           onClick={() => { setActiveMap(sm.map); localStorage.setItem('spawn-map-pref', sm.map) }}
-                          className={`flex-1 py-[5px] text-[10px] tracking-[.08em] uppercase font-medium border transition-colors ${
+                          className={`flex-1 py-[4px] text-[10px] tracking-[.08em] uppercase font-medium border-b-2 transition-colors ${
                             sm.map === current.map
-                              ? 'bg-rust/20 border-rust text-rust'
-                              : 'bg-panel border-hair text-text-dim hover:text-text hover:border-text-dim'
+                              ? 'text-rust border-rust'
+                              : 'text-text-dim border-transparent hover:text-text'
                           }`}
                         >
                           {sm.map === 'base' ? 'Cloud & Mist' : 'Shifting Sands'}
@@ -172,6 +171,7 @@ export default function Item() {
                       ))}
                     </div>
                   )}
+                  <SpawnMap key={current.map} groups={current.groups} mapType={current.map} compact />
                 </>
               )
             })()}
