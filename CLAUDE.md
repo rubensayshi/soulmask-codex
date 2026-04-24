@@ -34,6 +34,8 @@ python3 pipeline/parse_tech_tree.py   # tech_tree.json (from uasset_export/Bluep
 
 Parsers are independent — run any one in isolation. Outputs are stable enough that they're committed to git (see `Game/Parsed/`).
 
+**After running any individual parser, always run the full pipeline** (`make db`) to ensure downstream enrichment steps (classification, food buffs) are not lost. Running `parse_items.py` alone, for example, will strip the `buffs` field that `parse_food_buffs.py` adds.
+
 ## Two distinct parsing strategies
 
 The code uses **two different approaches** depending on whether the data was exported via UE4Editor or UAssetGUI — don't mix them up:

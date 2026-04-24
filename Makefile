@@ -1,11 +1,12 @@
-.PHONY: help dev build db sqlc tidy test translate clean deploy icons-sync
+.PHONY: help dev build parse db sqlc tidy test translate clean deploy icons-sync
 
 help:
 	@echo "Usage: make <target>"
 	@echo ""
 	@echo "  dev          Run backend (live-reload) + Vite dev server"
 	@echo "  build        Build SPA + embed into single Go binary at backend/bin/server"
-	@echo "  db           Rebuild data/app.db from Game/Parsed/*.json + translations"
+	@echo "  parse        Run all Stage 2 parsers (items, recipes, tech, drops, classify, food buffs)"
+	@echo "  db           parse + rebuild data/app.db"
 	@echo "  sqlc         Regenerate backend/internal/db/gen/ from queries.sql"
 	@echo "  tidy         go mod tidy"
 	@echo "  test         Run go + web + python test suites"
@@ -17,7 +18,15 @@ help:
 dev:
 	./dev.sh
 
-db:
+parse:
+	python3 pipeline/parse_items.py
+	python3 pipeline/parse_recipes.py
+	python3 pipeline/parse_tech_tree.py
+	python3 pipeline/parse_exports.py
+	python3 pipeline/classify_items.py
+	python3 pipeline/parse_food_buffs.py
+
+db: parse
 	python3 pipeline/build_db.py
 
 sqlc:
