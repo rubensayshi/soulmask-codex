@@ -80,6 +80,22 @@ Write entries as a player would understand them — what they can now *do*, not 
 - Good: "Preview how quality tiers affect weapon damage and durability"
 - Bad: "Extract and display base weapon/equipment stats from PropPack tables"
 
+## Dev server
+
+Managed via pm2 (`ecosystem.config.js`). Two processes: `souldb-be` (Go backend on :9060) and `souldb-fe` (Vite on :5173).
+
+```bash
+pm2 start              # start both (auto-discovers ecosystem.config.js)
+pm2 stop all           # stop both
+pm2 status             # check what's running
+pm2 logs               # tail logs
+pm2 restart souldb-be  # restart just the backend
+```
+
+Makefile aliases: `make dev`, `make dev-stop`, `make dev-status`, `make dev-logs`.
+
+Backend auto-restarts on `.go` file changes (pm2 watch). Frontend uses Vite HMR. Before starting, run `pm2 status` to avoid port conflicts from an already-running instance.
+
 ## Conventions
 
 - Python 3.x, no external dependencies, no virtualenv needed for stage 2. `.venv/` exists in the repo but isn't required.

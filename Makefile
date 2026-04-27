@@ -1,9 +1,12 @@
-.PHONY: help dev build parse db sqlc tidy test translate clean deploy icons-sync
+.PHONY: help dev dev-stop dev-status dev-logs build parse db sqlc tidy test translate clean deploy icons-sync
 
 help:
 	@echo "Usage: make <target>"
 	@echo ""
-	@echo "  dev          Run backend (live-reload) + Vite dev server"
+	@echo "  dev          Start backend + Vite via pm2 and tail logs"
+	@echo "  dev-stop     Stop dev servers"
+	@echo "  dev-status   Show dev server status"
+	@echo "  dev-logs     Tail dev server logs"
 	@echo "  build        Build SPA + embed into single Go binary at backend/bin/server"
 	@echo "  parse        Run all Stage 2 parsers (items, recipes, tech, drops, classify, food buffs)"
 	@echo "  db           parse + rebuild data/app.db"
@@ -16,7 +19,20 @@ help:
 	@echo "  clean        Remove build artifacts"
 
 dev:
-	./dev.sh
+	pm2 start ecosystem.config.js
+	@sleep 2
+	pm2 status
+	@echo ""
+	@echo "  Logs: make dev-logs    Stop: make dev-stop"
+
+dev-stop:
+	pm2 stop souldb-be souldb-fe
+
+dev-status:
+	pm2 status
+
+dev-logs:
+	pm2 logs --lines 50
 
 parse:
 	python3 pipeline/parse_items.py
