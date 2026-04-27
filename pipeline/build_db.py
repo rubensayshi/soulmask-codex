@@ -316,6 +316,8 @@ def main():
         if base_name is None:
             return prettify_bp_id(bag_name)
         # Add variant qualifier
+        if is_extra and is_elite:
+            return f"{base_name} (Elite)"
         if is_extra:
             return f"{base_name} (Bonus)"
         if is_hunt and is_elite:

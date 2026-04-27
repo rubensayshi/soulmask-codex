@@ -184,18 +184,18 @@ func (s *Server) handleItem(w http.ResponseWriter, r *http.Request) {
 				spawnLocations = append(spawnLocations, SpawnMap{Map: r.Map})
 			}
 			sm := &spawnLocations[mi]
+			level := ""
+			if r.LevelDesc.Valid {
+				level = r.LevelDesc.String
+			}
 			var found *SpawnGroup
 			for i := range sm.Groups {
-				if sm.Groups[i].Creature == r.CreatureType {
+				if sm.Groups[i].Creature == r.CreatureType && sm.Groups[i].Level == level {
 					found = &sm.Groups[i]
 					break
 				}
 			}
 			if found == nil {
-				level := ""
-				if r.LevelDesc.Valid {
-					level = r.LevelDesc.String
-				}
 				sm.Groups = append(sm.Groups, SpawnGroup{Creature: r.CreatureType, Level: level})
 				found = &sm.Groups[len(sm.Groups)-1]
 			}
