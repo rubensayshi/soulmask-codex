@@ -8,8 +8,8 @@ import TechNode from '../components/TechNode'
 
 const MODES: { key: TechMode; label: string }[] = [
   { key: 'survival', label: 'Survival' },
-  { key: 'soldier', label: 'Soldier' },
-  { key: 'management', label: 'Management' },
+  { key: 'soldier', label: 'Warrior' },
+  { key: 'management', label: 'Tribe' },
 ]
 
 interface DepLine {
