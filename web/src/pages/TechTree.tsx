@@ -400,13 +400,12 @@ export default function TechTree() {
 
           <button
             onClick={handleTogglePlanner}
-            className={`px-3 py-1 text-[11px] font-semibold uppercase tracking-[.1em] transition-colors ${
-              plannerMode
-                ? 'bg-green/20 text-green border border-green-dim'
-                : 'bg-panel text-text-dim border border-hair hover:text-text-mute'
-            }`}
+            className="flex items-center gap-2 px-2.5 py-1 text-[11px] font-semibold tracking-[.06em] transition-colors group"
           >
-            Planner {plannerMode ? 'ON' : 'OFF'}
+            <span className={plannerMode ? 'text-green' : 'text-text-dim group-hover:text-text-mute'}>Planner</span>
+            <span className={`relative inline-block w-7 h-3.5 rounded-full transition-colors ${plannerMode ? 'bg-green/40' : 'bg-panel-2'}`}>
+              <span className={`absolute top-0.5 w-2.5 h-2.5 rounded-full transition-all ${plannerMode ? 'left-[14px] bg-green' : 'left-0.5 bg-text-dim'}`} />
+            </span>
           </button>
 
           <input
@@ -504,36 +503,6 @@ export default function TechTree() {
           </div>
         )}
 
-        {data && data.untiered.length > 0 && (
-          <div className="px-3 pb-6">
-            <div className="border border-hair bg-panel overflow-hidden" style={{ maxWidth: 400 }}>
-              <div className="flex items-center gap-3 px-4 py-2.5 border-b border-hair">
-                <svg viewBox="0 0 14 14" className="w-[14px] h-[14px] flex-shrink-0" fill="none" stroke="#b8a060" strokeWidth="1" strokeLinecap="square">
-                  <path d="M7 1 L13 7 L7 13 L1 7 Z" />
-                  <path d="M7 4 L10 7 L7 10 L4 7 Z" fill="#b8a060" stroke="none" opacity=".6" />
-                </svg>
-                <span className="font-display text-[15px] font-semibold text-gold tracking-[.04em]">Untiered</span>
-                <span className="text-[10px] tracking-[.14em] uppercase text-text-dim font-medium">No prerequisite</span>
-                <div className="flex-1 h-px" style={{ background: 'linear-gradient(90deg, #7a6830 0%, transparent 100%)' }} />
-              </div>
-              <div className="p-2 flex flex-col gap-1">
-                {data.untiered.map(node => (
-                  <TechNode
-                    key={node.id}
-                    node={node}
-                    isExpanded={expandedNodeId === node.id}
-                    onToggle={() => handleToggleNode(node.id)}
-                    plannerMode={plannerMode}
-                    selectedIds={selectedNodeIds}
-                    mainPrereqsMet={mainPrereqsMet.get(node.id)}
-                    onPlannerToggleSub={handlePlannerToggleSub}
-                    onPlannerSelectAll={handlePlannerSelectAll}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* Recipe summary panel */}
         {plannerMode && data && idx && (
