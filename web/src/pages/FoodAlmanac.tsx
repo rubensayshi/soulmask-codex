@@ -197,6 +197,8 @@ export default function FoodAlmanac() {
         <meta property="og:title" content="Food Almanac — Soulmask Codex" />
         <meta property="og:description" content="Compare every Soulmask food, drink, and potion side by side — buffs, durations, and companion preferences." />
         <meta property="og:url" content="https://soulmask-codex.fly.dev/food-almanac" />
+        <meta name="twitter:title" content="Food Almanac — Soulmask Codex" />
+        <meta name="twitter:description" content="Compare every Soulmask food, drink, and potion side by side — buffs, durations, and companion preferences." />
       </Helmet>
       {/* Header */}
       <div className="mb-5">

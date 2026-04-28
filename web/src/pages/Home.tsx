@@ -4,6 +4,7 @@ import { useStore } from '../store'
 import { itemPath } from '../lib/graph'
 
 const CHANGELOG: { type: 'feat' | 'fix'; text: string }[] = [
+  { type: 'feat', text: 'Browse the full tech tree with tier groupings, dependency lines, and recipe previews' },
   { type: 'feat', text: 'Spawn maps show where creatures live on both Cloud & Mist and Shifting Sands' },
   { type: 'feat', text: 'Seed farming info — planting requirements and how to get seeds' },
   { type: 'feat', text: 'Preview how quality tiers affect weapon damage and durability' },
@@ -74,6 +75,12 @@ export default function Home() {
         <title>Soulmask Codex — Atlas of the Crafted World</title>
         <meta name="description" content={`Browse ${graph.items.length.toLocaleString()} items and ${graph.recipes.length.toLocaleString()} recipes — crafting chains, drop sources, tech tree, and food buffs for Soulmask.`} />
         <link rel="canonical" href="https://soulmask-codex.fly.dev/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="Soulmask Codex — Atlas of the Crafted World" />
+        <meta property="og:description" content="Every weapon, tool, recipe, and material traced from raw resource to final form. Crafting chains, drop sources, tech tree, and food buffs." />
+        <meta property="og:url" content="https://soulmask-codex.fly.dev/" />
+        <meta name="twitter:title" content="Soulmask Codex — Atlas of the Crafted World" />
+        <meta name="twitter:description" content="Every weapon, tool, recipe, and material traced from raw resource to final form." />
       </Helmet>
       {/* Hero */}
       <div className="m-6 border border-hair relative overflow-hidden"

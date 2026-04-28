@@ -58,7 +58,7 @@ export default function ItemHeader({ item, recipe, station, quality = 0 }: Props
       </div>
 
       <div className="flex-1 min-w-0">
-        <div className="font-display text-[24px] font-semibold text-text leading-[1.2] tracking-[.02em]">{title}</div>
+        <h1 className="font-display text-[24px] font-semibold text-text leading-[1.2] tracking-[.02em]">{title}</h1>
         <div className="text-[11px] text-text-dim tracking-[.12em] uppercase mt-[3px] font-medium">
           Classification: {classification}
         </div>

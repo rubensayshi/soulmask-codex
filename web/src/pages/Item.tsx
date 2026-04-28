@@ -125,6 +125,8 @@ export default function Item() {
         <meta property="og:description" content={metaDesc} />
         <meta property="og:url" content={canonicalUrl} />
         <meta property="og:type" content="article" />
+        <meta name="twitter:title" content={pageTitle} />
+        <meta name="twitter:description" content={metaDesc} />
         {jsonLd && (
           <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
         )}

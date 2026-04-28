@@ -95,6 +95,8 @@ export default function AwarenessXp() {
         <meta property="og:title" content="Awareness XP per Minute — Soulmask Codex" />
         <meta property="og:description" content="Soulmask recipes ranked by awareness XP gained per minute of craft time." />
         <meta property="og:url" content="https://soulmask-codex.fly.dev/awareness-xp" />
+        <meta name="twitter:title" content="Awareness XP per Minute — Soulmask Codex" />
+        <meta name="twitter:description" content="Soulmask recipes ranked by awareness XP gained per minute of craft time." />
       </Helmet>
       <h1 className="font-heading text-[28px] font-bold text-text tracking-[.03em] mb-1">
         Awareness <span className="font-display italic text-green font-semibold">XP</span>
