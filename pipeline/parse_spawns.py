@@ -33,6 +33,10 @@ ANIMAL_SPAWNER_CLASS = "HShuaGuaiQiBase"
 
 CONTEXT_PREFIXES = {"YiJi", "Kuang", "DongWu", "ChaoXue", "ShiJian", "DiXiaCheng"}
 
+RUINS_SPAWNER_CLASS = "BP_HShuaGuaiQiRandNPC_C"
+
+RUINS_LOCATIONS = {"DongKu", "TianKeng", "HeiSenLin", "HuoShan", "BingGu", "ZhaoZe"}
+
 SKIP_ACTOR_PATTERNS = {
     "ShouWei", "ChiHou", "XinShou", "KuangYeYuan", "Kurma",
     "TuoNiaoDan", "Event_Shop", "Event_EnemyMount", "LDZ_Event",
@@ -270,6 +274,83 @@ def main():
             "lon": lon,
             "map": "base",
         })
+
+    # --- Ruins spawns (location-specific YeShou from BP_HShuaGuaiQiRandNPC_C) ---
+    ruins_actors = [s for s in spawns
+                    if s.get("spawner_class") == RUINS_SPAWNER_CLASS
+                    and s.get("map") in OPEN_WORLD_MAPS]
+    ruins_count = 0
+
+    for spawn in ruins_actors:
+        actor_name = spawn["actor_name"]
+        prefix = re.sub(r"_?\d+$", "", actor_name)
+        parts = prefix.split("_")
+
+        if "YiJi" not in parts or "YeShou" not in prefix:
+            continue
+        location = None
+        for p in parts:
+            if p in RUINS_LOCATIONS:
+                location = p
+                break
+        if not location:
+            continue
+
+        is_elite = "Elite" in parts
+        stripped = prefix.replace("YiJi_", "")
+        bp_base = f"BP_{stripped}"
+
+        matched_bps = []
+        if bp_base in bp_lookup:
+            matched_bps.append(bp_base)
+        for suffix_n in range(1, 4):
+            for variant in [f"{bp_base}{suffix_n}", f"{bp_base}_{suffix_n}"]:
+                if variant in bp_lookup:
+                    matched_bps.append(variant)
+
+        if not matched_bps:
+            unresolved[f"{prefix} (ruins)"] += 1
+            continue
+
+        lon, lat = ue4_to_map(spawn["pos_x"], spawn["pos_y"])
+
+        for bp_name in matched_bps:
+            if bp_name not in bp_cache:
+                bp_cache[bp_name] = parse_blueprint(bp_lookup[bp_name])
+            bp_data = bp_cache[bp_name]
+            if not bp_data:
+                continue
+
+            entry = bp_data[0]
+            bp_creature = creature_class_to_pinyin(entry["creature_class"])
+            if not bp_creature:
+                continue
+
+            english = creature_names.get(bp_creature) or creature_names_lower.get(bp_creature.lower())
+            if not english:
+                unresolved[f"{prefix} (no translation: {bp_creature})"] += 1
+                continue
+
+            level_str = format_level(entry["level_min"], entry["level_max"])
+            cls = entry["creature_class"]
+            entry_elite = is_elite or "_JY_" in cls or cls.endswith("_JY_C") or "_JingYing" in cls
+
+            if entry_elite:
+                label = f"{english} (Elite) (Ruins)"
+            else:
+                label = f"{english} (Ruins)"
+
+            results.append({
+                "creature": label,
+                "group": "Animal Spawn",
+                "level": level_str,
+                "lat": lat,
+                "lon": lon,
+                "map": "base",
+            })
+            ruins_count += 1
+
+    print(f"  {ruins_count} ruins spawn points added")
 
     # Write output
     OUT.write_text(json.dumps(results, indent=2), encoding="utf-8")

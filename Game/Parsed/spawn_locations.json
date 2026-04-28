@@ -28358,5 +28358,1285 @@
     "lat": -1387,
     "lon": 1160,
     "map": "base"
+  },
+  {
+    "creature": "Snow Leopard (Ruins)",
+    "group": "Animal Spawn",
+    "level": "56 - 60",
+    "lat": -614,
+    "lon": 620,
+    "map": "base"
+  },
+  {
+    "creature": "Snow Leopard (Ruins)",
+    "group": "Animal Spawn",
+    "level": "56 - 60",
+    "lat": -614,
+    "lon": 644,
+    "map": "base"
+  },
+  {
+    "creature": "Snow Leopard (Ruins)",
+    "group": "Animal Spawn",
+    "level": "56 - 60",
+    "lat": -614,
+    "lon": 616,
+    "map": "base"
+  },
+  {
+    "creature": "Snow Leopard (Elite) (Ruins)",
+    "group": "Animal Spawn",
+    "level": "60",
+    "lat": -612,
+    "lon": 592,
+    "map": "base"
+  },
+  {
+    "creature": "Centipede (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -2060,
+    "lon": 632,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -2060,
+    "lon": 632,
+    "map": "base"
+  },
+  {
+    "creature": "Centipede (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -2009,
+    "lon": 616,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -2009,
+    "lon": 616,
+    "map": "base"
+  },
+  {
+    "creature": "Centipede (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -1995,
+    "lon": 607,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -1995,
+    "lon": 607,
+    "map": "base"
+  },
+  {
+    "creature": "Centipede (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -2005,
+    "lon": 583,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -2005,
+    "lon": 583,
+    "map": "base"
+  },
+  {
+    "creature": "Centipede (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -2000,
+    "lon": 587,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -2000,
+    "lon": 587,
+    "map": "base"
+  },
+  {
+    "creature": "Centipede (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -1974,
+    "lon": 604,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -1974,
+    "lon": 604,
+    "map": "base"
+  },
+  {
+    "creature": "Centipede (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -1975,
+    "lon": 613,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -1975,
+    "lon": 613,
+    "map": "base"
+  },
+  {
+    "creature": "Centipede (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -1979,
+    "lon": 585,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -1979,
+    "lon": 585,
+    "map": "base"
+  },
+  {
+    "creature": "Centipede (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -1958,
+    "lon": 590,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -1958,
+    "lon": 590,
+    "map": "base"
+  },
+  {
+    "creature": "Centipede (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -1958,
+    "lon": 583,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -1958,
+    "lon": 583,
+    "map": "base"
+  },
+  {
+    "creature": "Centipede (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -1989,
+    "lon": 624,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -1989,
+    "lon": 624,
+    "map": "base"
+  },
+  {
+    "creature": "Centipede (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -2050,
+    "lon": 641,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -2050,
+    "lon": 641,
+    "map": "base"
+  },
+  {
+    "creature": "Centipede (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -1994,
+    "lon": 632,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -1994,
+    "lon": 632,
+    "map": "base"
+  },
+  {
+    "creature": "Centipede (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -1999,
+    "lon": 643,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -1999,
+    "lon": 643,
+    "map": "base"
+  },
+  {
+    "creature": "Centipede (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -1990,
+    "lon": 656,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -1990,
+    "lon": 656,
+    "map": "base"
+  },
+  {
+    "creature": "Centipede (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -1988,
+    "lon": 669,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -1988,
+    "lon": 669,
+    "map": "base"
+  },
+  {
+    "creature": "Centipede (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -1968,
+    "lon": 669,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -1968,
+    "lon": 669,
+    "map": "base"
+  },
+  {
+    "creature": "Centipede (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -1946,
+    "lon": 673,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -1946,
+    "lon": 673,
+    "map": "base"
+  },
+  {
+    "creature": "Centipede (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -1973,
+    "lon": 636,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -1973,
+    "lon": 636,
+    "map": "base"
+  },
+  {
+    "creature": "Centipede (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -2010,
+    "lon": 647,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -2010,
+    "lon": 647,
+    "map": "base"
+  },
+  {
+    "creature": "Centipede (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -2050,
+    "lon": 620,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -2050,
+    "lon": 620,
+    "map": "base"
+  },
+  {
+    "creature": "Centipede (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -2033,
+    "lon": 633,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -2033,
+    "lon": 633,
+    "map": "base"
+  },
+  {
+    "creature": "Centipede (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -1975,
+    "lon": 625,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -1975,
+    "lon": 625,
+    "map": "base"
+  },
+  {
+    "creature": "Centipede (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -2033,
+    "lon": 626,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -2033,
+    "lon": 626,
+    "map": "base"
+  },
+  {
+    "creature": "Centipede (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -2024,
+    "lon": 634,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -2024,
+    "lon": 634,
+    "map": "base"
+  },
+  {
+    "creature": "Centipede (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -2027,
+    "lon": 617,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -2027,
+    "lon": 617,
+    "map": "base"
+  },
+  {
+    "creature": "Centipede (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -2015,
+    "lon": 629,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -2015,
+    "lon": 629,
+    "map": "base"
+  },
+  {
+    "creature": "Centipede (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -2017,
+    "lon": 611,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "36 - 40",
+    "lat": -2017,
+    "lon": 611,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Elite) (Ruins)",
+    "group": "Animal Spawn",
+    "level": "40",
+    "lat": -2019,
+    "lon": 651,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Elite) (Ruins)",
+    "group": "Animal Spawn",
+    "level": "40",
+    "lat": -1969,
+    "lon": 630,
+    "map": "base"
+  },
+  {
+    "creature": "Spider (Ruins)",
+    "group": "Animal Spawn",
+    "level": "56 - 60",
+    "lat": -801,
+    "lon": 2002,
+    "map": "base"
+  },
+  {
+    "creature": "Spider (Ruins)",
+    "group": "Animal Spawn",
+    "level": "56 - 60",
+    "lat": -797,
+    "lon": 2002,
+    "map": "base"
+  },
+  {
+    "creature": "Spider (Ruins)",
+    "group": "Animal Spawn",
+    "level": "56 - 60",
+    "lat": -777,
+    "lon": 2001,
+    "map": "base"
+  },
+  {
+    "creature": "Spider (Ruins)",
+    "group": "Animal Spawn",
+    "level": "56 - 60",
+    "lat": -797,
+    "lon": 1998,
+    "map": "base"
+  },
+  {
+    "creature": "Spider (Ruins)",
+    "group": "Animal Spawn",
+    "level": "56 - 60",
+    "lat": -787,
+    "lon": 2006,
+    "map": "base"
+  },
+  {
+    "creature": "Spider (Ruins)",
+    "group": "Animal Spawn",
+    "level": "56 - 60",
+    "lat": -787,
+    "lon": 2001,
+    "map": "base"
+  },
+  {
+    "creature": "Spider (Ruins)",
+    "group": "Animal Spawn",
+    "level": "56 - 60",
+    "lat": -777,
+    "lon": 1996,
+    "map": "base"
+  },
+  {
+    "creature": "Spider (Elite) (Ruins)",
+    "group": "Animal Spawn",
+    "level": "60",
+    "lat": -783,
+    "lon": 2002,
+    "map": "base"
+  },
+  {
+    "creature": "Lobster (Ruins)",
+    "group": "Animal Spawn",
+    "level": "51 - 55",
+    "lat": -3213,
+    "lon": 665,
+    "map": "base"
+  },
+  {
+    "creature": "Lobster (Ruins)",
+    "group": "Animal Spawn",
+    "level": "51 - 55",
+    "lat": -3183,
+    "lon": 651,
+    "map": "base"
+  },
+  {
+    "creature": "Lobster (Ruins)",
+    "group": "Animal Spawn",
+    "level": "51 - 55",
+    "lat": -3192,
+    "lon": 642,
+    "map": "base"
+  },
+  {
+    "creature": "Lobster (Ruins)",
+    "group": "Animal Spawn",
+    "level": "51 - 55",
+    "lat": -3177,
+    "lon": 659,
+    "map": "base"
+  },
+  {
+    "creature": "Lobster (Ruins)",
+    "group": "Animal Spawn",
+    "level": "51 - 55",
+    "lat": -3177,
+    "lon": 671,
+    "map": "base"
+  },
+  {
+    "creature": "Lobster (Ruins)",
+    "group": "Animal Spawn",
+    "level": "51 - 55",
+    "lat": -3204,
+    "lon": 665,
+    "map": "base"
+  },
+  {
+    "creature": "Lobster (Ruins)",
+    "group": "Animal Spawn",
+    "level": "51 - 55",
+    "lat": -3194,
+    "lon": 687,
+    "map": "base"
+  },
+  {
+    "creature": "Lobster (Ruins)",
+    "group": "Animal Spawn",
+    "level": "51 - 55",
+    "lat": -3172,
+    "lon": 644,
+    "map": "base"
+  },
+  {
+    "creature": "Lobster (Ruins)",
+    "group": "Animal Spawn",
+    "level": "51 - 55",
+    "lat": -3183,
+    "lon": 628,
+    "map": "base"
+  },
+  {
+    "creature": "Lobster (Ruins)",
+    "group": "Animal Spawn",
+    "level": "51 - 55",
+    "lat": -3173,
+    "lon": 687,
+    "map": "base"
+  },
+  {
+    "creature": "Lobster (Ruins)",
+    "group": "Animal Spawn",
+    "level": "51 - 55",
+    "lat": -3183,
+    "lon": 703,
+    "map": "base"
+  },
+  {
+    "creature": "Lobster (Ruins)",
+    "group": "Animal Spawn",
+    "level": "51 - 55",
+    "lat": -3183,
+    "lon": 678,
+    "map": "base"
+  },
+  {
+    "creature": "Lobster (Elite) (Ruins)",
+    "group": "Animal Spawn",
+    "level": "55",
+    "lat": -3171,
+    "lon": 665,
+    "map": "base"
+  },
+  {
+    "creature": "Lobster (Elite) (Ruins)",
+    "group": "Animal Spawn",
+    "level": "55",
+    "lat": -3188,
+    "lon": 665,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -497,
+    "lon": 2599,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -497,
+    "lon": 2599,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -467,
+    "lon": 2712,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -467,
+    "lon": 2712,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -456,
+    "lon": 2741,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -456,
+    "lon": 2741,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -440,
+    "lon": 2717,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -440,
+    "lon": 2717,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -439,
+    "lon": 2707,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -439,
+    "lon": 2707,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -424,
+    "lon": 2726,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -424,
+    "lon": 2726,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -419,
+    "lon": 2682,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -419,
+    "lon": 2682,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -501,
+    "lon": 2593,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -501,
+    "lon": 2593,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -409,
+    "lon": 2694,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -409,
+    "lon": 2694,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -415,
+    "lon": 2738,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -415,
+    "lon": 2738,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -405,
+    "lon": 2753,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -405,
+    "lon": 2753,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -379,
+    "lon": 2727,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -379,
+    "lon": 2727,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -373,
+    "lon": 2750,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -373,
+    "lon": 2750,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -373,
+    "lon": 2755,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -373,
+    "lon": 2755,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -418,
+    "lon": 2749,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -418,
+    "lon": 2749,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -427,
+    "lon": 2751,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -427,
+    "lon": 2751,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -416,
+    "lon": 2723,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -416,
+    "lon": 2723,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -424,
+    "lon": 2699,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -424,
+    "lon": 2699,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -416,
+    "lon": 2702,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -416,
+    "lon": 2702,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -415,
+    "lon": 2713,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -415,
+    "lon": 2713,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -403,
+    "lon": 2712,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -403,
+    "lon": 2712,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -380,
+    "lon": 2691,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -380,
+    "lon": 2691,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -472,
+    "lon": 2618,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -472,
+    "lon": 2618,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -398,
+    "lon": 2674,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -398,
+    "lon": 2674,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -395,
+    "lon": 2686,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -395,
+    "lon": 2686,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -395,
+    "lon": 2724,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -395,
+    "lon": 2724,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -395,
+    "lon": 2739,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -395,
+    "lon": 2739,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -495,
+    "lon": 2593,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -495,
+    "lon": 2593,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -388,
+    "lon": 2753,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -388,
+    "lon": 2753,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -472,
+    "lon": 2638,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -472,
+    "lon": 2638,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -379,
+    "lon": 2718,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -379,
+    "lon": 2718,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -423,
+    "lon": 2751,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -423,
+    "lon": 2751,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -395,
+    "lon": 2701,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -395,
+    "lon": 2701,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -379,
+    "lon": 2710,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -379,
+    "lon": 2710,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -465,
+    "lon": 2662,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -465,
+    "lon": 2662,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -441,
+    "lon": 2675,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Ruins)",
+    "group": "Animal Spawn",
+    "level": "46 - 50",
+    "lat": -441,
+    "lon": 2675,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Elite) (Ruins)",
+    "group": "Animal Spawn",
+    "level": "50",
+    "lat": -444,
+    "lon": 2755,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Elite) (Ruins)",
+    "group": "Animal Spawn",
+    "level": "50",
+    "lat": -444,
+    "lon": 2755,
+    "map": "base"
+  },
+  {
+    "creature": "Scorpion (Elite) (Ruins)",
+    "group": "Animal Spawn",
+    "level": "50",
+    "lat": -372,
+    "lon": 2712,
+    "map": "base"
+  },
+  {
+    "creature": "Rat (Elite) (Ruins)",
+    "group": "Animal Spawn",
+    "level": "50",
+    "lat": -372,
+    "lon": 2712,
+    "map": "base"
   }
 ]
