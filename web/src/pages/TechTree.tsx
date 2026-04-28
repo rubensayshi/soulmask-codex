@@ -31,6 +31,7 @@ export default function TechTree() {
   const [expandedNodeId, setExpandedNodeId] = useState<string | null>(null)
   const [hoveredNodeId, setHoveredNodeId] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
+  const [deepLinkedSubId, setDeepLinkedSubId] = useState<string | null>(null)
   const [lines, setLines] = useState<DepLine[]>([])
 
   const scrollContainerRef = useRef<HTMLDivElement>(null)
@@ -47,7 +48,7 @@ export default function TechTree() {
     if (!slug || !data) return
 
     for (const tier of data.tiers) {
-      const allNodes = [...tier.nodes.left, ...tier.nodes.right]
+      const allNodes = tier.columns.flat()
       for (const node of allNodes) {
         if (node.slug === slug) {
           setExpandedNodeId(node.id)
@@ -60,6 +61,7 @@ export default function TechTree() {
         for (const sub of node.sub_nodes) {
           if (sub.slug === slug) {
             setExpandedNodeId(node.id)
+            setDeepLinkedSubId(sub.id)
             setTimeout(() => {
               const el = document.querySelector(`[data-node-id="${node.id}"]`)
               el?.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'center' })
@@ -75,7 +77,7 @@ export default function TechTree() {
     if (!data) return []
     const deps: { fromId: string; toId: string }[] = []
     for (const tier of data.tiers) {
-      for (const node of [...tier.nodes.left, ...tier.nodes.right]) {
+      for (const node of tier.columns.flat()) {
         for (const depId of (node.depends_on || [])) {
           deps.push({ fromId: depId, toId: node.id })
         }
@@ -229,8 +231,9 @@ export default function TechTree() {
               })}
             </svg>
 
-            {data.tiers.map(tier => {
-              const hasMatch = !searchQuery || [...tier.nodes.left, ...tier.nodes.right].some(matchesSearch)
+            {data.tiers.map((tier, tierIndex) => {
+              const allTierNodes = tier.columns.flat()
+              const hasMatch = !searchQuery || allTierNodes.some(matchesSearch)
               return (
                 <div
                   key={tier.id}
@@ -239,16 +242,15 @@ export default function TechTree() {
                   <TechTier
                     tier={searchQuery ? {
                       ...tier,
-                      nodes: {
-                        left: tier.nodes.left.filter(matchesSearch),
-                        right: tier.nodes.right.filter(matchesSearch),
-                      },
+                      columns: tier.columns.map(col => col.filter(matchesSearch)),
                     } : tier}
+                    tierIndex={tierIndex}
                     expandedNodeId={expandedNodeId}
                     onToggleNode={handleToggleNode}
                     hoveredNodeId={hoveredNodeId}
                     onHoverNode={setHoveredNodeId}
                     highlightedNodes={highlightedNodes}
+                    initialOpenSubId={deepLinkedSubId}
                   />
                 </div>
               )

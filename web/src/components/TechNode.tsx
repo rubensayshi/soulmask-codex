@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import type { TechMainNode } from '../lib/types'
 import TechSubNode from './TechSubNode'
 
@@ -8,10 +8,15 @@ interface Props {
   onToggle: () => void
   highlighted?: boolean
   dimmed?: boolean
+  initialOpenSubId?: string | null
 }
 
-export default function TechNode({ node, isExpanded, onToggle, highlighted, dimmed }: Props) {
-    const [openSubId, setOpenSubId] = useState<string | null>(null)
+export default function TechNode({ node, isExpanded, onToggle, highlighted, dimmed, initialOpenSubId }: Props) {
+    const [openSubId, setOpenSubId] = useState<string | null>(initialOpenSubId ?? null)
+
+    useEffect(() => {
+      if (initialOpenSubId) setOpenSubId(initialOpenSubId)
+    }, [initialOpenSubId])
     const name = node.name || node.name_zh || node.id
 
     return (

@@ -170,16 +170,11 @@ export interface TechMainNode {
   sub_nodes: TechSubNode[]
 }
 
-export interface TechTierNodes {
-  left: TechMainNode[]
-  right: TechMainNode[]
-}
-
 export interface TechTier {
   id: string
   name: string
   awareness_level: number
-  nodes: TechTierNodes
+  columns: TechMainNode[][]
 }
 
 export interface TechTreeResponse {

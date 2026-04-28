@@ -39,16 +39,11 @@ type TechMainNode struct {
 	SubNodes       []TechSubNode `json:"sub_nodes"`
 }
 
-type TechTierNodes struct {
-	Left  []TechMainNode `json:"left"`
-	Right []TechMainNode `json:"right"`
-}
-
 type TechTier struct {
-	ID             string        `json:"id"`
-	Name           string        `json:"name"`
-	AwarenessLevel int64         `json:"awareness_level"`
-	Nodes          TechTierNodes `json:"nodes"`
+	ID             string           `json:"id"`
+	Name           string           `json:"name"`
+	AwarenessLevel int64            `json:"awareness_level"`
+	Columns        [][]TechMainNode `json:"columns"`
 }
 
 type TechTreeResponse struct {
@@ -276,36 +271,63 @@ func (s *Server) handleTechTree(w http.ResponseWriter, r *http.Request) {
 			tierNodeSet[id] = true
 		}
 
-		var left, right []TechMainNode
+		builtNodes := map[string]TechMainNode{}
 		for _, id := range nodeIDs {
-			mn := buildMainNode(id)
-			hasInternalPrereq := false
+			builtNodes[id] = buildMainNode(id)
+		}
+
+		internalDeps := map[string][]string{}
+		for id, mn := range builtNodes {
 			for _, dep := range mn.DependsOn {
 				if tierNodeSet[dep] {
-					hasInternalPrereq = true
-					break
+					internalDeps[id] = append(internalDeps[id], dep)
 				}
 			}
-			if hasInternalPrereq {
-				right = append(right, mn)
-			} else {
-				left = append(left, mn)
+		}
+
+		depthCache := map[string]int{}
+		var nodeDepth func(string) int
+		nodeDepth = func(id string) int {
+			if d, ok := depthCache[id]; ok {
+				return d
+			}
+			best := 0
+			for _, dep := range internalDeps[id] {
+				if d := nodeDepth(dep) + 1; d > best {
+					best = d
+				}
+			}
+			depthCache[id] = best
+			return best
+		}
+
+		maxDepth := 0
+		for id := range builtNodes {
+			if d := nodeDepth(id); d > maxDepth {
+				maxDepth = d
 			}
 		}
-		sortByLevel(left)
-		sortRightByLeftPosition(left, right)
-		if left == nil {
-			left = []TechMainNode{}
+
+		columns := make([][]TechMainNode, maxDepth+1)
+		for id, mn := range builtNodes {
+			col := nodeDepth(id)
+			columns[col] = append(columns[col], mn)
 		}
-		if right == nil {
-			right = []TechMainNode{}
+		sortByLevel(columns[0])
+		for c := 1; c <= maxDepth; c++ {
+			sortColumnByPrevPosition(columns[c-1], columns[c])
+		}
+		for i := range columns {
+			if columns[i] == nil {
+				columns[i] = []TechMainNode{}
+			}
 		}
 
 		tiers = append(tiers, TechTier{
 			ID:             bfID,
 			Name:           name,
 			AwarenessLevel: level,
-			Nodes:          TechTierNodes{Left: left, Right: right},
+			Columns:        columns,
 		})
 	}
 
@@ -326,20 +348,20 @@ func (s *Server) handleTechTree(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(resp)
 }
 
-func sortRightByLeftPosition(left, right []TechMainNode) {
-	leftPos := map[string]int{}
-	for i, n := range left {
-		leftPos[n.ID] = i
+func sortColumnByPrevPosition(prev, col []TechMainNode) {
+	prevPos := map[string]int{}
+	for i, n := range prev {
+		prevPos[n.ID] = i
 	}
-	sort.SliceStable(right, func(i, j int) bool {
-		pi, pj := len(left), len(left)
-		for _, dep := range right[i].DependsOn {
-			if p, ok := leftPos[dep]; ok && p < pi {
+	sort.SliceStable(col, func(i, j int) bool {
+		pi, pj := len(prev), len(prev)
+		for _, dep := range col[i].DependsOn {
+			if p, ok := prevPos[dep]; ok && p < pi {
 				pi = p
 			}
 		}
-		for _, dep := range right[j].DependsOn {
-			if p, ok := leftPos[dep]; ok && p < pj {
+		for _, dep := range col[j].DependsOn {
+			if p, ok := prevPos[dep]; ok && p < pj {
 				pj = p
 			}
 		}
