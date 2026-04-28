@@ -4,9 +4,31 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-A one-off reverse-engineering pipeline that extracts Soulmask game data (items, recipes, tech tree, loot tables) from the UE4 modkit into JSON under `Game/Parsed/`. Not an app, not a service — a scraper + parsers. No tests, no CI, no package manager, no linter.
+Soulmask Codex — a full-stack game-data reference site for the Soulmask survival game. Three layers:
 
-Detailed data shapes, fill rates, and cross-reference maps live in `docs/DATA.md`. Design notes and game-concept glossary in `docs/DESIGN.md`. README has the headline numbers and pipeline diagram.
+1. **Pipeline** (Python 3, no deps) — reverse-engineers UE4 modkit `.uasset` files into `Game/Parsed/*.json`
+2. **Backend** (Go + chi) — serves a JSON API from a SQLite DB at `backend/internal/api/`
+3. **Frontend** (React + Vite + TypeScript) — SPA in `web/`, embedded into the Go binary for prod
+
+Deployed as a single binary on Fly.io (`soulmask-codex`, region `ams`).
+
+Docs: `docs/DATA.md` (data shapes, fill rates, cross-ref maps), `docs/DESIGN.md` (game-concept glossary).
+
+## Key paths
+
+| What              | Path                         | Notes                                    |
+| ----------------- | ---------------------------- | ---------------------------------------- |
+| SQLite DB         | `data/app.db`                | **the only DB file — do not create others** |
+| Translations      | `data/translations/*.json`   | manual Chinese→English overrides         |
+| Parsed JSON       | `Game/Parsed/*.json`         | committed pipeline output                |
+| Exported tables   | `Game/Exports/*.json`        | committed UE4 DataTable exports          |
+| Raw BP exports    | `uasset_export/`             | gitignored (~800 MB)                     |
+| Backend source    | `backend/`                   | Go module `github.com/rubensayshi/soulmask-codex` |
+| Frontend source   | `web/`                       | React + Vite, pnpm                       |
+| DB schema         | `backend/internal/db/schema.sql` | single source of truth for tables    |
+| Generated DB code | `backend/internal/db/gen/`   | sqlc output, do not edit                 |
+
+**Do not create `.db` files anywhere else** (e.g. `data/soulmask.db`, `soulmask.db`). The backend flag defaults to `--db ../data/app.db`; `build_db.py` writes to `data/app.db`. Nothing else.
 
 ## Pipeline (two-stage, two-platform)
 
@@ -17,7 +39,7 @@ Modkit .uasset files  ──►  [Windows-only export]  ──►  uasset_export
                                                [any platform parsing]
                                                        │
                                                        ▼
-                                               Game/Parsed/*.json  (committed)
+                                               Game/Parsed/*.json  ──►  data/app.db
 ```
 
 **Stage 1 (Windows only, requires modkit at `C:\Program Files\Epic Games\SoulMaskModkit`):**
@@ -32,9 +54,11 @@ python3 pipeline/parse_items.py       # items.json     (from uasset_export/Bluep
 python3 pipeline/parse_tech_tree.py   # tech_tree.json (from uasset_export/Blueprints/KeJiShu/)
 ```
 
-Parsers are independent — run any one in isolation. Outputs are stable enough that they're committed to git (see `Game/Parsed/`).
+Parsers are independent — run any one in isolation. Outputs are committed to git (`Game/Parsed/`).
 
-**After running any individual parser, always run the full pipeline** (`make db`) to ensure downstream enrichment steps (classification, food buffs) are not lost. Running `parse_items.py` alone, for example, will strip the `buffs` field that `parse_food_buffs.py` adds.
+**Stage 3: `pipeline/build_db.py`** — reads `Game/Parsed/*.json` + `data/translations/*.json`, writes `data/app.db` using `schema.sql` as the DDL source. Idempotent (drops and recreates).
+
+**After running any individual parser, always run `make db`** to ensure downstream enrichment steps (classification, food buffs) and the SQLite rebuild are not lost. Running `parse_items.py` alone strips the `buffs` field that `parse_food_buffs.py` adds.
 
 ## Two distinct parsing strategies
 
@@ -80,24 +104,42 @@ Write entries as a player would understand them — what they can now *do*, not 
 - Good: "Preview how quality tiers affect weapon damage and durability"
 - Bad: "Extract and display base weapon/equipment stats from PropPack tables"
 
+## Build and deploy
+
+```bash
+make build    # pnpm build → copy dist into backend/internal/spa/ → go build
+make deploy   # icons-sync + fly deploy
+```
+
+The prod binary embeds the SPA via `backend/internal/spa/` and serves both API and static files on port 9060.
+
 ## Dev server
 
 Managed via pm2 (`ecosystem.config.js`). Two processes: `souldb-be` (Go backend on :9060) and `souldb-fe` (Vite on :5173).
 
 ```bash
-pm2 start              # start both (auto-discovers ecosystem.config.js)
-pm2 stop all           # stop both
-pm2 status             # check what's running
-pm2 logs               # tail logs
-pm2 restart souldb-be  # restart just the backend
+make dev         # pm2 start + status
+make dev-stop    # stop both
+make dev-status  # check what's running
+make dev-logs    # tail logs
 ```
 
-Makefile aliases: `make dev`, `make dev-stop`, `make dev-status`, `make dev-logs`.
-
 Backend auto-restarts on `.go` file changes (pm2 watch). Frontend uses Vite HMR. Before starting, run `pm2 status` to avoid port conflicts from an already-running instance.
+
+## Makefile quick reference
+
+| Target         | What it does                                                    |
+| -------------- | --------------------------------------------------------------- |
+| `make db`      | parse + parse-spawns + rebuild `data/app.db` — the main command |
+| `make parse`   | run all Stage 2 parsers (items, recipes, tech, drops, classify, food buffs) |
+| `make sqlc`    | regenerate `backend/internal/db/gen/` from `queries.sql`        |
+| `make build`   | SPA build + Go binary at `backend/bin/server`                   |
+| `make deploy`  | icons-sync + `fly deploy`                                       |
+| `make test`    | Go + web + Python test suites                                   |
 
 ## Conventions
 
 - Python 3.x, no external dependencies, no virtualenv needed for stage 2. `.venv/` exists in the repo but isn't required.
 - Parsers print a summary (counts, by-category breakdowns, sample rows) to stdout — use this to sanity-check changes.
 - Error files (`*_errors.json`) are written next to outputs and gitignored.
+- DB queries: add SQL to `backend/internal/db/queries.sql`, run `make sqlc` to regenerate Go code. Do not edit `gen/` by hand.
