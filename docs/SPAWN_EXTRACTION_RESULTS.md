@@ -132,3 +132,85 @@ differently or not yet in the modkit.
 | `pipeline/parse_spawns.ps1` | Same script with binary scan phase included |
 | `pipeline/parse_spawns.py` | Python version (requires Python 3, not currently installed) |
 | `Game/Parsed/spawns.json` | Output — 6,832 spawn points with coordinates |
+
+## Remaining gaps (April 2026)
+
+After joining spawns.json with spawner blueprints via `pipeline/parse_spawns.py` (on master),
+we compared resolved creature locations against saraserenity.net's reference data. Two
+categories of gaps remain.
+
+### Missing creatures — 0 actors in spawns.json
+
+These creatures exist in sara's data but have zero matching actors in our extraction. They
+likely live in `.umap` sublevels we didn't process.
+
+| Creature       | Sara count          | Pinyin      | Notes                                   |
+|----------------|---------------------|-------------|-----------------------------------------|
+| Bat            | 101 (82 + 19 elite) | BianFu      | Common creature, must be in an unprocessed sublevel |
+| Mutant Rat     | 74 (65 + 9 elite)   | LaoShu      | Found in sinkhole areas per sara        |
+| Armadillo Lizard | 34 (28 + 6 elite) | ?           | Not in our translation map either       |
+| Pangolin       | 26                  | ChaJiaoLin  |                                         |
+| Large Boar     | 15                  | XiaoYeZhu   | Small boar variant                      |
+
+### Partially missing — tier-based ruins spawners (471 actors)
+
+471 actors use the `BP_HShuaGuaiQiRandNPC_C` class with generic tier-based names like
+`SGQ_YiJi_T3_YeShou`. No corresponding blueprint files exist for these, so `parse_spawns.py`
+cannot resolve which creature they spawn. Sara lists these as "(Ruins)" variants:
+
+| Creature                           | Sara count |
+|------------------------------------|------------|
+| Wolf / Grey Wolf (Ruins)           | 68         |
+| Wasteland Wolf / Alpha Wolf (Ruins)| 66         |
+| Arctic Wolf (Ruins)                | 77         |
+| Monitor Lizard (Ruins)             | 17         |
+| Snow Leopard (Ruins)               | 13         |
+| Alligator (Ruins)                  | 10         |
+| Bear (Ruins)                       | 6          |
+
+We DID resolve 160 location-specific ruins spawns (DongKu, TianKeng, HeiSenLin, HuoShan,
+BingGu, ZhaoZe) because those have dedicated blueprints. The gap is the ~471 generic
+tier-based ones only.
+
+### Extraction instructions for Windows operator
+
+#### 1. Find missing sublevel .umap files
+
+Run the binary scan phase from `parse_spawns.ps1` against ALL `.umap` files to find sublevels
+we missed. Specifically:
+
+- Look for any `.umap` files in `Level01/` or `Level02/` not in the `$KnownSpawnerMaps` list
+- Check if `Level02` (Shifting Sands DLC) has GamePlay sublevels similar to `Level01` — the
+  0-spawner result from `Level02_Main.umap` suggests they exist separately
+
+Use this scan to find maps containing references to the missing creatures:
+
+```powershell
+$MapsDir = "C:\Program Files\Epic Games\SoulMaskModkit\Projects\WS\Content\Maps"
+$patterns = @("ShuaGuaiQi", "SGQ", "ShuaGuai", "BianFu", "LaoShu", "ChaJiaoLin")
+Get-ChildItem -Path $MapsDir -Recurse -Filter "*.umap" | ForEach-Object {
+    $bytes = [System.IO.File]::ReadAllBytes($_.FullName)
+    $text = [System.Text.Encoding]::ASCII.GetString($bytes)
+    $hits = @()
+    foreach ($p in $patterns) {
+        if ($text.Contains($p)) { $hits += $p }
+    }
+    if ($hits.Count -gt 0) {
+        $rel = $_.FullName.Substring($MapsDir.Length + 1)
+        Write-Output "$rel : $($hits -join ', ')"
+    }
+}
+```
+
+Any new maps found should be added to `$KnownSpawnerMaps` in `parse_spawns_run.ps1` and
+re-exported with UAssetGUI.
+
+#### 2. Resolve tier-based ruins spawners
+
+The `BP_HShuaGuaiQiRandNPC_C` spawners use a randomized creature class defined either in
+the C++ base class (not accessible via blueprint export) or in a parent blueprint we haven't
+exported.
+
+Check if a `BP_HShuaGuaiQiRandNPC` blueprint exists in `Content/Blueprints/ShuaGuaiQi/`.
+If it does, export it with UAssetGUI — the creature class for each tier may be defined there
+as a DataTable reference or in the `SuiJi` (random) configs.
