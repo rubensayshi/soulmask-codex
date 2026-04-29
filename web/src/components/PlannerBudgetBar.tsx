@@ -34,7 +34,9 @@ export default function PlannerBudgetBar({ pointsSpent, nodeCount, onShare, onCl
             </svg>
             <span className="hidden group-hover:block absolute left-1/2 -translate-x-1/2 top-full mt-2 z-50 w-60 bg-bg border border-hair rounded px-3 py-2 text-[10px] text-text-mute leading-relaxed shadow-lg whitespace-normal">
               <span className="font-semibold text-text block mb-1">How points work</span>
-              You earn 6 tech points per level. Ancient tablets grant bonus points at certain milestones:
+              You earn 6 tech points per level. 
+              Ancient tablets grant bonus points at certain milestones.
+              <span className="block mt-1">The level estimate assumes you've collected a certain amount of tablet bonuses available around that level.</span>
               <span className="block mt-1 text-text-dim">
                 Lv 20: +20 &middot; Lv 30: +20 &middot; Lv 35: +13
                 <br />
@@ -42,7 +44,7 @@ export default function PlannerBudgetBar({ pointsSpent, nodeCount, onShare, onCl
                 <br />
                 Lv 55: +13 &middot; Lv 60: +14
               </span>
-              <span className="block mt-1">The level estimate assumes you've collected the tablet bonuses available up to that level. Max: {MAX_POINTS} pts at level 60.</span>
+              <span className="block mt-1">Max: {MAX_POINTS} pts at level 60.</span>
             </span>
           </span>
         </>
