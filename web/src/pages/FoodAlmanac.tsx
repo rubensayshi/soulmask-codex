@@ -211,7 +211,7 @@ export default function FoodAlmanac() {
       </div>
 
       {/* Category tabs — full width */}
-      <div className="flex flex-nowrap overflow-x-auto border-b border-hair mb-0">
+      <div className="grid grid-cols-2 md:flex border-b border-hair mb-0">
         {CATEGORIES.map(cat => {
           const count = grouped.get(cat.key)?.length ?? 0
           const active = cat.key === activeTab
@@ -219,7 +219,7 @@ export default function FoodAlmanac() {
             <button
               key={cat.key}
               onClick={() => { setActiveTab(cat.key); setSortBy('tier') }}
-              className={`relative flex-shrink-0 md:flex-1 flex items-center gap-3 px-4 py-3 text-left transition-colors ${
+              className={`relative md:flex-1 flex items-center gap-2 md:gap-3 px-3 py-2 md:px-4 md:py-3 text-left transition-colors border-b border-hair md:border-b-0 ${
                 active ? 'bg-panel' : 'hover:bg-panel/50'
               }`}
               style={active ? {
