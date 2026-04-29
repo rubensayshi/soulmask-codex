@@ -25,7 +25,10 @@ interface Props {
 export default function PlannerRecipePanel({ selected, idx, data }: Props) {
   const grouped = useMemo(() => {
     const tierMap = new Map<string, string>()
-    for (const tier of data.tiers) {
+    const tierOrder = new Map<string, number>()
+    for (let i = 0; i < data.tiers.length; i++) {
+      const tier = data.tiers[i]
+      tierOrder.set(tier.name, i)
       for (const col of tier.columns) {
         for (const mn of col) {
           tierMap.set(mn.id, tier.name)
@@ -35,6 +38,7 @@ export default function PlannerRecipePanel({ selected, idx, data }: Props) {
     for (const mn of data.untiered) {
       tierMap.set(mn.id, 'Untiered')
     }
+    tierOrder.set('Untiered', data.tiers.length)
 
     const recipes: RecipeWithTier[] = []
     for (const subId of selected) {
@@ -53,7 +57,9 @@ export default function PlannerRecipePanel({ selected, idx, data }: Props) {
       arr.push(r)
       byTier.set(r.tierName, arr)
     }
-    return byTier
+    return new Map([...byTier.entries()].sort((a, b) =>
+      (tierOrder.get(a[0]) ?? 999) - (tierOrder.get(b[0]) ?? 999)
+    ))
   }, [selected, idx, data])
 
   if (selected.size === 0) {
