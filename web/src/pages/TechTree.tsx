@@ -395,10 +395,10 @@ export default function TechTree() {
       <Helmet>
         <title>Tech Tree — Soulmask Codex</title>
         <meta name="description" content="Explore the full Soulmask tech tree — every node, unlock requirement, and recipe it grants." />
-        <link rel="canonical" href="https://soulmask-codex.fly.dev/tech-tree" />
+        <link rel="canonical" href="https://soulmask-codex.com/tech-tree" />
         <meta property="og:title" content="Tech Tree — Soulmask Codex" />
         <meta property="og:description" content="Explore the full Soulmask tech tree — every node, unlock requirement, and recipe it grants." />
-        <meta property="og:url" content="https://soulmask-codex.fly.dev/tech-tree" />
+        <meta property="og:url" content="https://soulmask-codex.com/tech-tree" />
         <meta name="twitter:title" content="Tech Tree — Soulmask Codex" />
         <meta name="twitter:description" content="Explore the full Soulmask tech tree — every node, unlock requirement, and recipe it grants." />
       </Helmet>

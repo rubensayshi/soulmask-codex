@@ -101,7 +101,7 @@ export default function Item() {
   const metaDesc = itemDesc
     ? `${itemName} — ${itemDesc.slice(0, 140)}`
     : `${itemName} — crafting recipe, materials, drop sources, and tech tree in Soulmask.`
-  const canonicalUrl = `https://soulmask-codex.fly.dev${canonicalPath}`
+  const canonicalUrl = `https://soulmask-codex.com${canonicalPath}`
 
   const jsonLd = item ? {
     '@context': 'https://schema.org',

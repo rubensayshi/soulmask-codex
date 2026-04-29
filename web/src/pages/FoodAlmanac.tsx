@@ -193,10 +193,10 @@ export default function FoodAlmanac() {
       <Helmet>
         <title>Food Almanac — Soulmask Codex</title>
         <meta name="description" content="Compare every Soulmask food, drink, and potion side by side — buffs, durations, and companion preferences." />
-        <link rel="canonical" href="https://soulmask-codex.fly.dev/food-almanac" />
+        <link rel="canonical" href="https://soulmask-codex.com/food-almanac" />
         <meta property="og:title" content="Food Almanac — Soulmask Codex" />
         <meta property="og:description" content="Compare every Soulmask food, drink, and potion side by side — buffs, durations, and companion preferences." />
-        <meta property="og:url" content="https://soulmask-codex.fly.dev/food-almanac" />
+        <meta property="og:url" content="https://soulmask-codex.com/food-almanac" />
         <meta name="twitter:title" content="Food Almanac — Soulmask Codex" />
         <meta name="twitter:description" content="Compare every Soulmask food, drink, and potion side by side — buffs, durations, and companion preferences." />
       </Helmet>

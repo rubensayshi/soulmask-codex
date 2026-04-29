@@ -8,7 +8,7 @@ import (
 	dbgen "github.com/rubensayshi/soulmask-codex/backend/internal/db/gen"
 )
 
-const siteBase = "https://soulmask-codex.fly.dev"
+const siteBase = "https://soulmask-codex.com"
 
 type urlSet struct {
 	XMLName xml.Name  `xml:"urlset"`

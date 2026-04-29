@@ -91,10 +91,10 @@ export default function AwarenessXp() {
       <Helmet>
         <title>Awareness XP per Minute — Soulmask Codex</title>
         <meta name="description" content="Soulmask recipes ranked by awareness XP gained per minute of craft time. Filter by tier, skill, and item type." />
-        <link rel="canonical" href="https://soulmask-codex.fly.dev/awareness-xp" />
+        <link rel="canonical" href="https://soulmask-codex.com/awareness-xp" />
         <meta property="og:title" content="Awareness XP per Minute — Soulmask Codex" />
         <meta property="og:description" content="Soulmask recipes ranked by awareness XP gained per minute of craft time." />
-        <meta property="og:url" content="https://soulmask-codex.fly.dev/awareness-xp" />
+        <meta property="og:url" content="https://soulmask-codex.com/awareness-xp" />
         <meta name="twitter:title" content="Awareness XP per Minute — Soulmask Codex" />
         <meta name="twitter:description" content="Soulmask recipes ranked by awareness XP gained per minute of craft time." />
       </Helmet>

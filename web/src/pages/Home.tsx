@@ -75,11 +75,11 @@ export default function Home() {
       <Helmet>
         <title>Soulmask Codex — Atlas of the Crafted World</title>
         <meta name="description" content={`Browse ${graph.items.length.toLocaleString()} items and ${graph.recipes.length.toLocaleString()} recipes — crafting chains, drop sources, tech tree, and food buffs for Soulmask.`} />
-        <link rel="canonical" href="https://soulmask-codex.fly.dev/" />
+        <link rel="canonical" href="https://soulmask-codex.com/" />
         <meta property="og:type" content="website" />
         <meta property="og:title" content="Soulmask Codex — Atlas of the Crafted World" />
         <meta property="og:description" content="Every weapon, tool, recipe, and material traced from raw resource to final form. Crafting chains, drop sources, tech tree, and food buffs." />
-        <meta property="og:url" content="https://soulmask-codex.fly.dev/" />
+        <meta property="og:url" content="https://soulmask-codex.com/" />
         <meta name="twitter:title" content="Soulmask Codex — Atlas of the Crafted World" />
         <meta name="twitter:description" content="Every weapon, tool, recipe, and material traced from raw resource to final form." />
       </Helmet>

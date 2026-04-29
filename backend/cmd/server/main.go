@@ -47,6 +47,9 @@ func main() {
 	}
 
 	root := chi.NewRouter()
+	if !*dev {
+		root.Use(canonicalHost("soulmask-codex.com"))
+	}
 	root.Mount("/api", apiServer.Router())
 	root.Get("/sitemap.xml", apiServer.HandleSitemap)
 	root.Handle("/icons/*", http.StripPrefix("/icons/", http.FileServer(http.Dir(*iconsDir))))
@@ -73,4 +76,19 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 	_ = srv.Shutdown(ctx)
+}
+
+func canonicalHost(host string) func(http.Handler) http.Handler {
+	return func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if r.Host != host && r.Host != "" {
+				u := *r.URL
+				u.Scheme = "https"
+				u.Host = host
+				http.Redirect(w, r, u.String(), http.StatusMovedPermanently)
+				return
+			}
+			next.ServeHTTP(w, r)
+		})
+	}
 }

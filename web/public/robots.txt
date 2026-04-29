@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://soulmask-codex.fly.dev/sitemap.xml
+Sitemap: https://soulmask-codex.com/sitemap.xml
