@@ -55,7 +55,7 @@ export default function TechTree() {
   const [lines, setLines] = useState<DepLine[]>([])
 
   // Planner state
-  const [plannerMode, setPlannerMode] = useState(false)
+  const [plannerMode, setPlannerMode] = useState(() => localStorage.getItem('techTree.planner') !== 'off')
   const [selectedNodeIds, setSelectedNodeIds] = useState<Set<string>>(new Set())
   const [confirmDialog, setConfirmDialog] = useState<ConfirmState | null>(null)
   const [toast, setToast] = useState<string | null>(null)
@@ -111,6 +111,7 @@ export default function TechTree() {
 
   // Persist mode and build to localStorage
   useEffect(() => { localStorage.setItem('techTree.mode', mode) }, [mode])
+  useEffect(() => { localStorage.setItem('techTree.planner', plannerMode ? 'on' : 'off') }, [plannerMode])
   useEffect(() => {
     if (!hashConsumedRef.current) return
     if (selectedNodeIds.size > 0) {
