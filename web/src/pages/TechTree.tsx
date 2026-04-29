@@ -10,7 +10,6 @@ import {
   type PlannerIndex,
 } from '../lib/planner'
 import TechTier from '../components/TechTier'
-import TechNode from '../components/TechNode'
 import PlannerBudgetBar from '../components/PlannerBudgetBar'
 import PlannerRecipePanel from '../components/PlannerRecipePanel'
 import PlannerConfirmDialog from '../components/PlannerConfirmDialog'
