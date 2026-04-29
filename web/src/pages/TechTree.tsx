@@ -474,10 +474,10 @@ export default function TechTree() {
         {data && (
           <div
             ref={scrollContainerRef}
-            className="relative flex gap-1 p-3 overflow-x-auto items-start"
+            className="relative flex flex-col md:flex-row gap-1 p-3 md:overflow-x-auto items-stretch md:items-start"
           >
             <svg
-              className="absolute inset-0 pointer-events-none z-10"
+              className="absolute inset-0 pointer-events-none z-10 hidden md:block"
               style={{ width: scrollContainerRef.current?.scrollWidth || '100%', height: scrollContainerRef.current?.scrollHeight || '100%' }}
             >
               {lines.map((line, i) => {
