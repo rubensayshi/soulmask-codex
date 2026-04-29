@@ -211,7 +211,7 @@ export default function FoodAlmanac() {
       </div>
 
       {/* Category tabs — full width */}
-      <div className="flex border-b border-hair mb-0">
+      <div className="flex flex-nowrap overflow-x-auto border-b border-hair mb-0">
         {CATEGORIES.map(cat => {
           const count = grouped.get(cat.key)?.length ?? 0
           const active = cat.key === activeTab
@@ -219,7 +219,7 @@ export default function FoodAlmanac() {
             <button
               key={cat.key}
               onClick={() => { setActiveTab(cat.key); setSortBy('tier') }}
-              className={`relative flex-1 flex items-center gap-3 px-4 py-3 text-left transition-colors ${
+              className={`relative flex-shrink-0 md:flex-1 flex items-center gap-3 px-4 py-3 text-left transition-colors ${
                 active ? 'bg-panel' : 'hover:bg-panel/50'
               }`}
               style={active ? {
@@ -257,16 +257,16 @@ export default function FoodAlmanac() {
       </div>
 
       {/* Sub-header: category label + sort controls */}
-      <div className="flex items-center justify-between py-3 border-b border-hair">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 py-3 border-b border-hair">
         <div className="text-[11px] text-text-mute uppercase tracking-wider2">
           <span style={{ color: activeCat.color }}>{'◆'}</span>
           {' '}{activeCat.label} — {activeCat.subtitle} · {categoryItems.length} items
         </div>
-        <div className="flex items-center gap-2 text-[11px]">
-          <span className="text-text-dim">Sort</span>
+        <div className="flex flex-nowrap overflow-x-auto items-center gap-2 text-[11px]">
+          <span className="text-text-dim flex-shrink-0">Sort</span>
           <SortPill label="Tier" value="tier" current={sortBy} onChange={setSortBy} color={activeCat.color} />
           <SortPill label="Duration" value="duration" current={sortBy} onChange={setSortBy} color={activeCat.color} />
-          <span className="text-text-faint mx-1">by column →</span>
+          <span className="text-text-faint mx-1 flex-shrink-0">by column →</span>
           {columns.slice(0, 6).map(col => (
             <SortPill key={col.key} label={col.label} value={col.key} current={sortBy} onChange={setSortBy} color={activeCat.color} />
           ))}

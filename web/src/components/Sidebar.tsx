@@ -22,7 +22,7 @@ export default function Sidebar() {
     return () => clearTimeout(handle)
   }, [query])
 
-  if (!graph) return <aside className="w-[264px] flex-shrink-0 border-r border-hair bg-bg-2" />
+  if (!graph) return <aside className="hidden md:block w-[264px] flex-shrink-0 border-r border-hair bg-bg-2" />
   const byId = new Map(graph.items.map(i => [i.id, i]))
   const showingSearch = query.trim().length > 0
 
@@ -51,7 +51,7 @@ export default function Sidebar() {
       })
 
   return (
-    <aside className="relative w-[264px] flex-shrink-0 border-r border-hair bg-bg-2 flex flex-col">
+    <aside className="hidden md:flex w-[264px] flex-shrink-0 border-r border-hair bg-bg-2 flex-col relative">
       <div className="relative p-3.5 border-b border-line-soft">
         <svg
           className="absolute left-6 top-1/2 -translate-y-1/2 pointer-events-none w-[13px] h-[13px] text-text-dim"

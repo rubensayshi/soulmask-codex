@@ -71,7 +71,7 @@ export default function Home() {
   const categoryCount = new Set(graph.items.map(i => i.cat).filter(Boolean)).size
 
   return (
-    <div className="-mx-9 -mt-7">
+    <div className="-mx-4 -mt-4 md:-mx-9 md:-mt-7">
       <Helmet>
         <title>Soulmask Codex — Atlas of the Crafted World</title>
         <meta name="description" content={`Browse ${graph.items.length.toLocaleString()} items and ${graph.recipes.length.toLocaleString()} recipes — crafting chains, drop sources, tech tree, and food buffs for Soulmask.`} />
@@ -98,33 +98,33 @@ export default function Home() {
         ))}
 
         {/* Two-column body */}
-        <div className="grid grid-cols-[auto_1fr] items-center gap-14 px-12 py-14 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-[auto_1fr] items-center gap-8 md:gap-14 px-5 py-8 md:px-12 md:py-14 relative z-10">
           {/* Left: mark with orbit rings */}
-          <div className="relative w-[200px] h-[200px]">
-            <div className="absolute -inset-5 rounded-full border border-hair opacity-50" />
-            <div className="absolute -inset-11 rounded-full border border-hair opacity-25" />
+          <div className="relative w-[120px] h-[120px] md:w-[200px] md:h-[200px] mx-auto md:mx-0">
+            <div className="hidden md:block absolute -inset-5 rounded-full border border-hair opacity-50" />
+            <div className="hidden md:block absolute -inset-11 rounded-full border border-hair opacity-25" />
             <MaskSvg className="w-full h-full" />
           </div>
 
           {/* Right: copy */}
           <div>
-            <div className="flex items-center gap-3.5 mb-5 text-[11px] tracking-[.4em] uppercase text-gold">
+            <div className="flex items-center gap-3.5 mb-5 text-[11px] tracking-[.4em] uppercase text-gold justify-center md:justify-start">
               <span className="w-10 h-px bg-gold opacity-50" />
               V1.0 · The Crafted World
             </div>
 
-            <h1 className="font-heading font-bold tracking-[.1em] text-text leading-none mb-1"
-                style={{ fontSize: 48, textShadow: '0 4px 24px rgba(138,160,116,.15)' }}>
+            <h1 className="font-heading font-bold tracking-[.1em] text-text leading-none mb-1 text-center md:text-left"
+                style={{ fontSize: 'clamp(32px, 8vw, 48px)', textShadow: '0 4px 24px rgba(138,160,116,.15)' }}>
               SOULMASK
             </h1>
-            <h2 className="font-heading font-black tracking-[.1em] text-green leading-none mb-3"
-                style={{ fontSize: 48 }}>
+            <h2 className="font-heading font-black tracking-[.1em] text-green leading-none mb-3 text-center md:text-left"
+                style={{ fontSize: 'clamp(32px, 8vw, 48px)' }}>
               CODEX
             </h2>
-            <p className="font-display italic text-[20px] font-medium text-green opacity-85 tracking-wider2 mb-5">
+            <p className="font-display italic text-[20px] font-medium text-green opacity-85 tracking-wider2 mb-5 text-center md:text-left">
               Atlas of the Crafted World
             </p>
-            <p className="text-[14px] text-text-mute max-w-md leading-relaxed">
+            <p className="text-[14px] text-text-mute max-w-md leading-relaxed text-center md:text-left">
               Every weapon, tool, ritual mask and trade — traced from raw material to final form.
               One compass for the crafted world.
             </p>
@@ -132,14 +132,14 @@ export default function Home() {
         </div>
 
         {/* Stats strip */}
-        <div className="flex border-t border-hair">
+        <div className="grid grid-cols-2 md:flex border-t border-hair">
           {[
             { num: graph.recipes.length.toLocaleString(), label: 'Recipes Traced' },
             { num: graph.items.length.toLocaleString(), label: 'Items Indexed' },
             { num: String(stationCount), label: 'Stations' },
             { num: String(categoryCount), label: 'Categories' },
           ].map((s, i) => (
-            <div key={i} className="flex-1 flex flex-col px-6 py-5 border-r border-hair last:border-r-0">
+            <div key={i} className="flex flex-col px-4 py-3 md:px-6 md:py-5 md:flex-1 border-b border-hair md:border-b-0 md:border-r md:last:border-r-0">
               <span className="font-heading text-[22px] font-bold text-green tracking-[.04em] mb-1">
                 {s.num}
               </span>
@@ -152,7 +152,7 @@ export default function Home() {
       </div>
 
       {/* Featured chains + Changelog */}
-      <div className="px-9 pt-10 pb-12 max-w-[1100px] mx-auto grid grid-cols-2 gap-8">
+      <div className="px-4 pt-8 pb-10 md:px-9 md:pt-10 md:pb-12 max-w-[1100px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Featured chains */}
         <div>
           <div className="flex items-center gap-3.5 mb-5">

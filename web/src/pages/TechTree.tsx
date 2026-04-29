@@ -403,9 +403,9 @@ export default function TechTree() {
         <meta name="twitter:description" content="Explore the full Soulmask tech tree — every node, unlock requirement, and recipe it grants." />
       </Helmet>
 
-      <div className="-mx-9 -mt-7">
+      <div className="-mx-4 -mt-4 md:-mx-9 md:-mt-7">
         {/* Top bar */}
-        <div className="sticky top-0 z-20 flex items-center gap-3 border-b border-hair bg-bg/95 backdrop-blur px-5 py-2.5">
+        <div className="sticky top-0 z-20 flex flex-wrap items-center gap-2 md:gap-3 border-b border-hair bg-bg/95 backdrop-blur px-3 md:px-5 py-2 md:py-2.5">
           <h1 className="font-heading text-[16px] font-bold text-text tracking-[.06em] mr-2">Tech Tree</h1>
 
           <div className="flex gap-1">
@@ -441,13 +441,13 @@ export default function TechTree() {
             placeholder="Search tech nodes..."
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            className="w-52 border border-hair bg-panel px-3 py-1 text-[11px] text-text placeholder-text-dim outline-none focus:border-green-dim"
+            className="w-full md:w-52 order-last md:order-none border border-hair bg-panel px-3 py-1 text-[11px] text-text placeholder-text-dim outline-none focus:border-green-dim"
           />
         </div>
 
         {/* Budget bar */}
         {plannerMode && (
-          <div className="sticky top-[41px] z-20 border-b border-hair bg-bg/95 backdrop-blur px-5 py-2">
+          <div className="sticky top-[41px] z-20 border-b border-hair bg-bg/95 backdrop-blur px-3 md:px-5 py-2">
             <PlannerBudgetBar
               pointsSpent={pointsSpent}
               nodeCount={selectedNodeIds.size}

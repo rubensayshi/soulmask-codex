@@ -87,7 +87,7 @@ export default function AwarenessXp() {
   if (status === 'loading' || !graph) return <div className="p-8 text-text-dim">Loading...</div>
 
   return (
-    <div className="p-6 max-w-4xl">
+    <div className="p-2 md:p-6 max-w-4xl">
       <Helmet>
         <title>Awareness XP per Minute — Soulmask Codex</title>
         <meta name="description" content="Soulmask recipes ranked by awareness XP gained per minute of craft time. Filter by tier, skill, and item type." />
@@ -106,7 +106,7 @@ export default function AwarenessXp() {
       </p>
 
       {/* Filters */}
-      <div className="flex flex-col gap-3 mb-6 p-4 bg-panel border border-hair">
+      <div className="flex flex-col gap-3 mb-6 p-2 md:p-4 bg-panel border border-hair">
         <FilterRow label="Tier">
           {TIERS.map(t => (
             <Toggle key={t.key} label={t.label} active={tierFilter.has(t.key)} onClick={() => setTierFilter(prev => toggleInSet(prev, t.key))} />
@@ -127,7 +127,7 @@ export default function AwarenessXp() {
       </div>
 
       {/* Table */}
-      <div className="text-[12px]">
+      <div className="text-[12px] overflow-x-auto">
         <div className="grid grid-cols-[1fr_80px_70px_70px_80px_80px] gap-x-3 px-3 py-2 border-b border-hair-strong text-text-dim uppercase tracking-[.1em] text-[10px] font-medium">
           <span>Item</span>
           <span className="text-right">XP/min</span>

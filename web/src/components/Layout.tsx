@@ -9,7 +9,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       <div className="flex flex-1 overflow-hidden">
         <Sidebar />
         <main className="main-pane flex-1 overflow-y-auto bg-bg">
-          <div className="px-9 pt-7 pb-12 max-w-[1400px] mx-auto">
+          <div className="px-4 pt-4 pb-12 md:px-9 md:pt-7 max-w-[1400px] mx-auto">
             {children}
           </div>
         </main>

@@ -45,7 +45,7 @@ export default function ItemHeader({ item, recipe, station, quality = 0 }: Props
 
   return (
     <div
-      className="relative flex items-start gap-5 p-[22px_26px_20px] border border-hair-strong mb-[26px] transition-colors"
+      className="relative flex flex-col items-center md:flex-row md:items-start gap-3 md:gap-5 p-[16px] md:p-[22px_26px_20px] border border-hair-strong mb-[26px] transition-colors"
       style={{ background: bgTint }}
     >
       <div className="pointer-events-none absolute -top-px -left-px -right-px h-[2px] transition-all"
@@ -58,8 +58,8 @@ export default function ItemHeader({ item, recipe, station, quality = 0 }: Props
       </div>
 
       <div className="flex-1 min-w-0">
-        <h1 className="font-display text-[24px] font-semibold text-text leading-[1.2] tracking-[.02em]">{title}</h1>
-        <div className="text-[11px] text-text-dim tracking-[.12em] uppercase mt-[3px] font-medium">
+        <h1 className="font-display text-[24px] font-semibold text-text leading-[1.2] tracking-[.02em] text-center md:text-left">{title}</h1>
+        <div className="text-[11px] text-text-dim tracking-[.12em] uppercase mt-[3px] font-medium text-center md:text-left">
           Classification: {classification}
         </div>
         {item.de && (

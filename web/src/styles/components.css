@@ -47,6 +47,12 @@
     position: relative;
     left: calc((100% + 72px - 100cqw) / 2);
   }
+  @media (max-width: 767px) {
+    .flow-vert {
+      margin-left: -16px;
+      left: calc((100% + 32px - 100cqw) / 2);
+    }
+  }
 
   /* ─── Flow tree connectors (vertical orientation) ──────────── */
   .flow-branch-item {

@@ -132,8 +132,8 @@ export default function Item() {
         )}
       </Helmet>
       {detail?.spawn_locations && detail.spawn_locations.length > 0 ? (
-        <div className="flex gap-5 items-start mb-[26px]">
-          <div className="flex-1 min-w-0 [&>div:first-child]:mb-0">
+        <div className="flex flex-col md:flex-row gap-5 items-start mb-[26px]">
+          <div className="flex-1 min-w-0 w-full [&>div:first-child]:mb-0">
             <ItemHeader item={item} recipe={recipe} station={station} quality={quality} />
             {detail.tech_unlocked_by && detail.tech_unlocked_by.length > 0 && (
               <div className="mt-4">
@@ -148,7 +148,7 @@ export default function Item() {
               </div>
             )}
           </div>
-          <div className="w-[50%] flex-shrink-0 border border-hair-strong p-2 bg-panel">
+          <div className="w-full md:w-[50%] flex-shrink-0 border border-hair-strong p-2 bg-panel">
             {(() => {
               const maps = detail.spawn_locations
               const current = maps.find(m => m.map === activeMap) ?? maps[0]
