@@ -325,31 +325,37 @@ def main():
     # --- drops ---
     drops = load_json(PARSED / "drops.json")
     creature_names = json.loads((TRANSLATIONS / "creature_names.json").read_text(encoding="utf-8"))
+    creature_names_ci = {k.lower(): v for k, v in creature_names.items()}
+
+    def lookup_creature(name):
+        """Look up creature name: exact match, then case-insensitive."""
+        if name in creature_names:
+            return creature_names[name]
+        return creature_names_ci.get(name.lower())
 
     def resolve_source_name(bag_name, source_type):
         """Derive a human-readable source name from bag_name."""
         stem = re.sub(r'^DL_', '', bag_name)
-        # Detect variant suffixes before stripping them
         is_elite = bool(re.search(r'Elite|_JY', stem))
         is_hunt = 'Hunt_' in stem
-        is_extra = '_Extra' in stem
+        is_extra = bool(re.search(r'_Extra$|extra$', stem, re.IGNORECASE))
+        is_boss = '_Boss' in stem
         # Strip suffixes to get base creature
         clean = re.sub(r'(_Extra|Elite_Extra)$', '', stem)
+        clean = re.sub(r'extra$', '', clean, flags=re.IGNORECASE)
         clean = re.sub(r'Elite$', '', clean)
         clean = re.sub(r'_JY$', '', clean)
+        clean = re.sub(r'_Boss$', '', clean)
         hunt_match = re.match(r'Hunt_(?:Egypt_)?(.+?)_?$', clean)
         if hunt_match:
             clean = hunt_match.group(1)
-        base_name = None
-        if clean in creature_names:
-            base_name = creature_names[clean]
-        else:
-            clean2 = clean.rstrip('_')
-            if clean2 in creature_names:
-                base_name = creature_names[clean2]
+        clean = clean.rstrip('_')
+        clean = re.sub(r'_\d+$', '', clean)
+        # Also strip trailing _Xiao (small variant)
+        clean = re.sub(r'_Xiao$', '', clean, flags=re.IGNORECASE)
+        base_name = lookup_creature(clean)
         if base_name is None:
             return prettify_bp_id(bag_name)
-        # Add variant qualifier
         if is_extra and is_elite:
             return f"{base_name} (Elite)"
         if is_extra:
@@ -358,6 +364,8 @@ def main():
             return f"{base_name} (Hunt Elite)"
         if is_hunt:
             return f"{base_name} (Hunt)"
+        if is_boss:
+            return f"{base_name} (Boss)"
         if is_elite:
             return f"{base_name} (Elite)"
         return base_name
@@ -426,11 +434,16 @@ def main():
             seed_source_count += 1
 
     # --- creature spawns ---
-    # Creature names come pre-normalized from parse_spawns.py (Pinyin → English via
-    # creature_names.json). Names use "X (Elite)" format and match drop_sources.source_name.
-    spawn_path = PARSED / "spawn_locations.json"
+    # Base map: pre-normalized from parse_spawns.py (Pinyin → English via creature_names.json).
+    # DLC map: from download_dlc_spawns.py (saraserenity.net, temporary until own extraction).
+    spawn_files = [
+        PARSED / "spawn_locations.json",
+        PARSED / "spawn_locations_dlc.json",
+    ]
     spawn_count = 0
-    if spawn_path.exists():
+    for spawn_path in spawn_files:
+        if not spawn_path.exists():
+            continue
         spawn_data = load_json(spawn_path)
         for s in spawn_data:
             db.execute(
