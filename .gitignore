@@ -1,6 +1,7 @@
 __pycache__/
 *.pyc
 .claude/
+.superpowers/
 Game/Parsed/*_errors.json
 uasset_export/
 uasset_export_test/
@@ -9,6 +10,7 @@ _errors.txt
 
 # Build artifacts
 data/app.db
+backend/server
 web/.vite/
 web/node_modules/
 web/dist/
