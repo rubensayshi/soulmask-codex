@@ -30,6 +30,7 @@ export default function TopNav() {
   const tabs = [
     { to: recipesTo, label: 'Recipes', match: (p: string) => p.startsWith('/item/') },
     { to: '/tech-tree', label: 'Tech Tree', match: (p: string) => p.startsWith('/tech-tree') },
+    { to: '/traits', label: 'Traits', match: (p: string) => p === '/traits' },
     { to: '/awareness-xp', label: 'Awareness XP', match: (p: string) => p === '/awareness-xp' },
     { to: '/food-almanac', label: 'Food Almanac', match: (p: string) => p === '/food-almanac' },
   ]
@@ -56,6 +57,17 @@ export default function TopNav() {
           <circle cx="4" cy="13" r="2" />
           <circle cx="12" cy="13" r="2" />
           <path d="M8 5v3M6.5 8 4 11M9.5 8 12 11" />
+        </svg>
+      ),
+    },
+    {
+      to: '/traits',
+      label: 'Traits',
+      match: (p: string) => p === '/traits',
+      icon: (
+        <svg viewBox="0 0 16 16" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.3">
+          <path d="M8 2 L14 8 L8 14 L2 8 Z" strokeLinejoin="round" />
+          <path d="M8 5 L11 8 L8 11 L5 8 Z" fill="currentColor" opacity=".4" stroke="none" />
         </svg>
       ),
     },

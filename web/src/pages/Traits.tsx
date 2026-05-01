@@ -638,16 +638,6 @@ export default function Traits() {
                         </div>
                       )}
 
-                      {topTier.conditions && topTier.conditions.length > 0 && (
-                        <div className="mt-2 pt-2 border-t border-hair">
-                          <span className="text-[9px] uppercase tracking-[.1em] text-text-faint mr-2">Conditions</span>
-                          <span className="text-[11px] text-text-dim">
-                            {topTier.conditions.map(c =>
-                              c.replace(/^BP_Gift_/, '').replace(/_C$/, '').replace(/_/g, ' ')
-                            ).join(', ')}
-                          </span>
-                        </div>
-                      )}
                     </div>
                   )
                 })()}

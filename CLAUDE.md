@@ -10,7 +10,7 @@ Soulmask Codex — a full-stack game-data reference site for the Soulmask surviv
 2. **Backend** (Go + chi) — serves a JSON API from a SQLite DB at `backend/internal/api/`
 3. **Frontend** (React + Vite + TypeScript) — SPA in `web/`, embedded into the Go binary for prod
 
-Deployed as a single binary on Fly.io (`soulmask-codex`, region `ams`).
+Deployed as a single binary on Fly.io (`soulmask-codex`, region `ams`). Live at **soulmask-codex.com**.
 
 Docs: `docs/DATA.md` (data shapes, fill rates, cross-ref maps), `docs/DESIGN.md` (game-concept glossary).
 
