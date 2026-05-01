@@ -206,6 +206,9 @@ export interface Trait {
   is_dlc: boolean
   is_negative: boolean
   clan: string | null
+  community_tier: string | null
+  community_tags: string[] | null
+  community_note: string | null
   proficiencies: string[] | null
   conditions: string[] | null
   weapons: string[] | null

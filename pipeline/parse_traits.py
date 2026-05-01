@@ -19,10 +19,33 @@ GIFT_DIR = REPO_ROOT / "uasset_export" / "Blueprints" / "DataTable" / "NaturalGi
 TRAITS_FILE = GIFT_DIR / "DT_GiftZongBiao.json.gz"
 OUTPUT_DIR = REPO_ROOT / "Game" / "Parsed"
 
-WOLF_CONDS = {"BP_Gift_IsWolf_ZD_C", "BP_Gift_IsWolf_JR_C"}
-HORN_CONDS = {"BP_Gift_IsHorn_ZD_C", "BP_Gift_IsHorn_JR_C"}
-DLC_POOL_CONDS = {"BP_Gift_IsDLCNpc_ZD_C", "BP_Gift_IsDLCNpc_C", "BP_Gift_IsDLC_JR_C",
-                  "BP_Gift_IsDLC_ZS_C", "BP_Gift_IsDLC_WS_C", "BP_Gift_IsDLC_LS_C"}
+CLAN_CONDS = {
+    "BP_Gift_IsZDZhiYe_LiZhua_C": "claw",
+    "BP_Gift_IsZDZhiYe_HuoShi_C": "flint",
+    "BP_Gift_IsSHZhiYeJiangRen_HuoShi_C": "flint",
+    "BP_Gift_IsZDZhiYe_DuYa_C": "fang",
+    "BP_Gift_IsSHZhiYe_DuYa_C": "fang",
+    "BP_Gift_IsWolf_ZD_C": "wolf",
+    "BP_Gift_IsWolf_JR_C": "wolf",
+    "BP_Gift_IsHorn_ZD_C": "horn",
+    "BP_Gift_IsHorn_JR_C": "horn",
+    "BP_Gift_IsDLCNpc_ZD_C": "dlc",
+    "BP_Gift_IsDLCNpc_C": "dlc",
+    "BP_Gift_IsDLC_JR_C": "dlc",
+    "BP_Gift_IsDLC_ZS_C": "dlc",
+    "BP_Gift_IsDLC_WS_C": "dlc",
+    "BP_Gift_IsDLC_LS_C": "dlc",
+}
+
+GENERIC_CONDS = {
+    "BP_Gift_IsZDZhiYe_C", "BP_Gift_IsSHZhiYe_C",
+    "BP_Gift_IsZDZhiYeLieShou_C", "BP_Gift_IsZDZhiYeZhanShi_C",
+    "BP_Gift_IsZDZhiYeWeiShi_C", "BP_Gift_IsSHZhiYeJiangRen_C",
+    "BP_Gift_IsSHZhiYeZaGong_C", "BP_Gift_IsZDZhiYe_PinZhi_C",
+    "BP_Gift_IsPinZhi_4+_C", "BP_Gift_IsRandom_C",
+    "BP_Gift_IsYuFenPeiDengJi_C", "BP_Gift_Is45TiXing_C",
+    "BP_Gift_Is123TiXing_C", "BP_Gift_IsDengJi80_C",
+}
 
 
 def resolve_import_path(imports, ref):
@@ -101,9 +124,13 @@ def parse_pool_file(path):
 
 
 def build_clan_map():
-    """Parse all trait pool tables and return trait_id → clan string."""
-    trait_conds = defaultdict(set)
-    trait_files = defaultdict(set)
+    """Parse all trait pool tables and return trait_id → clan string.
+
+    A trait is tagged with a clan only if it appears exclusively in
+    clan-specific pool rows (not in any generic/unconditioned row).
+    """
+    # trait_id → list of (filename, condition_set) per pool row
+    trait_rows = defaultdict(list)
 
     pool_files = [f for f in sorted(os.listdir(GIFT_DIR))
                   if f.startswith("DT_Gift") and f.endswith(".json.gz")
@@ -113,28 +140,27 @@ def build_clan_map():
     for fname in pool_files:
         try:
             for tid, conds in parse_pool_file(GIFT_DIR / fname):
-                trait_conds[tid].update(conds)
-                trait_files[tid].add(fname)
+                trait_rows[tid].append((fname, conds))
         except Exception:
             pass
 
     clan_map = {}
-    for tid, conds in trait_conds.items():
-        if conds & WOLF_CONDS:
-            clan_map[tid] = "wolf"
-        elif conds & HORN_CONDS:
-            clan_map[tid] = "horn"
-        elif conds & DLC_POOL_CONDS:
-            clan_map[tid] = "dlc"
+    for tid, rows in trait_rows.items():
+        clans_found = set()
+        has_generic = False
+        for fname, conds in rows:
+            row_clans = {CLAN_CONDS[c] for c in conds if c in CLAN_CONDS}
+            if row_clans:
+                clans_found.update(row_clans)
+            elif not conds or conds.issubset(GENERIC_CONDS):
+                has_generic = True
+            # Boss files as fallback clan source
+            if "XieDuZhe" in fname:
+                clans_found.add("heretic")
 
-    # Boss file names encode tribe type
-    for tid, files in trait_files.items():
-        if tid in clan_map:
-            continue
-        for f in files:
-            if "XieDuZhe" in f:
-                clan_map[tid] = "heretic"
-                break
+        # Only tag if exclusively one clan (not also in generic pools)
+        if clans_found and not has_generic and len(clans_found) == 1:
+            clan_map[tid] = next(iter(clans_found))
 
     return clan_map
 

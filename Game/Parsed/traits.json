@@ -717,7 +717,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1542,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "100113",
@@ -1843,7 +1843,7 @@
     ],
     "conditions": null,
     "icon_ref": -1510,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "130041",
@@ -2299,7 +2299,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1652,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "130101",
@@ -2469,7 +2469,7 @@
     ],
     "conditions": null,
     "icon_ref": -1483,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "150041",
@@ -2733,7 +2733,7 @@
       "BP_JuLiMuBiao_20m_C"
     ],
     "icon_ref": -1658,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "150071",
@@ -2805,7 +2805,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1636,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "150081",
@@ -2961,7 +2961,7 @@
     ],
     "conditions": null,
     "icon_ref": -1617,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "150101",
@@ -3293,7 +3293,7 @@
       "BP_Gift_IsBurning_C"
     ],
     "icon_ref": -1425,
-    "clan": null
+    "clan": "claw"
   },
   {
     "id": "160032",
@@ -3319,7 +3319,7 @@
       "BP_Gift_IsBurning_C"
     ],
     "icon_ref": -1425,
-    "clan": null
+    "clan": "claw"
   },
   {
     "id": "160033",
@@ -3345,7 +3345,7 @@
       "BP_Gift_IsBurning_C"
     ],
     "icon_ref": -1425,
-    "clan": null
+    "clan": "claw"
   },
   {
     "id": "160041",
@@ -3579,7 +3579,7 @@
       "BP_Gift_NotSelf_C"
     ],
     "icon_ref": -1647,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "160071",
@@ -3683,7 +3683,7 @@
       "BP_JuLiMuBiao_5m_C"
     ],
     "icon_ref": -1662,
-    "clan": null
+    "clan": "claw"
   },
   {
     "id": "160082",
@@ -3709,7 +3709,7 @@
       "BP_JuLiMuBiao_5m_C"
     ],
     "icon_ref": -1662,
-    "clan": null
+    "clan": "claw"
   },
   {
     "id": "160083",
@@ -3735,7 +3735,7 @@
       "BP_JuLiMuBiao_5m_C"
     ],
     "icon_ref": -1662,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "160091",
@@ -3891,7 +3891,7 @@
       "BP_JuLiMuBiao_5m_C"
     ],
     "icon_ref": -1554,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "160121",
@@ -3963,7 +3963,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1512,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "160131",
@@ -3989,7 +3989,7 @@
       "BP_Gift_NoBaTi_C"
     ],
     "icon_ref": -1656,
-    "clan": null
+    "clan": "flint"
   },
   {
     "id": "160132",
@@ -4015,7 +4015,7 @@
       "BP_Gift_NoBaTi_C"
     ],
     "icon_ref": -1656,
-    "clan": null
+    "clan": "flint"
   },
   {
     "id": "160133",
@@ -4041,7 +4041,7 @@
       "BP_Gift_NoBaTi_C"
     ],
     "icon_ref": -1656,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "160141",
@@ -4191,7 +4191,7 @@
       "BP_Gift_NoBaTi_C"
     ],
     "icon_ref": -1646,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "160161",
@@ -4575,7 +4575,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1666,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "160211",
@@ -4647,7 +4647,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1585,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "160221",
@@ -5013,7 +5013,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1591,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "160271",
@@ -5241,7 +5241,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1431,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "160301",
@@ -5313,7 +5313,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1671,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "160331",
@@ -5385,7 +5385,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1468,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "160341",
@@ -5481,7 +5481,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1450,
-    "clan": null
+    "clan": "flint"
   },
   {
     "id": "160352",
@@ -5505,7 +5505,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1450,
-    "clan": null
+    "clan": "flint"
   },
   {
     "id": "160353",
@@ -5529,7 +5529,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1450,
-    "clan": null
+    "clan": "flint"
   },
   {
     "id": "160371",
@@ -5553,7 +5553,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1579,
-    "clan": null
+    "clan": "fang"
   },
   {
     "id": "160372",
@@ -5577,7 +5577,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1579,
-    "clan": null
+    "clan": "fang"
   },
   {
     "id": "160373",
@@ -5601,7 +5601,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1579,
-    "clan": null
+    "clan": "fang"
   },
   {
     "id": "160381",
@@ -5697,7 +5697,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1488,
-    "clan": null
+    "clan": "fang"
   },
   {
     "id": "160392",
@@ -5721,7 +5721,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1488,
-    "clan": null
+    "clan": "fang"
   },
   {
     "id": "160393",
@@ -5745,7 +5745,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1488,
-    "clan": null
+    "clan": "fang"
   },
   {
     "id": "160401",
@@ -5769,7 +5769,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1561,
-    "clan": null
+    "clan": "fang"
   },
   {
     "id": "160402",
@@ -5793,7 +5793,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1561,
-    "clan": null
+    "clan": "fang"
   },
   {
     "id": "160403",
@@ -5817,7 +5817,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1561,
-    "clan": null
+    "clan": "fang"
   },
   {
     "id": "160411",
@@ -5841,7 +5841,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1669,
-    "clan": null
+    "clan": "fang"
   },
   {
     "id": "160412",
@@ -5865,7 +5865,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1669,
-    "clan": null
+    "clan": "fang"
   },
   {
     "id": "160413",
@@ -5889,7 +5889,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1669,
-    "clan": null
+    "clan": "fang"
   },
   {
     "id": "160421",
@@ -6071,7 +6071,7 @@
       "BP_TianFu_LiuXueZengShang_C"
     ],
     "icon_ref": -1621,
-    "clan": null
+    "clan": "fang"
   },
   {
     "id": "160442",
@@ -6097,7 +6097,7 @@
       "BP_TianFu_LiuXueZengShang_C"
     ],
     "icon_ref": -1621,
-    "clan": null
+    "clan": "fang"
   },
   {
     "id": "160443",
@@ -6377,7 +6377,7 @@
       "BP_Gift_TiLi15_C"
     ],
     "icon_ref": -1610,
-    "clan": null
+    "clan": "claw"
   },
   {
     "id": "160482",
@@ -6403,7 +6403,7 @@
       "BP_Gift_TiLi15_C"
     ],
     "icon_ref": -1610,
-    "clan": null
+    "clan": "claw"
   },
   {
     "id": "160483",
@@ -6429,7 +6429,7 @@
       "BP_Gift_TiLi15_C"
     ],
     "icon_ref": -1610,
-    "clan": null
+    "clan": "claw"
   },
   {
     "id": "160491",
@@ -6539,7 +6539,7 @@
       "BP_Gift_IsTiLiChongZu_C"
     ],
     "icon_ref": -1588,
-    "clan": null
+    "clan": "flint"
   },
   {
     "id": "160502",
@@ -6565,7 +6565,7 @@
       "BP_Gift_IsTiLiChongZu_C"
     ],
     "icon_ref": -1588,
-    "clan": null
+    "clan": "flint"
   },
   {
     "id": "160503",
@@ -6591,7 +6591,7 @@
       "BP_Gift_IsTiLiChongZu_C"
     ],
     "icon_ref": -1588,
-    "clan": null
+    "clan": "flint"
   },
   {
     "id": "160511",
@@ -6687,7 +6687,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1481,
-    "clan": null
+    "clan": "flint"
   },
   {
     "id": "160522",
@@ -6711,7 +6711,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1481,
-    "clan": null
+    "clan": "flint"
   },
   {
     "id": "160523",
@@ -6735,7 +6735,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1481,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "160531",
@@ -6891,7 +6891,7 @@
       "BP_Gift_IsGuiShuDiRen_C"
     ],
     "icon_ref": -1480,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "160551",
@@ -6963,7 +6963,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1612,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "160561",
@@ -7041,7 +7041,7 @@
       "BP_Gift_IsGuiShuDiRen_C"
     ],
     "icon_ref": -1629,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "160571",
@@ -7139,7 +7139,7 @@
       "BP_Gift_IsTiLiJiaoDi_C"
     ],
     "icon_ref": -1665,
-    "clan": null
+    "clan": "claw"
   },
   {
     "id": "160582",
@@ -7165,7 +7165,7 @@
       "BP_Gift_IsTiLiJiaoDi_C"
     ],
     "icon_ref": -1665,
-    "clan": null
+    "clan": "claw"
   },
   {
     "id": "160583",
@@ -7191,7 +7191,7 @@
       "BP_Gift_IsTiLiJiaoDi_C"
     ],
     "icon_ref": -1665,
-    "clan": null
+    "clan": "claw"
   },
   {
     "id": "160591",
@@ -7295,7 +7295,7 @@
       "BP_JuLiMuBiao_10m_C"
     ],
     "icon_ref": -1467,
-    "clan": null
+    "clan": "flint"
   },
   {
     "id": "160602",
@@ -7321,7 +7321,7 @@
       "BP_JuLiMuBiao_10m_C"
     ],
     "icon_ref": -1467,
-    "clan": null
+    "clan": "flint"
   },
   {
     "id": "160603",
@@ -7347,7 +7347,7 @@
       "BP_JuLiMuBiao_10m_C"
     ],
     "icon_ref": -1467,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "160611",
@@ -7451,7 +7451,7 @@
       "BP_Gift_NotSelf_C"
     ],
     "icon_ref": -1486,
-    "clan": null
+    "clan": "fang"
   },
   {
     "id": "160622",
@@ -7477,7 +7477,7 @@
       "BP_Gift_NotSelf_C"
     ],
     "icon_ref": -1486,
-    "clan": null
+    "clan": "fang"
   },
   {
     "id": "160623",
@@ -7503,7 +7503,7 @@
       "BP_Gift_NotSelf_C"
     ],
     "icon_ref": -1486,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "160631",
@@ -7581,7 +7581,7 @@
       "BP_Gift_NotSelf_C"
     ],
     "icon_ref": -1638,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "160641",
@@ -7653,7 +7653,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1471,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "160651",
@@ -7679,7 +7679,7 @@
       "BP_Gift_NotSelf_C"
     ],
     "icon_ref": -1476,
-    "clan": null
+    "clan": "claw"
   },
   {
     "id": "160652",
@@ -7705,7 +7705,7 @@
       "BP_Gift_NotSelf_C"
     ],
     "icon_ref": -1476,
-    "clan": null
+    "clan": "claw"
   },
   {
     "id": "160653",
@@ -7809,7 +7809,7 @@
       "BP_Gift_NotSelf_C"
     ],
     "icon_ref": -1655,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "160671",
@@ -7887,7 +7887,7 @@
       "BP_TianFu_EYi_C"
     ],
     "icon_ref": -1487,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "160681",
@@ -8133,7 +8133,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1545,
-    "clan": null
+    "clan": "flint"
   },
   {
     "id": "160712",
@@ -8157,7 +8157,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1545,
-    "clan": null
+    "clan": "flint"
   },
   {
     "id": "160713",
@@ -8181,7 +8181,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1545,
-    "clan": null
+    "clan": "flint"
   },
   {
     "id": "160721",
@@ -8205,7 +8205,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1634,
-    "clan": null
+    "clan": "flint"
   },
   {
     "id": "160722",
@@ -8229,7 +8229,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1634,
-    "clan": null
+    "clan": "flint"
   },
   {
     "id": "160723",
@@ -8253,7 +8253,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1634,
-    "clan": null
+    "clan": "flint"
   },
   {
     "id": "160731",
@@ -9429,7 +9429,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1654,
-    "clan": null
+    "clan": "claw"
   },
   {
     "id": "160902",
@@ -9453,7 +9453,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1654,
-    "clan": null
+    "clan": "claw"
   },
   {
     "id": "160903",
@@ -9555,7 +9555,7 @@
       "BP_Gift_JuLi5m_NotDunDefence_C"
     ],
     "icon_ref": -1502,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "160921",
@@ -9579,7 +9579,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1569,
-    "clan": null
+    "clan": "fang"
   },
   {
     "id": "160922",
@@ -9603,7 +9603,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1569,
-    "clan": null
+    "clan": "fang"
   },
   {
     "id": "160923",
@@ -9627,7 +9627,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1569,
-    "clan": null
+    "clan": "fang"
   },
   {
     "id": "160931",
@@ -9651,7 +9651,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1518,
-    "clan": null
+    "clan": "fang"
   },
   {
     "id": "160932",
@@ -9675,7 +9675,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1518,
-    "clan": null
+    "clan": "fang"
   },
   {
     "id": "160933",
@@ -9699,7 +9699,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1518,
-    "clan": null
+    "clan": "fang"
   },
   {
     "id": "160941",
@@ -9725,7 +9725,7 @@
       "BP_Gift_NotSelf_C"
     ],
     "icon_ref": -1541,
-    "clan": null
+    "clan": "flint"
   },
   {
     "id": "160942",
@@ -9751,7 +9751,7 @@
       "BP_Gift_NotSelf_C"
     ],
     "icon_ref": -1541,
-    "clan": null
+    "clan": "flint"
   },
   {
     "id": "160943",
@@ -9777,7 +9777,7 @@
       "BP_Gift_NotSelf_C"
     ],
     "icon_ref": -1541,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "160951",
@@ -9803,7 +9803,7 @@
       "BP_LowHP_30_C"
     ],
     "icon_ref": -1549,
-    "clan": null
+    "clan": "fang"
   },
   {
     "id": "160952",
@@ -9829,7 +9829,7 @@
       "BP_LowHP_30_C"
     ],
     "icon_ref": -1549,
-    "clan": null
+    "clan": "fang"
   },
   {
     "id": "160953",
@@ -9855,7 +9855,7 @@
       "BP_LowHP_30_C"
     ],
     "icon_ref": -1549,
-    "clan": null
+    "clan": "fang"
   },
   {
     "id": "160961",
@@ -9927,7 +9927,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1519,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "160971",
@@ -9951,7 +9951,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1404,
-    "clan": null
+    "clan": "fang"
   },
   {
     "id": "160972",
@@ -9975,7 +9975,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1404,
-    "clan": null
+    "clan": "fang"
   },
   {
     "id": "160973",
@@ -9999,7 +9999,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1404,
-    "clan": null
+    "clan": "fang"
   },
   {
     "id": "170001",
@@ -11253,7 +11253,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1412,
-    "clan": "dlc"
+    "clan": null
   },
   {
     "id": "170171",
@@ -24795,7 +24795,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1373,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "600012",
@@ -24969,7 +24969,7 @@
       "BP_Gift_IsUseGong_C"
     ],
     "icon_ref": -1363,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "600021",
@@ -25078,7 +25078,7 @@
       "BP_Gift_IsBinSi_C"
     ],
     "icon_ref": -1369,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "600051",
@@ -25248,7 +25248,7 @@
     "weapon_requirements": null,
     "conditions": null,
     "icon_ref": -1354,
-    "clan": "heretic"
+    "clan": null
   },
   {
     "id": "600058",

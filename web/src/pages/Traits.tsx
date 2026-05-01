@@ -15,11 +15,14 @@ const SOURCE_TABS = [
 type SourceKey = typeof SOURCE_TABS[number]['key']
 
 const CLAN_META: Record<string, { label: string; color: string }> = {
-  wolf: { label: 'Wolf Tribe', color: '#7a9db5' },
-  horn: { label: 'Horn Tribe', color: '#b8a060' },
+  claw: { label: 'Claw', color: '#b85050' },
+  flint: { label: 'Flint', color: '#7a9db5' },
+  fang: { label: 'Fang', color: '#6ea09a' },
+  wolf: { label: 'Wolf', color: '#8a8ab5' },
+  horn: { label: 'Horn', color: '#b8a060' },
   exile: { label: 'Exile', color: '#a67a52' },
   dlc: { label: 'DLC', color: '#9b7db8' },
-  heretic: { label: 'Heretic', color: '#b85050' },
+  heretic: { label: 'Heretic', color: '#c47070' },
 }
 
 const PROFICIENCY_LABELS: Record<string, string> = {
@@ -33,6 +36,12 @@ const PROFICIENCY_LABELS: Record<string, string> = {
   ZhuBao: 'Jewelry', PengRen: 'Cooking', YanMo: 'Grinding',
 }
 
+const TIER_META: Record<string, { label: string; color: string; bg: string }> = {
+  S: { label: 'S', color: '#e8c34a', bg: 'rgba(232,195,74,.12)' },
+  A: { label: 'A', color: '#5bb8d0', bg: 'rgba(91,184,208,.10)' },
+  B: { label: 'B', color: '#8aa074', bg: 'rgba(138,160,116,.10)' },
+}
+
 interface TraitFamily {
   learnedId: string
   name: string
@@ -41,6 +50,8 @@ interface TraitFamily {
   isDlc: boolean
   isNegative: boolean
   clan: string | null
+  communityTier: string | null
+  communityNote: string | null
 }
 
 const ATTR_LABELS: Record<string, string> = {
@@ -109,6 +120,7 @@ export default function Traits() {
   const [dlcFilter, setDlcFilter] = useState<'all' | 'base' | 'dlc'>('all')
   const [signFilter, setSignFilter] = useState<'all' | 'buff' | 'debuff'>('all')
   const [clanFilter, setClanFilter] = useState<string>('all')
+  const [tierFilter, setTierFilter] = useState<string>('all')
   const [expandedId, setExpandedId] = useState<string | null>(null)
 
   useEffect(() => {
@@ -132,15 +144,26 @@ export default function Traits() {
           isDlc: t.is_dlc,
           isNegative: t.is_negative,
           clan: t.clan,
+          communityTier: t.community_tier,
+          communityNote: t.community_note,
         })
       }
-      map.get(key)!.tiers.push(t)
+      const fam = map.get(key)!
+      fam.tiers.push(t)
+      if (t.community_tier && !fam.communityTier) {
+        fam.communityTier = t.community_tier
+        fam.communityNote = t.community_note
+      }
     }
     for (const fam of map.values()) {
       fam.tiers.sort((a, b) => a.star - b.star)
     }
     const arr = Array.from(map.values())
+    const tierOrder: Record<string, number> = { S: 0, A: 1, B: 2 }
     arr.sort((a, b) => {
+      const aT = a.communityTier ? tierOrder[a.communityTier] ?? 9 : 9
+      const bT = b.communityTier ? tierOrder[b.communityTier] ?? 9 : 9
+      if (aT !== bT) return aT - bT
       const aMax = Math.max(...a.tiers.map(t => t.star))
       const bMax = Math.max(...b.tiers.map(t => t.star))
       if (aMax !== bMax) return bMax - aMax
@@ -167,6 +190,13 @@ export default function Traits() {
     if (clanFilter !== 'all') {
       result = result.filter(f => f.clan === clanFilter)
     }
+    if (tierFilter !== 'all') {
+      if (tierFilter === 'ranked') {
+        result = result.filter(f => f.communityTier != null)
+      } else {
+        result = result.filter(f => f.communityTier === tierFilter)
+      }
+    }
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase()
       result = result.filter(f => {
@@ -179,7 +209,7 @@ export default function Traits() {
       })
     }
     return result
-  }, [families, activeTab, dlcFilter, signFilter, clanFilter, searchQuery])
+  }, [families, activeTab, dlcFilter, signFilter, clanFilter, tierFilter, searchQuery])
 
   const availableClans = useMemo(() => {
     const tabFamilies = activeTab === 'all' ? families : families.filter(f => f.source === activeTab)
@@ -308,6 +338,25 @@ export default function Traits() {
                 </button>
               ))}
             </div>
+            <div className="flex gap-1">
+              {(['all', 'ranked', 'S', 'A', 'B'] as const).map(v => {
+                const meta = v !== 'all' && v !== 'ranked' ? TIER_META[v] : null
+                const active = tierFilter === v
+                return (
+                  <button
+                    key={v}
+                    onClick={() => setTierFilter(v)}
+                    className="px-2.5 py-[3px] text-[10px] tracking-[.08em] uppercase font-medium border transition-colors"
+                    style={active
+                      ? { borderColor: meta ? `rgba(${hexToRgb(meta.color)},.5)` : '#4a5040', color: meta?.color ?? '#d8dcc8', backgroundColor: meta?.bg ?? '#363c33' }
+                      : { borderColor: '#373c32', color: meta?.color ?? '#6b7163', opacity: 0.7 }
+                    }
+                  >
+                    {v === 'all' ? 'All' : v === 'ranked' ? 'Ranked' : `Tier ${v}`}
+                  </button>
+                )
+              })}
+            </div>
           </div>
         </div>
 
@@ -392,6 +441,19 @@ export default function Traits() {
                       {effectStr}
                     </span>
                   )}
+                  {fam.communityTier && TIER_META[fam.communityTier] && (
+                    <span
+                      className="text-[9px] px-1.5 py-[2px] uppercase tracking-[.1em] font-bold border flex-shrink-0"
+                      style={{
+                        borderColor: `rgba(${hexToRgb(TIER_META[fam.communityTier].color)},.4)`,
+                        color: TIER_META[fam.communityTier].color,
+                        backgroundColor: TIER_META[fam.communityTier].bg,
+                      }}
+                      title={fam.communityNote || undefined}
+                    >
+                      {TIER_META[fam.communityTier].label}
+                    </span>
+                  )}
                   {neg && (
                     <span
                       className="text-[9px] px-1.5 py-[2px] uppercase tracking-[.1em] font-semibold border flex-shrink-0"
@@ -431,6 +493,12 @@ export default function Traits() {
 
                 {isExpanded && (
                   <div className="border-t border-hair">
+                    {fam.communityNote && (
+                      <div className="px-4 py-2 text-[11px] text-text-dim italic border-b border-hair" style={{ background: fam.communityTier && TIER_META[fam.communityTier] ? TIER_META[fam.communityTier].bg : undefined }}>
+                        <span className="text-[9px] uppercase tracking-[.1em] text-text-faint font-semibold not-italic mr-2">Community</span>
+                        {fam.communityNote}
+                      </div>
+                    )}
                     {fam.tiers.map((t, i) => {
                       const tierEffect = formatEffect(t)
                       const tierNeg = t.is_negative
