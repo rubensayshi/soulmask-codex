@@ -7,7 +7,7 @@ Soulmask `.umap` level files using UAssetGUI CLI, producing `Game/Parsed/spawns.
 
 ## Output: `Game/Parsed/spawns.json`
 
-**6,832 spawn points, 6,832/6,832 with X/Y/Z world coordinates.**
+**12,555 spawn points, 12,555/12,555 with X/Y/Z world coordinates.**
 
 Each entry:
 ```json
@@ -15,26 +15,26 @@ Each entry:
   "map": "Level01_GamePlay",
   "map_path": "Level01\\Level01_Hub\\Level01_GamePlay.umap",
   "spawner_class": "HShuaGuaiQiBase",
+  "scg_class": "/Game/Blueprints/ShuaGuaiQi/.../BP_SGQ_T3_Eyu.BP_SGQ_T3_Eyu_C",
   "actor_name": "SGQ_BaoZi_ShenMi_Event",
   "pos_x": 239190.0,
   "pos_y": -43900.0,
-  "pos_z": 43720.0,
-  "rotation_yaw": 0.0
+  "pos_z": 43720.0
 }
 ```
 
-Coordinates are UE4 world-space (centimeters from origin). `rotation_yaw` present when non-default.
+Coordinates are UE4 world-space (centimeters from origin). `scg_class` is the creature blueprint
+path, present on 12,454/12,555 entries (99.2%).
 
 ### By map
 
-| Map | Spawners | Notes |
-|---|---|---|
-| `Level01_GamePlay` | 5,364 | Main open-world spawners (Cloud Mist Forest) |
-| `Level01_GamePlay2` | 768 | Second open-world gameplay layer |
-| `Level01_GamePlay3` | 470 | Third open-world gameplay layer |
-| DiXiaCheng dungeon rooms | 201 | Underground city (checkpoints, boss rooms, corridors) |
-| ZhanChang01 battlefield | 26 | PvE battlefield arena |
-| Level01 ruins / YiJi | 3 | Open-world dungeon entrances |
+| Map              | Spawners | Notes                                          |
+| ---------------- | -------- | ---------------------------------------------- |
+| Level01 (base)   | 6,605    | Cloud Mist Forest open world (3 GamePlay maps) |
+| DLC_Level01      | 5,594    | Shifting Sands DLC open world (3 GamePlay maps)|
+| DiXiaCheng       | 201      | Underground city dungeon rooms                 |
+| DLC_Egypt        | 129      | Egypt DLC dungeon rooms (14 rooms)             |
+| ZhanChang01      | 26       | PvE battlefield arena                          |
 
 ### By spawner class
 
@@ -75,33 +75,16 @@ flat `{X, Y, Z}` struct — there's one extra level of wrapping.
 
 ## Known gaps
 
-### Level01_Main.umap (998 MB) — OOM on export
-UAssetGUI loads the entire file into a .NET object tree before writing JSON. The estimated
-JSON output (~14 GB, based on the 14× expansion ratio from smaller files) exceeds available
-RAM even on 32 GB systems.
+### ~~Level01_Main.umap — OOM on export~~ (resolved)
+Not needed. All spawner actors live in the GamePlay sublevels (6,605 extracted).
 
-**What it probably contains:** Landscape heightmaps, terrain components, foliage instances,
-lighting — not spawner actors. The spawner actors for the open world appear to be in the
-`Level01_GamePlay*.umap` sublevels (confirmed: 6,602 spawners extracted from those alone).
+### ~~Level02 (Shifting Sands DLC) — 0 spawners~~ (resolved)
+DLC spawners found in `DLC_Level01_GamePlay{1,2,3}.umap` + Egypt dungeon rooms.
+5,723 DLC spawners now extracted.
 
-**Fix options if needed:**
-- Write a custom UE4 binary parser that reads only the FName/Import/Export tables + seeks
-  to individual export data blocks (avoiding loading the full file). The export table has
-  `SerialOffset` + `SerialSize` per export, enabling surgical reads.
-- Use UAssetAPI as a .NET assembly loaded directly into PowerShell, with streaming output.
-- Cross-validate the extracted count against saraserenity.net's reference data (52 MB JSON
-  with spawn coordinates). If counts match, the Main gap is not material.
-
-### Level02 (Shifting Sands DLC) — 0 spawners found
-`Level02_Main.umap` (498 MB) exported successfully to 700 MB JSON but contained 0 spawner
-actors. The DLC spawners are likely in separate GamePlay sublevels not yet identified.
-Worth running the binary scan on `Level02/` specifically to find the right sublevels.
-
-### `spawner_class` → creature mapping not yet done
-`spawner_class` (e.g. `HShuaGuaiQiBase`) is a generic base class. The actual creature type
-comes from the spawner's `SCGClass` property → resolves to a blueprint like `BP_DongWu_Eyu_C`.
-That join hasn't been wired up yet — `SCGClass` is captured in the blueprint blueprints under
-`uasset_export/Blueprints/ShuaGuaiQi/` but not yet parsed.
+### ~~`spawner_class` → creature mapping~~ (resolved)
+`scg_class` field now captured directly from each spawner actor's `SCGClass` property.
+Covers 99.2% of entries. Resolves to the full creature blueprint path.
 
 ## World map texture
 
@@ -214,3 +197,65 @@ exported.
 Check if a `BP_HShuaGuaiQiRandNPC` blueprint exists in `Content/Blueprints/ShuaGuaiQi/`.
 If it does, export it with UAssetGUI — the creature class for each tier may be defined there
 as a DataTable reference or in the `SuiJi` (random) configs.
+
+---
+
+## Still needed from Windows box (May 2026)
+
+Inventory of remaining data gaps that require the Windows modkit machine. Everything else
+(PO files, spawns, map textures, traits, items, recipes, tech tree) is already extracted.
+
+### 1. DLC equipment blueprints (blocking — 57 unresolved drop items)
+
+57 items appear in DLC drop tables but were never exported via UAssetGUI. They all live under
+`AdditionMap01/BluePrints/Prop/Equip/` — a directory we didn't include in the original export.
+
+| Subdirectory | Count | Examples                              |
+| ------------ | ----- | ------------------------------------- |
+| Wolf         | 20    | `BP_EG_TribeF_ZD_Arm_Lv_{1-4}` etc.  |
+| Dungeon      | 18    | `BP_Equip_Arm_Dungeon_{1-3}` etc.     |
+| Horn         | 16    | `BP_EG_TribeE_ZD_Body_Lv_{1-4}` etc.  |
+| Saddle       | 3     | `BP_An_Ass`, `BP_An_Camel`, `BP_An_Rhinoceros` |
+
+**Export command:**
+```powershell
+$ExportDir = "D:\uasset_export\AdditionMap01\BluePrints\Prop\Equip"
+$SourceDir = "C:\Program Files\Epic Games\SoulMaskModkit\Projects\WS\Content\AdditionMap01\BluePrints\Prop\Equip"
+Get-ChildItem -Path $SourceDir -Recurse -Filter "*.uasset" | ForEach-Object {
+    $rel = $_.FullName.Substring($SourceDir.Length + 1)
+    $outPath = Join-Path $ExportDir ($rel -replace '\.uasset$', '.json')
+    $outDir = Split-Path $outPath -Parent
+    if (-not (Test-Path $outDir)) { New-Item -ItemType Directory -Path $outDir -Force | Out-Null }
+    & "D:\UAssetGUI.exe" tojson $_.FullName $outPath VER_UE4_27
+}
+```
+Then gzip and commit to `uasset_export/AdditionMap01/BluePrints/Prop/Equip/`.
+
+### 2. Missing creature sublevels (low priority — 250 creatures)
+
+Some creatures (Bat, Mutant Rat, Armadillo Lizard, Pangolin, Small Boar) have 0 actors in
+spawns.json despite existing in the game. They likely live in `.umap` sublevels not yet scanned.
+Run the binary scan from `parse_spawns.ps1` against all `.umap` files to find them. See
+"Extraction instructions" section above.
+
+### 3. Tier-based ruins spawners (low priority — 471 actors)
+
+471 `BP_HShuaGuaiQiRandNPC_C` actors have generic names like `SGQ_YiJi_T3_YeShou` and no
+blueprint to resolve. Would need to find the parent BP or DataTable that defines the creature
+pool per tier.
+
+### NOT needed (already have it)
+
+| Data                      | Status                                                    |
+| ------------------------- | --------------------------------------------------------- |
+| PO localization files     | Already in `localization/Game/en/Game.po` (266K lines)    |
+| Trait EN translations     | Extracted from PO files on this branch                    |
+| DT_GiftZongBiao export    | On this branch (`Game/Exports/`)                          |
+| Spawn coordinates         | 12,555 entries with `scg_class` on this branch            |
+| Map textures              | Extracted via FModel on this branch (`Game/Maps/`)        |
+| Base-game items           | 2,015 BPs exported and parsed                             |
+| DLC items                 | 339 BPs exported and parsed (under `AdditionMap01/.../Item/`) |
+| Recipes                   | 1,109 parsed                                              |
+| Tech tree                 | 777 nodes parsed                                          |
+| Drop tables               | 11 DataTables exported via UE4Editor                      |
+| Spawner blueprints        | 1,982 BPs in `uasset_export/Blueprints/ShuaGuaiQi/`      |
