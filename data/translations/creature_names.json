@@ -19,6 +19,7 @@
   "YangTuo": "Alpaca",
   "DaYangTuo": "Large Alpaca",
   "TuoNiao": "Ostrich",
+  "TuoNiaoZhuDong": "Ostrich",
   "TuoLu": "Camel",
   "Chicken": "Chicken",
   "HuoJi": "Turkey",
@@ -37,7 +38,7 @@
   "QiuYuXi": "Lobster",
   "Yu": "Fish",
   "HaiGuai": "Sea Monster",
-  "SenRan": "Anaconda",
+  "SenRan": "Forest Lizard",
   "JuXi": "Giant Lizard",
   "XiNiu": "Rhinoceros",
   "YeNiu": "Wild Bull",
@@ -83,12 +84,5 @@
   "DiaXiang": "Elephant",
   "JuanShe": "Boa Constrictor",
   "ShouLong": "Dragon",
-  "Boar": "Boar",
-  "Fish": "Fish",
-  "Hound": "Hound",
-  "Jackal": "Jackal",
-  "Lion": "Lion",
-  "Rhinoceros": "Rhinoceros",
-  "SangaCattle": "Longhorn",
-  "Longhorn": "Longhorn"
+"SangaCattle": "Longhorn"
 }

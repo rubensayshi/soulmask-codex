@@ -1,52 +1,72 @@
 """
-parse_spawns.py — Build spawn_locations.json from our own .umap extraction + spawner blueprints.
+parse_spawns.py — Build spawn_locations.json + spawn_locations_dlc.json from spawns.json.
 
-Joins two data sources:
-  1. Game/Parsed/spawns.json — actor coordinates extracted from .umap level files
-     (produced by parse_spawns_run.ps1 on Windows, committed on docs/spawn-extraction branch)
-  2. uasset_export/Blueprints/ShuaGuaiQi/**/*.json.gz — spawner blueprint configs
-     (creature class, level range, spawn count)
+Uses the scg_class field (creature blueprint path) to resolve creature types.
+No dependency on uasset_export/ blueprint files.
 
-Output: Game/Parsed/spawn_locations.json (same schema build_db.py expects)
+Input:  Game/Parsed/spawns.json  (extracted from .umap level files on Windows)
+Output: Game/Parsed/spawn_locations.json      (base map, same schema build_db.py expects)
+        Game/Parsed/spawn_locations_dlc.json   (DLC map)
 """
-import gzip
 import json
 import re
-import glob
 from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SPAWNS_JSON = ROOT / "Game" / "Parsed" / "spawns.json"
-BP_DIR = ROOT / "uasset_export" / "Blueprints" / "ShuaGuaiQi"
 NAMES_JSON = ROOT / "data" / "translations" / "creature_names.json"
-OUT = ROOT / "Game" / "Parsed" / "spawn_locations.json"
+OUT_BASE = ROOT / "Game" / "Parsed" / "spawn_locations.json"
+OUT_DLC = ROOT / "Game" / "Parsed" / "spawn_locations_dlc.json"
 
 SCALE_LON = 0.0050178419
 OFFSET_LON = 2048.206056
 SCALE_LAT = -0.0050222678
 OFFSET_LAT = -2048.404771
 
-OPEN_WORLD_MAPS = {"Level01_GamePlay", "Level01_GamePlay2", "Level01_GamePlay3"}
+BASE_MAPS = {"Level01_GamePlay", "Level01_GamePlay2", "Level01_GamePlay3"}
+DLC_MAPS = {"DLC_Level01_GamePlay", "DLC_Level01_GamePlay2", "DLC_Level01_GamePlay3"}
 
 ANIMAL_SPAWNER_CLASS = "HShuaGuaiQiBase"
 
-CONTEXT_PREFIXES = {"YiJi", "Kuang", "DongWu", "ChaoXue", "ShiJian", "DiXiaCheng"}
-
-RUINS_SPAWNER_CLASS = "BP_HShuaGuaiQiRandNPC_C"
-
-RUINS_LOCATIONS = {"DongKu", "TianKeng", "HeiSenLin", "HuoShan", "BingGu", "ZhaoZe"}
-
-SKIP_ACTOR_PATTERNS = {
-    "ShouWei", "ChiHou", "XinShou", "KuangYeYuan", "Kurma",
-    "TuoNiaoDan", "Event_Shop", "Event_EnemyMount", "LDZ_Event",
-    "Patrol_", "RuQin_",
+SPECIAL_SPAWNERS = {
+    "BP_HShuaGuaiQi_ShouLong_C": "ShouLong",
+    "BP_HShuaGuaiQi_JuanShe_C": "JuanShe",
+    "BP_HShuaGuaiQi_TuoNiao_C": "TuoNiao",
 }
 
-SKIP_GENERIC_MINE = re.compile(r"SGQ_Kuang_T\d+_(?:DongWu|Dongwu|YeShou)")
-SKIP_GENERIC_YIJI = re.compile(r"SGQ_YiJi_T\d+_(?:YeShou|LFZ|JiXie|Ren)")
+SGQ_STRIP = {"Elite", "Kuang", "Kurma", "ChaoXue", "DongWu", "Boss"}
+SGQ_TIER_RE = re.compile(r"^T\d+$")
 
-TIER_RE = re.compile(r"^T(\d{1,2})$")
+DLC_NAME_MAP = {
+    "Piranhas": "Piranha",
+    "WildBoar": "Boar",
+    "WildBoarL": "Large Boar",
+    "SacredLbis": "Sacred Ibis",
+    "Crocodile": "Alligator",
+    "Ammotragus": "Barbary Sheep",
+    "Hyenas": "Hyena",
+    "Ass": "Donkey",
+    "Bass": "Perch",
+    "PharaohHound": "Pharaoh Hound",
+    "Varanid": "Giant Lizard",
+    "WildLion": "Lion",
+    "WildWolf": "Alpha Wolf",
+    "ArmadilloLizard": "Pangolin",
+    "Liones": "Lion",
+    "SangaCattle": "Longhorn",
+    "Antelope": "Stag",
+    "Hydrocynus": "Tigerfish",
+    "ScorpionMAX": "Giant Scorpion",
+    "ElectricEel": "Electric Eel",
+    "HoneyBadger": "Honey Badger",
+    "Elephant_Kurma": "Elephant",
+    "Ostrich_Combat": "Combat Ostrich",
+    "CobraMAX": "Giant Cobra",
+    "Mouse": "Rat",
+    "Crab": "Lobster",
+    "Fennec": "Fennec Fox",
+}
 
 
 def ue4_to_map(pos_x, pos_y):
@@ -65,125 +85,46 @@ def load_creature_names():
     return json.loads(NAMES_JSON.read_text(encoding="utf-8"))
 
 
-def load_all_blueprints():
-    bp_files = glob.glob(str(BP_DIR / "**" / "*.json.gz"), recursive=True)
-    bp_lookup = {}
-    for f in bp_files:
-        name = re.sub(r"\.json\.gz$", "", Path(f).name)
-        bp_lookup[name] = f
-    return bp_lookup
+BASE_ANIMAL_PATHS = {"SGQ_DongWu", "SGQ_ChaoXue"}
 
 
-def parse_blueprint(path):
-    with gzip.open(path) as f:
-        data = json.load(f)
-
-    imports = data.get("Imports", [])
-    cdo = None
-    for exp in data.get("Exports", []):
-        if "Default__" in exp.get("ObjectName", ""):
-            cdo = exp
-            break
-    if not cdo:
-        return None
-
-    scg_list = None
-    for prop in cdo.get("Data", []):
-        if prop.get("Name") == "SCGInfoList":
-            scg_list = prop
-            break
-    if not scg_list:
-        return None
-
-    entries = []
-    for info in scg_list.get("Value", []):
-        for sgb_prop in info.get("Value", []):
-            if sgb_prop.get("Name") != "SGBList":
-                continue
-            for config in sgb_prop.get("Value", []):
-                creature_ref = None
-                level_min = level_max = None
-                for p in config.get("Value", []):
-                    if p.get("Name") == "GuaiWuClass":
-                        ref = p.get("Value", 0)
-                        if isinstance(ref, int) and ref < 0:
-                            idx = (-ref) - 1
-                            if idx < len(imports):
-                                creature_ref = imports[idx]["ObjectName"]
-                    elif p.get("Name") == "SCGZuiXiaoDengJi":
-                        level_min = p.get("Value")
-                    elif p.get("Name") == "SCGZuiDaDengJi":
-                        level_max = p.get("Value")
-                if creature_ref:
-                    entries.append({
-                        "creature_class": creature_ref,
-                        "level_min": level_min,
-                        "level_max": level_max,
-                    })
-    return entries if entries else None
-
-
-def find_blueprint(prefix, bp_lookup):
-    if f"BP_{prefix}" in bp_lookup:
-        return f"BP_{prefix}"
-    parts = prefix.split("_")
-    if len(parts) >= 3:
-        for i in range(1, len(parts)):
-            for j in range(i + 1, len(parts)):
-                swapped = parts[:]
-                swapped[i], swapped[j] = swapped[j], swapped[i]
-                candidate = "BP_" + "_".join(swapped)
-                if candidate in bp_lookup:
-                    return candidate
-    return None
-
-
-def extract_creature_pinyin(actor_prefix):
-    """Extract creature Pinyin name and elite flag from actor_name prefix."""
-    parts = actor_prefix.split("_")
-    if not parts or parts[0] != "SGQ":
+def parse_base_scg_class(scg_class):
+    """Extract creature Pinyin + elite flag from a BP_SGQ_* blueprint name."""
+    if not any(p in scg_class for p in BASE_ANIMAL_PATHS):
         return None, False
-
-    tokens = parts[1:]
-    is_elite = "Elite" in tokens
-    tokens = [t for t in tokens if t != "Elite"]
-    tokens = [t for t in tokens if t not in CONTEXT_PREFIXES]
-    tokens = [t for t in tokens if not TIER_RE.match(t)]
-    # Remove sub-type suffixes like Mu, Xiao, Egg, Dan, etc.
-    tokens = [t for t in tokens if t not in {"Mu", "Xiao", "Dan", "Egg", "Event", "Boss",
-                                              "ShenMi", "YeMan", "ZhiHui", "BuLuo", "LFZ",
-                                              "LDZ", "Guard", "Hunter", "Warrior", "Artisan",
-                                              "YeShou", "DongWu", "JiXie", "Ren", "JingYing",
-                                              "HuWei", "Nv", "BuLuoRuQin"}]
-
-    if not tokens:
-        return None, is_elite
-
-    creature = tokens[0]
+    name = scg_class.rsplit("/", 1)[-1].split(".")[0]
+    if not name.startswith("BP_SGQ_"):
+        return None, False
+    inner = name[7:]
+    parts = inner.split("_")
+    is_elite = "Elite" in parts
+    filtered = [p for p in parts
+                if p not in SGQ_STRIP and not SGQ_TIER_RE.match(p)]
+    # Strip trailing digits from creature name (e.g. BaoZi1 → BaoZi)
+    if filtered:
+        filtered[-1] = re.sub(r"\d+$", "", filtered[-1])
+        filtered = [p for p in filtered if p]
+    creature = "_".join(filtered) if filtered else None
     return creature, is_elite
 
 
-CLASS_SUFFIXES = {
-    "JY", "JingYing", "YiJi", "Mu", "Xiao", "Egg", "Special",
-    "EnemyMount", "ShopMount", "ZhuDong", "BuLuo", "C",
-}
-
-def creature_class_to_pinyin(class_name):
-    """BP_DongWu_EYu_C → EYu, BP_DongWu_EYu_YiJi_C → EYu"""
-    if not class_name.startswith("BP_DongWu_") or not class_name.endswith("_C"):
-        return None
-    inner = class_name[len("BP_DongWu_"):-2]
+def parse_dlc_scg_class(scg_class):
+    """Extract creature English name + elite flag from a BP_Beast_* blueprint name."""
+    name = scg_class.rsplit("/", 1)[-1].split(".")[0]
+    if not name.startswith("BP_Beast_"):
+        return None, False
+    inner = name[9:]
     parts = inner.split("_")
-    creature_parts = [p for p in parts if p not in CLASS_SUFFIXES]
-    return "_".join(creature_parts) if creature_parts else None
-
-
-def format_level(level_min, level_max):
-    if level_min is None or level_max is None:
-        return ""
-    if level_min == level_max:
-        return str(level_min)
-    return f"{level_min} - {level_max}"
+    is_elite = "Elite" in parts
+    stripped = [p for p in parts
+                if p not in ("Elite", "Boss") and not re.match(r"^NO\d+$", p)]
+    # Rejoin — handles multi-word like Ostrich_Combat, Elephant_Kurma
+    raw_name = "_".join(stripped) if stripped else None
+    if not raw_name:
+        return None, is_elite
+    # MAX suffix → separate creature variant (Giant Scorpion, Giant Cobra)
+    english = DLC_NAME_MAP.get(raw_name, raw_name)
+    return english, is_elite
 
 
 def main():
@@ -195,182 +136,90 @@ def main():
     creature_names = load_creature_names()
     creature_names_lower = {k.lower(): v for k, v in creature_names.items()}
 
-    print("Loading spawner blueprints ...")
-    bp_lookup = load_all_blueprints()
-    print(f"  {len(bp_lookup)} blueprints")
-
-    # Pre-parse all relevant blueprints
-    bp_cache = {}
-
-    # Filter to open-world animal spawners
-    animals = [s for s in spawns
-               if s.get("spawner_class") == ANIMAL_SPAWNER_CLASS
-               and s.get("map") in OPEN_WORLD_MAPS]
-    print(f"  {len(animals)} open-world animal spawners")
-
-    results = []
+    base_results = []
+    dlc_results = []
     unresolved = Counter()
-    skipped = Counter()
 
-    for spawn in animals:
-        actor_name = spawn["actor_name"]
-        prefix = re.sub(r"_?\d+$", "", actor_name)
+    # --- Process base + DLC open-world animal spawners ---
+    for spawn in spawns:
+        map_name = spawn["map"]
+        spawner_class = spawn["spawner_class"]
+        scg_class = spawn.get("scg_class")
 
-        if any(pat in prefix for pat in SKIP_ACTOR_PATTERNS):
-            skipped[prefix] += 1
-            continue
-        if SKIP_GENERIC_MINE.match(prefix) or SKIP_GENERIC_YIJI.match(prefix):
-            skipped[prefix] += 1
-            continue
-
-        # Try blueprint match for level range
-        bp_name = find_blueprint(prefix, bp_lookup)
-        bp_data = None
-        if bp_name:
-            if bp_name not in bp_cache:
-                bp_cache[bp_name] = parse_blueprint(bp_lookup[bp_name])
-            bp_data = bp_cache[bp_name]
-
-        # Get creature name + elite flag from actor_name (primary source)
-        creature_pinyin, is_elite = extract_creature_pinyin(prefix)
-
-        # Use blueprint for level range and elite detection; only use blueprint's
-        # creature class as fallback when actor_name didn't yield a creature.
-        level_min = level_max = None
-        if bp_data:
-            entry = bp_data[0]
-            level_min = entry["level_min"]
-            level_max = entry["level_max"]
-            if not creature_pinyin:
-                bp_creature = creature_class_to_pinyin(entry["creature_class"])
-                if bp_creature:
-                    creature_pinyin = bp_creature
-            cls = entry["creature_class"]
-            if "_JY_" in cls or cls.endswith("_JY_C") or "_JingYing" in cls:
-                is_elite = True
-
-        if not creature_pinyin:
-            unresolved[prefix] += 1
+        is_base = map_name in BASE_MAPS
+        is_dlc = map_name in DLC_MAPS
+        if not is_base and not is_dlc:
             continue
 
-        # Translate to English
-        english = creature_names.get(creature_pinyin) or creature_names_lower.get(creature_pinyin.lower())
-        if not english:
-            unresolved[f"{prefix} (no translation: {creature_pinyin})"] += 1
+        # Determine creature name
+        creature = None
+        is_elite = False
+
+        if spawner_class in SPECIAL_SPAWNERS:
+            pinyin = SPECIAL_SPAWNERS[spawner_class]
+            creature = creature_names.get(pinyin) or creature_names_lower.get(pinyin.lower())
+            if not creature:
+                unresolved[f"special:{spawner_class}"] += 1
+                continue
+
+        elif scg_class:
+            if is_base:
+                pinyin, is_elite = parse_base_scg_class(scg_class)
+                if not pinyin:
+                    continue
+                creature = creature_names.get(pinyin) or creature_names_lower.get(pinyin.lower())
+                if not creature:
+                    unresolved[f"no-translation:{pinyin}"] += 1
+                    continue
+            elif is_dlc:
+                creature, is_elite = parse_dlc_scg_class(scg_class)
+                if not creature:
+                    continue
+        else:
             continue
 
         if is_elite:
-            english = f"{english} (Elite)"
+            creature = f"{creature} (Elite)"
 
-        # Convert coordinates
         lon, lat = ue4_to_map(spawn["pos_x"], spawn["pos_y"])
-        level_str = format_level(level_min, level_max)
-
-        results.append({
-            "creature": english,
+        entry = {
+            "creature": creature,
             "group": "Animal Spawn",
-            "level": level_str,
+            "level": "",
             "lat": lat,
             "lon": lon,
-            "map": "base",
-        })
+            "map": "dlc" if is_dlc else "base",
+        }
 
-    # --- Ruins spawns (location-specific YeShou from BP_HShuaGuaiQiRandNPC_C) ---
-    ruins_actors = [s for s in spawns
-                    if s.get("spawner_class") == RUINS_SPAWNER_CLASS
-                    and s.get("map") in OPEN_WORLD_MAPS]
-    ruins_count = 0
+        if is_dlc:
+            dlc_results.append(entry)
+        else:
+            base_results.append(entry)
 
-    for spawn in ruins_actors:
-        actor_name = spawn["actor_name"]
-        prefix = re.sub(r"_?\d+$", "", actor_name)
-        parts = prefix.split("_")
-
-        if "YiJi" not in parts or "YeShou" not in prefix:
-            continue
-        location = None
-        for p in parts:
-            if p in RUINS_LOCATIONS:
-                location = p
-                break
-        if not location:
-            continue
-
-        is_elite = "Elite" in parts
-        stripped = prefix.replace("YiJi_", "")
-        bp_base = f"BP_{stripped}"
-
-        matched_bps = []
-        if bp_base in bp_lookup:
-            matched_bps.append(bp_base)
-        for suffix_n in range(1, 4):
-            for variant in [f"{bp_base}{suffix_n}", f"{bp_base}_{suffix_n}"]:
-                if variant in bp_lookup:
-                    matched_bps.append(variant)
-
-        if not matched_bps:
-            unresolved[f"{prefix} (ruins)"] += 1
-            continue
-
-        lon, lat = ue4_to_map(spawn["pos_x"], spawn["pos_y"])
-
-        for bp_name in matched_bps:
-            if bp_name not in bp_cache:
-                bp_cache[bp_name] = parse_blueprint(bp_lookup[bp_name])
-            bp_data = bp_cache[bp_name]
-            if not bp_data:
-                continue
-
-            entry = bp_data[0]
-            bp_creature = creature_class_to_pinyin(entry["creature_class"])
-            if not bp_creature:
-                continue
-
-            english = creature_names.get(bp_creature) or creature_names_lower.get(bp_creature.lower())
-            if not english:
-                unresolved[f"{prefix} (no translation: {bp_creature})"] += 1
-                continue
-
-            level_str = format_level(entry["level_min"], entry["level_max"])
-            cls = entry["creature_class"]
-            entry_elite = is_elite or "_JY_" in cls or cls.endswith("_JY_C") or "_JingYing" in cls
-
-            if entry_elite:
-                label = f"{english} (Elite) (Ruins)"
-            else:
-                label = f"{english} (Ruins)"
-
-            results.append({
-                "creature": label,
-                "group": "Animal Spawn",
-                "level": level_str,
-                "lat": lat,
-                "lon": lon,
-                "map": "base",
-            })
-            ruins_count += 1
-
-    print(f"  {ruins_count} ruins spawn points added")
-
-    # Write output
-    OUT.write_text(json.dumps(results, indent=2), encoding="utf-8")
+    # Write outputs
+    OUT_BASE.write_text(json.dumps(base_results, indent=2), encoding="utf-8")
+    OUT_DLC.write_text(json.dumps(dlc_results, indent=2), encoding="utf-8")
 
     # Summary
-    creatures = Counter(r["creature"] for r in results)
-    print(f"\nOutput: {OUT}")
-    print(f"  {len(results)} spawn points, {len(creatures)} creature types")
-    print(f"\nTop creatures:")
-    for c, n in creatures.most_common(25):
+    base_creatures = Counter(r["creature"] for r in base_results)
+    dlc_creatures = Counter(r["creature"] for r in dlc_results)
+
+    print(f"\nBase map: {OUT_BASE}")
+    print(f"  {len(base_results)} spawn points, {len(base_creatures)} creature types")
+    print(f"\nDLC map: {OUT_DLC}")
+    print(f"  {len(dlc_results)} spawn points, {len(dlc_creatures)} creature types")
+
+    print(f"\nBase creatures:")
+    for c, n in base_creatures.most_common():
+        print(f"  {n:5d}  {c}")
+
+    print(f"\nDLC creatures:")
+    for c, n in dlc_creatures.most_common():
         print(f"  {n:5d}  {c}")
 
     if unresolved:
         print(f"\nUnresolved ({sum(unresolved.values())} spawns):")
         for p, n in unresolved.most_common(20):
-            print(f"  {n:5d}  {p}")
-
-    if skipped:
-        print(f"\nSkipped ({sum(skipped.values())} spawns):")
-        for p, n in skipped.most_common(10):
             print(f"  {n:5d}  {p}")
 
 
