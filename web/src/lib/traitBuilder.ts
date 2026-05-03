@@ -9,7 +9,7 @@ export interface SlotCategory {
 
 export const SLOT_CATEGORIES: SlotCategory[] = [
   { key: 'tribeBorn',     label: 'Tribe born',   sourceKey: 'BornBuLuoCiTiao', max: 4 },
-  { key: 'combatLearned', label: 'Combat',       sourceKey: 'Normal',          max: 6 },
+  { key: 'combatLearned', label: 'Talents',       sourceKey: 'Normal',          max: 6 },
   { key: 'experience',    label: 'Experience',    sourceKey: 'JingLi',          max: 1 },
   { key: 'origin',        label: 'Origin',      sourceKey: 'BornChuShen',     max: 1 },
   { key: 'title',         label: 'Title',        sourceKey: 'ChengHao',        max: 1 },
@@ -117,6 +117,47 @@ export function canAddTrait(
   }
 
   return { canAdd: true }
+}
+
+// --- Combat / utility classification ---
+
+const UTILITY_EFFECTS = new Set([
+  // Crafting speed
+  'LianJinSuDu', 'JiaZhouSuDu', 'PengRenSuDu', 'RongLianSuDu', 'WuQiSuDu',
+  'FangZhiSuDu', 'PaoMuSuDu', 'RouPiSuDu', 'ZhiTaoSuDu', 'QiJuSuDu',
+  'QieShiSuDu', 'JianZhuSuDu', 'YanMoSuDu', 'ZhuBaoSuDu',
+  // Crafting quality / extras
+  'JiaZhouPinZhiInc', 'QiJuPinZhiInc', 'WuQiPinZhiInc',
+  'MakeEquipExtraProp', 'MakeWeaponExtraProp',
+  // Durability
+  'ToolNaiJiuReduceConsum', 'ZhuangBeiNaiJiuReduceConsum', 'WuQiNaiJiuReduceConsum',
+  // Gathering / resources
+  'CaiKuangRebornTimeCut', 'FaMuRebornTimeCut', 'ZuoWuCaiJiInc',
+  // Carry / survival
+  'BaoGuoRongLiang', 'ReduceFoodConsume', 'ReduceWaterConsume',
+  // Stealth / perception
+  'FootstepSound', 'AllSound', 'AlertGrowthSpeed', 'Hearing', 'Vision',
+  // Misc utility
+  'GainExp', 'NaturalGiftPrInc',
+  // Origin — proficiency XP boosts
+  'ProfExpInc',
+  // Preferences (likes/dislikes, quality-of-life)
+  'DongWu', 'EquipDaoJu', 'KuaiJieLanDaoJu', 'LaShi', 'QiChuang',
+  'ShuiJiao', 'ShuiYu', 'TianQi', 'TiaoWu', 'TongXingPinZhi',
+  'WenDu', 'XiZao', 'YingDiRenShu',
+])
+
+const UTILITY_ATTR_INC = new Set([
+  'MaxFood', 'MaxWater', 'MaxFuZhong',
+  // Resistance attrs (tribe born environmental resists)
+  'HanKang', 'YanKang', 'FuKang', 'DuKang', 'DuDamageDec',
+])
+
+export function isTraitUtility(trait: Trait): boolean {
+  if (!trait.effect) return false
+  if (UTILITY_EFFECTS.has(trait.effect)) return true
+  if (trait.effect === 'AttrInc' && trait.effect_attr && UTILITY_ATTR_INC.has(trait.effect_attr)) return true
+  return false
 }
 
 // --- URL codec ---

@@ -6,13 +6,13 @@ import {
   classifyFamily, pickBuilderTrait, deriveClanLock,
   clanLockingTraitId, canAddTrait, computeSlotFills, encodeBuild,
   decodeBuild, saveBuild, loadBuild, saveBuilderMode, loadBuilderMode,
-  type TraitFamilyLike,
+  isTraitUtility, type TraitFamilyLike,
 } from '../lib/traitBuilder'
 import TraitBuilderPanel from '../components/TraitBuilderPanel'
 
 const SOURCE_TABS = [
   { key: 'all',              label: 'All',         subtitle: 'Every trait',             color: '#8aa074' },
-  { key: 'Normal',           label: 'Combat',      subtitle: 'Battle & survival',       color: '#b85050' },
+  { key: 'Normal',           label: 'Talents',     subtitle: 'Learned abilities',       color: '#b85050' },
   { key: 'BornBuLuoCiTiao',  label: 'Tribe Born',  subtitle: 'Tribal conditions',       color: '#b8a060' },
   { key: 'BornChuShen',      label: 'Origin',      subtitle: 'Birth traits',            color: '#9b7db8' },
   { key: 'ChengHao',         label: 'Title',       subtitle: 'Achievement awards',      color: '#7a9db5' },
@@ -169,6 +169,7 @@ export default function Traits() {
   const [signFilter, setSignFilter] = useState<'all' | 'buff' | 'debuff'>('all')
   const [clanFilter, setClanFilter] = useState<string>('all')
   const [tierFilter, setTierFilter] = useState<string>('all')
+  const [talentFilter, setTalentFilter] = useState<'all' | 'combat' | 'utility'>('all')
   const [expandedId, setExpandedId] = useState<string | null>(null)
 
   // Builder state
@@ -346,6 +347,13 @@ export default function Traits() {
     if (tierFilter !== 'all') {
       result = result.filter(f => f.communityTier === tierFilter)
     }
+    if (talentFilter !== 'all') {
+      result = result.filter(f => {
+        const top = f.tiers[f.tiers.length - 1]
+        const utility = isTraitUtility(top)
+        return talentFilter === 'utility' ? utility : !utility
+      })
+    }
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase()
       result = result.filter(f => {
@@ -373,7 +381,7 @@ export default function Traits() {
       })
     }
     return result
-  }, [families, activeTab, dlcFilter, signFilter, clanFilter, tierFilter, searchQuery, builderMode, fitsFilter, selectedIds, disabledFamilies])
+  }, [families, activeTab, dlcFilter, signFilter, clanFilter, tierFilter, talentFilter, searchQuery, builderMode, fitsFilter, selectedIds, disabledFamilies])
 
   const availableClans = useMemo(() => {
     const tabFamilies = activeTab === 'all' ? families : families.filter(f => f.source === activeTab)
@@ -483,20 +491,24 @@ export default function Traits() {
           })}
         </div>
 
-        {/* Sub-header row */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2 py-3 border-b border-hair">
-          <div className="text-[11px] text-text-mute uppercase tracking-wider2">
-            <span style={{ color: activeCat.color }}>{'◆'}</span>
-            {' '}{activeCat.label} — {activeCat.subtitle} · {filtered.length} traits
-          </div>
-          <div className="flex items-center gap-3">
-            <input
-              type="text"
-              placeholder="Search traits..."
-              value={searchQuery}
-              onChange={e => setSearchQuery(e.target.value)}
-              className="px-3 py-1 rounded bg-panel border border-hair text-[12px] text-text w-48 placeholder:text-text-faint focus:border-hair-strong focus:outline-none transition-colors"
-            />
+        {/* Filter row */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-end gap-2 py-3 border-b border-hair">
+          <div className="flex items-center gap-3 flex-wrap">
+            <div className="flex gap-1">
+              {(['all', 'base', 'dlc'] as const).map(v => (
+                <button
+                  key={v}
+                  onClick={() => setDlcFilter(v)}
+                  className={`px-2.5 py-[3px] text-[10px] tracking-[.08em] uppercase font-medium border transition-colors ${
+                    dlcFilter === v
+                      ? 'border-hair-strong text-text bg-panel-lift'
+                      : 'border-hair text-text-dim hover:text-text hover:border-hair-strong'
+                  }`}
+                >
+                  {v === 'all' ? 'All' : v === 'base' ? 'Base' : 'DLC'}
+                </button>
+              ))}
+            </div>
             <div className="flex gap-1">
               {(['all', 'buff', 'debuff'] as const).map(v => (
                 <button
@@ -513,17 +525,17 @@ export default function Traits() {
               ))}
             </div>
             <div className="flex gap-1">
-              {(['all', 'base', 'dlc'] as const).map(v => (
+              {(['all', 'combat', 'utility'] as const).map(v => (
                 <button
                   key={v}
-                  onClick={() => setDlcFilter(v)}
-                  className={`px-2.5 py-[3px] text-[10px] tracking-[.08em] uppercase font-medium border transition-colors ${
-                    dlcFilter === v
-                      ? 'border-hair-strong text-text bg-panel-lift'
-                      : 'border-hair text-text-dim hover:text-text hover:border-hair-strong'
-                  }`}
+                  onClick={() => setTalentFilter(v)}
+                  className="px-2.5 py-[3px] text-[10px] tracking-[.08em] uppercase font-medium border transition-colors"
+                  style={talentFilter === v
+                    ? { borderColor: v === 'combat' ? 'rgba(184,80,80,.5)' : v === 'utility' ? 'rgba(106,160,154,.5)' : '#4a5040', color: v === 'combat' ? '#b85050' : v === 'utility' ? '#6ea09a' : '#d8dcc8', backgroundColor: v === 'combat' ? 'rgba(184,80,80,.1)' : v === 'utility' ? 'rgba(106,160,154,.1)' : '#363c33' }
+                    : { borderColor: '#373c32', color: '#6b7163' }
+                  }
                 >
-                  {v === 'all' ? 'All' : v === 'base' ? 'Base' : 'DLC'}
+                  {v === 'all' ? 'All' : v === 'combat' ? 'Combat' : 'Utility'}
                 </button>
               ))}
             </div>
@@ -562,7 +574,7 @@ export default function Traits() {
           </div>
         </div>
 
-        {/* Clan filter */}
+        {/* Clan filter + search */}
         {availableClans.length > 0 && (
           <div className="flex items-center gap-2 py-2 border-b border-hair">
             <span className="text-[9px] uppercase tracking-[.1em] text-text-faint mr-1">Clan</span>
@@ -595,6 +607,13 @@ export default function Traits() {
                 </button>
               )
             })}
+            <input
+              type="text"
+              placeholder="Search traits..."
+              value={searchQuery}
+              onChange={e => setSearchQuery(e.target.value)}
+              className="ml-auto px-3 py-1 rounded bg-panel border border-hair text-[12px] text-text w-48 placeholder:text-text-faint focus:border-hair-strong focus:outline-none transition-colors"
+            />
           </div>
         )}
 
