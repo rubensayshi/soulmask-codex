@@ -1,7 +1,14 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, useCallback } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { fetchTraits } from '../lib/api'
 import type { Trait } from '../lib/types'
+import {
+  classifyFamily, pickBuilderTrait, deriveClanLock,
+  clanLockingTraitId, canAddTrait, computeSlotFills, encodeBuild,
+  decodeBuild, saveBuild, loadBuild, saveBuilderMode, loadBuilderMode,
+  type TraitFamilyLike,
+} from '../lib/traitBuilder'
+import TraitBuilderPanel from '../components/TraitBuilderPanel'
 
 const SOURCE_TABS = [
   { key: 'all',              label: 'All',         subtitle: 'Every trait',             color: '#8aa074' },
@@ -164,6 +171,22 @@ export default function Traits() {
   const [tierFilter, setTierFilter] = useState<string>('all')
   const [expandedId, setExpandedId] = useState<string | null>(null)
 
+  // Builder state
+  const [builderMode, setBuilderMode] = useState(() => {
+    const params = new URLSearchParams(window.location.search)
+    if (params.has('build')) return true
+    return loadBuilderMode()
+  })
+  const [selectedIds, setSelectedIds] = useState<string[]>(() => {
+    const params = new URLSearchParams(window.location.search)
+    const buildParam = params.get('build')
+    if (buildParam) return buildParam.split(',').filter(Boolean)
+    return loadBuild()
+  })
+  const [panelCollapsed, setPanelCollapsed] = useState(false)
+  const [fitsFilter, setFitsFilter] = useState(false)
+  const [toast, setToast] = useState<string | null>(null)
+
   useEffect(() => {
     fetchTraits()
       .then(setTraits)
@@ -218,6 +241,90 @@ export default function Traits() {
     return arr
   }, [traits])
 
+  // --- Builder derived state ---
+
+  const traitsById = useMemo(() => {
+    const m = new Map<string, Trait>()
+    for (const t of traits) m.set(t.id, t)
+    return m
+  }, [traits])
+
+  const familyByTraitId = useMemo(() => {
+    const m = new Map<string, TraitFamilyLike>()
+    for (const fam of families) {
+      for (const t of fam.tiers) m.set(t.id, fam)
+    }
+    return m
+  }, [families])
+
+  useEffect(() => {
+    if (traits.length === 0) return
+    const params = new URLSearchParams(window.location.search)
+    const buildParam = params.get('build')
+    if (buildParam) {
+      const valid = decodeBuild(buildParam, traitsById)
+      setSelectedIds(valid)
+      const url = new URL(window.location.href)
+      url.searchParams.delete('build')
+      history.replaceState(null, '', url.pathname + url.search)
+    } else {
+      setSelectedIds(prev => prev.filter(id => traitsById.has(id)))
+    }
+  }, [traits, traitsById])
+
+  useEffect(() => { saveBuild(selectedIds) }, [selectedIds])
+  useEffect(() => { saveBuilderMode(builderMode) }, [builderMode])
+
+  useEffect(() => {
+    if (!toast) return
+    const t = setTimeout(() => setToast(null), 2000)
+    return () => clearTimeout(t)
+  }, [toast])
+
+  const lockedClan = useMemo(() => deriveClanLock(selectedIds, familyByTraitId), [selectedIds, familyByTraitId])
+  const lockedByTraitIdVal = useMemo(() => clanLockingTraitId(selectedIds, familyByTraitId), [selectedIds, familyByTraitId])
+  const slotFills = useMemo(() => computeSlotFills(selectedIds, familyByTraitId), [selectedIds, familyByTraitId])
+
+  const builderCanAdd = useCallback((traitId: string) => {
+    return canAddTrait(traitId, traitsById, familyByTraitId, slotFills, lockedClan)
+  }, [traitsById, familyByTraitId, slotFills, lockedClan])
+
+  const disabledFamilies = useMemo(() => {
+    if (!builderMode) return new Set<string>()
+    const s = new Set<string>()
+    for (const fam of families) {
+      const cat = classifyFamily(fam)
+      if (!cat) { s.add(fam.learnedId); continue }
+      const trait = pickBuilderTrait(fam)
+      if (selectedIds.includes(trait.id)) continue
+      if (!builderCanAdd(trait.id).canAdd) s.add(fam.learnedId)
+    }
+    return s
+  }, [builderMode, families, selectedIds, builderCanAdd])
+
+  const addTrait = useCallback((traitId: string) => {
+    if (selectedIds.includes(traitId)) return
+    if (!builderCanAdd(traitId).canAdd) return
+    setSelectedIds(prev => [...prev, traitId])
+  }, [selectedIds, builderCanAdd])
+
+  const removeTrait = useCallback((traitId: string) => {
+    setSelectedIds(prev => prev.filter(id => id !== traitId))
+  }, [])
+
+  const clearAll = useCallback(() => setSelectedIds([]), [])
+
+  const shareBuild = useCallback(() => {
+    if (selectedIds.length === 0) return
+    const url = new URL(window.location.href)
+    url.searchParams.set('build', encodeBuild(selectedIds))
+    navigator.clipboard.writeText(url.toString()).then(() => {
+      setToast('Build link copied')
+    }).catch(() => {
+      setToast('Could not copy link')
+    })
+  }, [selectedIds])
+
   const filtered = useMemo(() => {
     let result = families
     if (activeTab !== 'all') {
@@ -250,8 +357,23 @@ export default function Traits() {
         )
       })
     }
+    if (builderMode && fitsFilter) {
+      result = result.filter(fam => {
+        const cat = classifyFamily(fam)
+        if (!cat) return false
+        const trait = pickBuilderTrait(fam)
+        return selectedIds.includes(trait.id) || !disabledFamilies.has(fam.learnedId)
+      })
+    }
+    if (builderMode) {
+      result = [...result].sort((a, b) => {
+        const aOff = disabledFamilies.has(a.learnedId) ? 1 : 0
+        const bOff = disabledFamilies.has(b.learnedId) ? 1 : 0
+        return aOff - bOff
+      })
+    }
     return result
-  }, [families, activeTab, dlcFilter, signFilter, clanFilter, tierFilter, searchQuery])
+  }, [families, activeTab, dlcFilter, signFilter, clanFilter, tierFilter, searchQuery, builderMode, fitsFilter, selectedIds, disabledFamilies])
 
   const availableClans = useMemo(() => {
     const tabFamilies = activeTab === 'all' ? families : families.filter(f => f.source === activeTab)
@@ -274,18 +396,43 @@ export default function Traits() {
         <meta name="description" content="Complete reference of all tribesman traits (NaturalGifts) in Soulmask, including combat, tribe-born, DLC, and preference traits." />
       </Helmet>
 
-      <div className="max-w-5xl">
+      <div className="flex gap-0">
+      <div className={`flex-1 min-w-0 ${!builderMode || panelCollapsed ? 'max-w-5xl' : ''}`}>
         {/* Page header */}
-        <div className="mb-5">
-          <h1 className="font-heading text-[28px] font-bold text-text tracking-[.03em] mb-1">
-            Tribesman{' '}
-            <span className="font-display italic font-semibold" style={{ color: activeCat.color }}>
-              Traits
+        <div className="mb-5 flex items-start justify-between">
+          <div>
+            <h1 className="font-heading text-[28px] font-bold text-text tracking-[.03em] mb-1">
+              Tribesman{' '}
+              <span className="font-display italic font-semibold" style={{ color: activeCat.color }}>
+                Traits
+              </span>
+            </h1>
+            <p className="text-[12px] text-text-mute italic font-display">
+              {traits.length} traits across {families.length} families — combat, personality, origin, and more.
+            </p>
+          </div>
+          <button
+            onClick={() => setBuilderMode(prev => !prev)}
+            className="flex items-center gap-2 px-3 py-1.5 border transition-colors flex-shrink-0 mt-1"
+            style={builderMode
+              ? { borderColor: 'rgba(138,160,116,.5)', color: '#8aa074', backgroundColor: 'rgba(138,160,116,.08)' }
+              : { borderColor: '#373c32', color: '#6b7163' }
+            }
+          >
+            <span className="text-[10px] uppercase tracking-wider2 font-semibold">Builder</span>
+            <span
+              className="relative inline-block w-7 h-3.5 rounded-full transition-colors"
+              style={{ backgroundColor: builderMode ? '#5a6e48' : '#373c32' }}
+            >
+              <span
+                className="absolute top-0.5 w-2.5 h-2.5 rounded-full transition-all"
+                style={{
+                  left: builderMode ? 14 : 2,
+                  backgroundColor: builderMode ? '#8aa074' : '#6b7163',
+                }}
+              />
             </span>
-          </h1>
-          <p className="text-[12px] text-text-mute italic font-display">
-            {traits.length} traits across {families.length} families — combat, personality, origin, and more.
-          </p>
+          </button>
         </div>
 
         {/* Category tabs */}
@@ -400,6 +547,18 @@ export default function Traits() {
                 )
               })}
             </div>
+            {builderMode && (
+              <button
+                onClick={() => setFitsFilter(v => !v)}
+                className="px-2.5 py-[3px] text-[10px] tracking-[.08em] uppercase font-medium border transition-colors"
+                style={fitsFilter
+                  ? { borderColor: 'rgba(138,160,116,.5)', color: '#8aa074', backgroundColor: 'rgba(138,160,116,.1)' }
+                  : { borderColor: '#373c32', color: '#6b7163' }
+                }
+              >
+                Fits build
+              </button>
+            )}
           </div>
         </div>
 
@@ -449,14 +608,21 @@ export default function Traits() {
             const famColor = sourceTab?.color ?? activeCat.color
             const accentColor = neg ? '#b85050' : famColor
 
+            const builderTrait = pickBuilderTrait(fam)
+            const isSelected = builderMode && selectedIds.includes(builderTrait.id)
+            const isDisabled = builderMode && disabledFamilies.has(fam.learnedId)
+
             return (
               <div
                 key={fam.learnedId}
-                className="relative border border-hair bg-panel transition-colors"
+                className="relative border bg-panel transition-colors"
                 style={{
+                  borderWidth: 1,
                   borderLeftWidth: 2,
-                  borderLeftColor: neg ? 'rgba(184,80,80,.5)' : 'transparent',
-                  ...(isExpanded ? { borderColor: `rgba(${hexToRgb(accentColor)},.3)`, borderLeftWidth: 2, borderLeftColor: neg ? 'rgba(184,80,80,.5)' : `rgba(${hexToRgb(famColor)},.3)` } : {}),
+                  borderColor: isSelected ? 'rgba(138,160,116,.4)' : 'var(--color-hair, #373c32)',
+                  borderLeftColor: isSelected ? '#8aa074' : neg ? 'rgba(184,80,80,.5)' : 'transparent',
+                  opacity: isDisabled ? 0.35 : 1,
+                  ...(isExpanded && !isSelected ? { borderColor: `rgba(${hexToRgb(accentColor)},.3)`, borderLeftWidth: 2, borderLeftColor: neg ? 'rgba(184,80,80,.5)' : `rgba(${hexToRgb(famColor)},.3)` } : {}),
                 }}
               >
                 {/* Top accent line when expanded */}
@@ -467,9 +633,12 @@ export default function Traits() {
                   />
                 )}
 
-                <button
+                <div
+                  role="button"
+                  tabIndex={0}
                   onClick={() => setExpandedId(isExpanded ? null : fam.learnedId)}
-                  className="w-full flex items-center gap-3 px-3 py-2.5 text-left hover:bg-panel-2 transition-colors"
+                  onKeyDown={e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setExpandedId(isExpanded ? null : fam.learnedId) } }}
+                  className="w-full flex items-center gap-3 px-3 py-2.5 text-left hover:bg-panel-2 transition-colors cursor-pointer"
                 >
                   <StarPips star={topTier.star} />
                   <span className={`font-display text-[15px] font-semibold tracking-[.02em] min-w-0 truncate ${neg ? '' : 'text-text'}`} style={neg ? { color: '#c47070' } : undefined}>
@@ -537,13 +706,34 @@ export default function Traits() {
                       </span>
                     )
                   })()}
+                  {builderMode && isSelected && (
+                    <span
+                      className="flex-shrink-0 w-5 h-5 flex items-center justify-center rounded-sm"
+                      style={{ backgroundColor: 'rgba(138,160,116,.15)', color: '#8aa074' }}
+                    >
+                      <svg viewBox="0 0 12 12" className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M2.5 6 L5 8.5 L9.5 3.5" />
+                      </svg>
+                    </span>
+                  )}
+                  {builderMode && !isSelected && !isDisabled && classifyFamily(fam) && (
+                    <button
+                      onClick={e => { e.stopPropagation(); addTrait(builderTrait.id) }}
+                      className="flex-shrink-0 w-5 h-5 flex items-center justify-center rounded-sm border border-hair text-text-dim hover:text-green hover:border-green-dim transition-colors"
+                      title="Add to build"
+                    >
+                      <svg viewBox="0 0 12 12" className="w-3 h-3" fill="none" stroke="currentColor" strokeWidth="1.5">
+                        <path d="M6 2.5 L6 9.5 M2.5 6 L9.5 6" />
+                      </svg>
+                    </button>
+                  )}
                   <svg
                     className={`w-3 h-3 text-text-dim flex-shrink-0 transition-transform ${isExpanded ? 'rotate-180' : ''}`}
                     viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5"
                   >
                     <path d="M3 5 L6 8 L9 5" />
                   </svg>
-                </button>
+                </div>
 
                 {isExpanded && (() => {
                   const descs = fam.tiers.map(t => t.description_en || t.description_zh || '')
@@ -629,6 +819,29 @@ export default function Traits() {
           </div>
         )}
       </div>
+
+      {builderMode && (
+        <TraitBuilderPanel
+          selectedIds={selectedIds}
+          traitsById={traitsById}
+          familyByTraitId={familyByTraitId}
+          slotFills={slotFills}
+          lockedClan={lockedClan}
+          lockedByTraitId={lockedByTraitIdVal}
+          collapsed={panelCollapsed}
+          onRemove={removeTrait}
+          onClear={clearAll}
+          onShare={shareBuild}
+          onToggleCollapse={() => setPanelCollapsed(v => !v)}
+        />
+      )}
+      </div>
+
+      {toast && (
+        <div className="fixed bottom-6 right-6 z-50 px-4 py-2 bg-panel border border-green-dim text-green text-[12px] font-medium rounded shadow-lg">
+          {toast}
+        </div>
+      )}
     </>
   )
 }
